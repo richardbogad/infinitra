@@ -43,7 +43,9 @@ namespace Infinitra.Movement
 
         private float crouchTimeElapsed;
         private float crouchHeightStart;
-
+        
+        private float bounceThreshold;
+        
         public void Awake()
         {
             xrOrigin = GetComponent<XROrigin>();
@@ -118,7 +120,7 @@ namespace Infinitra.Movement
             if (goUserXr.collDown)
             {
                 // Bouncing off ground.
-                if (velocity.y < 0.0) velocity.y = -velocity.y * 0.25f;
+                if (velocity.y < bounceThreshold) velocity.y = -(velocity.y-bounceThreshold) * 0.25f;
             }
             else
             {
@@ -149,7 +151,7 @@ namespace Infinitra.Movement
                     Vector normalComponent = velocity - parallelComponent;
                     
                     frictionVector = -normalComponent * deltaTime * modelConfig.friction * frictionFactor;
-                    }
+                }
                 else
                 {
                     frictionVector = -velocity * deltaTime * modelConfig.friction * frictionFactor;
@@ -390,6 +392,7 @@ namespace Infinitra.Movement
             charaController.slopeLimit = config.charSlope;
             charaController.minMoveDistance = config.charMoveDist;
             charaController.enableOverlapRecovery = true;
+            bounceThreshold = config.bounceThreshold;
         }
     }
 }
