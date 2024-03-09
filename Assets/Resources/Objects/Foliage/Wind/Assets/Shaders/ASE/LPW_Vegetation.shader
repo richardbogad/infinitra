@@ -80,6 +80,8 @@ Shader "Nicrom/LPW/ASE/Low Poly Vegetation"
 		#pragma multi_compile_instancing
 		#pragma instancing_options renderinglayer
 
+		#pragma multi_compile_fragment AREA_SHADOW_MEDIUM AREA_SHADOW_HIGH
+		
 		struct GlobalSurfaceDescription // GBuffer Forward META TransparentBackface
 		{
 			float3 Albedo;

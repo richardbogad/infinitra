@@ -1,0 +1,19 @@
+{
+    "name": "Infinitra",
+    "rootNamespace": "Infinitra",
+    "references": [
+        "Unity.XR.CoreUtils",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "InfinitraCore"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
