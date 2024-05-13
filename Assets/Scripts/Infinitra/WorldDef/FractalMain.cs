@@ -46,8 +46,6 @@ namespace Infinitra.WorldDef
 
         private void Update()
         {
-            // execute blockmanager actions that require main thread execution
-
             float totalPercentageCalculated = 0.0f;
 
             foreach (var bm in blockManagers)
@@ -63,7 +61,7 @@ namespace Infinitra.WorldDef
 
             if (loading)
             {
-                float loadingProgress = Mathf.Sqrt(Mathf.Clamp01(totalPercentageCalculated / 0.01f));
+                float loadingProgress = Mathf.Sqrt(Mathf.Clamp01(totalPercentageCalculated / 0.05f));
                 loadingSlider.value = loadingProgress;
 
                 if (loadingProgress >= 1.0f)
@@ -99,9 +97,10 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
 
             List<IBlockManager.BlockOption> blockOptions = new();
-
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, "a", 20.0f, 20, 0.0f, 20.0f,
-                blockCreatorDef, 10, blockOptions);
+            
+            float blockSize = 20.0f;
+            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 20, 1, 3, blockSize*2, blockSize*3,
+                blockCreatorDef, 5, blockOptions);
             blockManagers.Add(blockManager);
         }
 
@@ -116,60 +115,19 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_FENCE);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_LIGHT);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
+            // blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
 
             List<IBlockManager.BlockOption> blockOptions = new();
 
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, "a", 20.0f, 20, 0.0f, 80.0f,
-                blockCreatorDef, 10, blockOptions);
+            float blockSize = 16.0f;
+            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 16, 4, 6, blockSize*2, blockSize*3,
+                blockCreatorDef, 5, blockOptions);
             blockManagers.Add(blockManager);
 
-            blockOptions = new List<IBlockManager.BlockOption> { IBlockManager.BlockOption.CULLING_CELL };
-
-            blockCreatorDef = new BlockCreatorDefs();
-            blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-            //blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_TREE);
-            float minDist = 100.0f;
-            float maxDist = 200.0f;
-
-            /*blockManager = BlockManagerFactory.getBlockManager(10.0f, "bf", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10,  blockOptions, Vector3.forward);
-            blockManagers.Add(blockManager);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "bb", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10, blockOptions, Vector3.back);
-            blockManagers.Add(blockManager);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "bl", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10, blockOptions, Vector3.left);
-            blockManagers.Add(blockManager);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "br", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10, blockOptions, Vector3.right);
-            blockManagers.Add(blockManager);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "bu", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10, blockOptions, Vector3.up);
-            blockManagers.Add(blockManager);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "bd", 20.0f, 20, minDist, maxDist, blockCreatorDef, 10, blockOptions, Vector3.down);
-            blockManagers.Add(blockManager);*/
-
+            // blockOptions = new List<IBlockManager.BlockOption> { IBlockManager.BlockOption.CULLING_CELL };
             blockCreatorDef = new BlockCreatorDefs();
             blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
 
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "b", 40.0f, 20, 100, 200.0f, blockCreatorDef, 10,
-                blockOptions);
-            blockManagers.Add(blockManager);
-
-            blockCreatorDef = new BlockCreatorDefs();
-            blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "c", 80.0f, 20, 200, 400.0f, blockCreatorDef, 10,
-                blockOptions);
-            blockManagers.Add(blockManager);
-
-            blockCreatorDef = new BlockCreatorDefs();
-            blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-
-            blockManager = BlockManagerFactory.getBlockManager(10.0f, "d", 160.0f, 20, 400.0f, 800.0f, blockCreatorDef,
-                10, blockOptions);
-            blockManagers.Add(blockManager);
         }
     }
 }
