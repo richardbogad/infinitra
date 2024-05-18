@@ -25,8 +25,7 @@ namespace Infinitra.WorldDef
         private MainThreadDispatcher mainThreadDispatcher;
 
         private MatMeshRenderer matMeshRenderer;
-
-
+        
         private async void Start()
         {
             matMeshRenderer = MatMeshRenderService.getMatMeshRenderer();
@@ -95,11 +94,12 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_LIGHT);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
-
+            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
+            
             List<IBlockManager.BlockOption> blockOptions = new();
             
-            float blockSize = 20.0f;
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 20, 1, 3, blockSize*2, blockSize*3,
+            float blockSize = 16.0f;
+            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 16, 2, 4, blockSize*2, blockSize*3,
                 blockCreatorDef, 5, blockOptions);
             blockManagers.Add(blockManager);
         }
@@ -115,19 +115,16 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_FENCE);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_LIGHT);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
+            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
             // blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
 
             List<IBlockManager.BlockOption> blockOptions = new();
 
-            float blockSize = 16.0f;
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 16, 4, 6, blockSize*2, blockSize*3,
+            float smallestBlockSize = 16.0f;
+            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 6, smallestBlockSize*2, smallestBlockSize*3,
                 blockCreatorDef, 5, blockOptions);
             blockManagers.Add(blockManager);
-
-            // blockOptions = new List<IBlockManager.BlockOption> { IBlockManager.BlockOption.CULLING_CELL };
-            blockCreatorDef = new BlockCreatorDefs();
-            blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-
+            
         }
     }
 }
