@@ -22,14 +22,12 @@ namespace Infinitra.WorldDef
         private readonly List<IBlockManager> blockManagers = new();
 
         private bool loading = true;
-        private MainThreadDispatcher mainThreadDispatcher;
 
         private MatMeshRenderer matMeshRenderer;
         
         private async void Start()
         {
             matMeshRenderer = MatMeshRenderService.getMatMeshRenderer();
-            mainThreadDispatcher = MainThreadDispatcherService.getMainThreadDispatcher();
 
             HardwareBenchmark benchmark = new HardwareBenchmark();
 
@@ -50,6 +48,7 @@ namespace Infinitra.WorldDef
             foreach (var bm in blockManagers)
             {
                 bm.updateCamPos(xrOrigin.transform.position);
+                bm.workOnMainThread();
                 totalPercentageCalculated += bm.getPercentageCalculated();
             }
 
@@ -72,9 +71,7 @@ namespace Infinitra.WorldDef
                     movement.enabled = true;
                 }
             }
-
             matMeshRenderer.Update();
-            mainThreadDispatcher.Update();
         }
 
         private void OnApplicationQuit()
@@ -95,12 +92,10 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
-            
-            List<IBlockManager.BlockOption> blockOptions = new();
-            
+
             float blockSize = 16.0f;
             IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 16, 2, 4, blockSize*2, blockSize*3,
-                blockCreatorDef, 5, blockOptions);
+                blockCreatorDef, 10);
             blockManagers.Add(blockManager);
         }
 
@@ -118,11 +113,9 @@ namespace Infinitra.WorldDef
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
             // blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
 
-            List<IBlockManager.BlockOption> blockOptions = new();
-
             float smallestBlockSize = 16.0f;
             IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 6, smallestBlockSize*2, smallestBlockSize*3,
-                blockCreatorDef, 5, blockOptions);
+                blockCreatorDef, 5);
             blockManagers.Add(blockManager);
             
         }
