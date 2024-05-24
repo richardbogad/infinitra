@@ -1,18 +1,24 @@
-// This code was initially taken from https://www.youtube.com/watch?v=WwAN60mICsQ
+// Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
+
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithReport
 {
-
     public int callbackOrder => 0;
     public string dirBuildArchive = "./archive/";
+
+    private string obfuscarPath = "C:/Program Files/PackageManagement/NuGet/Packages/Obfuscar.2.2.38/tools/Obfuscar.Console.exe";
+    private string buildToolsPath = "../infinitra-core/buildtools/";
+    private string projectDir = "./";
 
     public void OnPreprocessBuild(BuildReport report)
     {
@@ -24,62 +30,154 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
 
     public void OnPostprocessBuild(BuildReport report)
     {
-        string buildPath = report.summary.outputPath; // The output path of the build
-        string projectName = PlayerSettings.productName; // The project name from the build settings
+        string buildPath = report.summary.outputPath;
+        string projectName = PlayerSettings.productName;
         string architecture = GetBuildArchitecture(report.summary.platform);
         string version = PlayerSettings.bundleVersion;
         string date = DateTime.Now.ToString("yyyyMMdd");
         string zipFileName = $"{projectName}_{version}_{architecture}_{date}.zip";
-        
         string buildDirectory = Path.GetDirectoryName(buildPath);
+
+        ExecuteExecutable(obfuscarPath, Path.Combine(buildToolsPath, "obfuscar.xml"), projectDir);
+
+        CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated/InfinitraCore.dll"), Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"));
+        CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"), Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
+        RmDir(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated"));
+        
         CreateZipArchive(buildDirectory, zipFileName);
+    }
+
+    public static void CopyFile(string fromFile, string toDestination)
+    {
+        try
+        {
+            if (!File.Exists(fromFile))
+            {
+                throw new FileNotFoundException($"Source file not found: {fromFile}");
+            }
+
+            string destDirectory = Path.GetDirectoryName(toDestination);
+
+            if (!Directory.Exists(destDirectory))
+            {
+                Directory.CreateDirectory(destDirectory);
+            }
+
+            File.Copy(fromFile, toDestination, overwrite: true);
+
+            Debug.Log($"File copied from {fromFile} to {toDestination}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to copy file from {fromFile} to {toDestination}: {ex.Message}");
+            throw;
+        }
+    }
+    public static void RmFile(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"File not found: {filePath}");
+            }
+
+            File.Delete(filePath);
+
+            Debug.Log($"File {filePath} deleted");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to delete file {filePath}: {ex.Message}");
+            throw;
+        }
+    }
+    
+    public static void RmDir(string directory)
+    {
+        try
+        {
+            if (!Directory.Exists(directory))
+            {
+                throw new DirectoryNotFoundException($"Source directory not found: {directory}");
+            }
+
+            Directory.Delete(directory, true);
+
+            Debug.Log($"Directory {directory} deleted");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to delete directory {directory}: {ex.Message}");
+            throw;
+        }
+    }
+    
+    public static string ExecuteExecutable(string executablePath, string arguments, string workingDirectory)
+    {
+        try
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = executablePath;
+            process.StartInfo.Arguments = arguments;
+            process.StartInfo.WorkingDirectory = workingDirectory;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+
+            process.Start();
+
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+
+            process.WaitForExit();
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                return $"Error: {error}";
+            }
+
+            return output;
+        }
+        catch (Exception ex)
+        {
+            return $"Exception: {ex.Message}";
+        }
     }
 
     private string[] ExtractVersionComponents(string version)
     {
-        // Regular expression pattern to match version components
         string pattern = @"([0-9]+)\.([0-9]+)\.([0-9]+)";
         Regex regex = new Regex(pattern);
         Match match = regex.Match(version);
 
         if (match.Success)
         {
-            // Extract the year, release, and build components as strings
             string year = match.Groups[1].Value;
             string release = match.Groups[2].Value;
             string build = match.Groups[3].Value;
-
-            // Return the components as a string array
             return new string[] { year, release, build };
         }
         else
         {
-            // Return null or an empty array if the version string does not match the pattern
-            return null; // Or return new string[0]; depending on your error handling preference
+            return null;
         }
     }
 
     private void UpdateVersion(string[] versionNumbers)
     {
-        // Split the version string into its components
         if (versionNumbers != null && versionNumbers.Length == 3)
         {
-            // Parse the year, release, and build components
             if (int.TryParse(versionNumbers[0], out int year) &&
                 int.TryParse(versionNumbers[1], out int release) &&
                 int.TryParse(versionNumbers[2], out int build))
             {
-                // Increment the build number
                 build++;
-
-                // Reconstruct the version string with the new build number
                 string newVersion = $"{year}.{release}.{build}";
-
-                // Optional: Update the version format if you want to include a date or other information
                 string date = DateTime.Now.ToString("yyyyMMdd");
                 PlayerSettings.bundleVersion = $"v{newVersion}";
 
-                // Log the new version
                 Debug.Log(PlayerSettings.bundleVersion);
             }
             else
@@ -104,7 +202,6 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
                 return "osx";
             case BuildTarget.StandaloneLinux64:
                 return "linux64";
-            // Add more cases as needed for other platforms
             default:
                 return "unknown";
         }
@@ -114,16 +211,15 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
     {
         if (Directory.Exists(buildPath))
         {
-
             if (!Directory.Exists(dirBuildArchive))
             {
                 Directory.CreateDirectory(dirBuildArchive);
             }
-            
+
             string outputPath = Path.Combine(dirBuildArchive, zipFileName);
             if (File.Exists(outputPath))
             {
-                File.Delete(outputPath); // Delete existing zip file if it exists
+                File.Delete(outputPath);
             }
             ZipFile.CreateFromDirectory(buildPath, outputPath);
             Debug.Log($"Build archived at {outputPath}");

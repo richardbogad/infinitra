@@ -4,7 +4,8 @@
     "references": [
         "Unity.XR.CoreUtils",
         "Unity.InputSystem",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "InfinitraCore"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
