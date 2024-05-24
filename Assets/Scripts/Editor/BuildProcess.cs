@@ -1,24 +1,38 @@
-// This code was taken from https://www.youtube.com/watch?v=WwAN60mICsQ
+// This code was initially taken from https://www.youtube.com/watch?v=WwAN60mICsQ
 using System;
+using System.IO;
+using System.IO.Compression;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-public class BuildVersion : IPreprocessBuildWithReport
+public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithReport
 {
-    
-    private const string initialVersion = "0";
-    
+
     public int callbackOrder => 0;
-    
+    public string dirBuildArchive = "./archive/";
+
     public void OnPreprocessBuild(BuildReport report)
     {
         string currentVersion = PlayerSettings.bundleVersion;
 
         string[] versionNumbers = ExtractVersionComponents(currentVersion);
         UpdateVersion(versionNumbers);
+    }
+
+    public void OnPostprocessBuild(BuildReport report)
+    {
+        string buildPath = report.summary.outputPath; // The output path of the build
+        string projectName = PlayerSettings.productName; // The project name from the build settings
+        string architecture = GetBuildArchitecture(report.summary.platform);
+        string version = PlayerSettings.bundleVersion;
+        string date = DateTime.Now.ToString("yyyyMMdd");
+        string zipFileName = $"{projectName}_{version}_{architecture}_{date}.zip";
+        
+        string buildDirectory = Path.GetDirectoryName(buildPath);
+        CreateZipArchive(buildDirectory, zipFileName);
     }
 
     private string[] ExtractVersionComponents(string version)
@@ -48,7 +62,7 @@ public class BuildVersion : IPreprocessBuildWithReport
     private void UpdateVersion(string[] versionNumbers)
     {
         // Split the version string into its components
-        if (versionNumbers.Length == 3)
+        if (versionNumbers != null && versionNumbers.Length == 3)
         {
             // Parse the year, release, and build components
             if (int.TryParse(versionNumbers[0], out int year) &&
@@ -76,6 +90,47 @@ public class BuildVersion : IPreprocessBuildWithReport
         else
         {
             Debug.LogError("Invalid version format");
+        }
+    }
+
+    private string GetBuildArchitecture(BuildTarget target)
+    {
+        switch (target)
+        {
+            case BuildTarget.StandaloneWindows:
+            case BuildTarget.StandaloneWindows64:
+                return "win64";
+            case BuildTarget.StandaloneOSX:
+                return "osx";
+            case BuildTarget.StandaloneLinux64:
+                return "linux64";
+            // Add more cases as needed for other platforms
+            default:
+                return "unknown";
+        }
+    }
+
+    private void CreateZipArchive(string buildPath, string zipFileName)
+    {
+        if (Directory.Exists(buildPath))
+        {
+
+            if (!Directory.Exists(dirBuildArchive))
+            {
+                Directory.CreateDirectory(dirBuildArchive);
+            }
+            
+            string outputPath = Path.Combine(dirBuildArchive, zipFileName);
+            if (File.Exists(outputPath))
+            {
+                File.Delete(outputPath); // Delete existing zip file if it exists
+            }
+            ZipFile.CreateFromDirectory(buildPath, outputPath);
+            Debug.Log($"Build archived at {outputPath}");
+        }
+        else
+        {
+            Debug.LogError($"Build directory not found: {buildPath}");
         }
     }
 }
