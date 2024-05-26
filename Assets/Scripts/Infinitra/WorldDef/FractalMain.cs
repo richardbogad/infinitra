@@ -1,6 +1,7 @@
 ﻿// Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using System;
 using System.Collections.Generic;
 using InfinitraCore.Rendering;
 using InfinitraCore.Threading;
@@ -8,6 +9,7 @@ using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 namespace Infinitra.WorldDef
 {
@@ -18,6 +20,7 @@ namespace Infinitra.WorldDef
         public List<CanvasFadeOut> canvasFadeOuts;
         public Slider loadingSlider;
         public Movement.Movement movement;
+        public GameObject deviceSimulator;
 
         private readonly List<IBlockManager> blockManagers = new();
 
@@ -33,8 +36,8 @@ namespace Infinitra.WorldDef
 
             await benchmark.RunBenchmarksAsync();
 
-            if (benchmark.cpuScore > 300) setupHQ(); // Reference PC: ~750
-            else setupLQ();
+            IBlockManager blockManager = createBlockManager(benchmark.cpuScore);
+            blockManagers.Add(blockManager);
 
             foreach (var bm in blockManagers) bm.run();
 
@@ -72,34 +75,20 @@ namespace Infinitra.WorldDef
                 }
             }
             matMeshRenderer.Update();
+            
+            if (XRSettings.isDeviceActive) deviceSimulator.SetActive(false);
+
         }
 
+        
         private void OnApplicationQuit()
         {
             Debug.Log("Main exit after " + Time.time + " seconds.");
             foreach (var bm in blockManagers) bm.exit();
         }
 
-        private void setupLQ()
-        {
-            BlockCreatorDefs blockCreatorDef = new BlockCreatorDefs();
-            blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-            blockCreatorDef.addCalcLayer(CalcLayer.INTERACTORS);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_TREE);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_GUIDE);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_FENCE);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_LIGHT);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
 
-            float blockSize = 16.0f;
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, blockSize, 16, 2, 4, blockSize*2, blockSize*3,
-                blockCreatorDef, 10);
-            blockManagers.Add(blockManager);
-        }
-
-        private void setupHQ()
+        private IBlockManager createBlockManager(float cpuScore)
         {
             BlockCreatorDefs blockCreatorDef = new BlockCreatorDefs();
             blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
@@ -114,10 +103,30 @@ namespace Infinitra.WorldDef
             // blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
 
             float smallestBlockSize = 16.0f;
-            IBlockManager blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 6, smallestBlockSize*2, smallestBlockSize*3,
-                blockCreatorDef, 5);
-            blockManagers.Add(blockManager);
-            
+            IBlockManager blockManager;
+            if (cpuScore > 400.0)
+            {
+                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 6,
+                    smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
+            }
+            else if (cpuScore > 300.0)
+            {
+                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 3, 5,
+                    smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
+            }
+            else if (cpuScore > 200.0)
+            {
+                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 2, 5,
+                    smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
+            }
+            else
+            {
+                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 2, 4,
+                    smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
+            }
+
+            return blockManager;
+
         }
     }
 }

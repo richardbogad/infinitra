@@ -16,7 +16,7 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
     public int callbackOrder => 0;
     public string dirBuildArchive = "./archive/";
 
-    private string obfuscarPath = "C:/Program Files/PackageManagement/NuGet/Packages/Obfuscar.2.2.38/tools/Obfuscar.Console.exe";
+    private string obfuscarPath = "../infinitra-core/buildtools/Obfuscar.Console.exe";
     private string buildToolsPath = "../infinitra-core/buildtools/";
     private string projectDir = "./";
 
@@ -26,6 +26,8 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
 
         string[] versionNumbers = ExtractVersionComponents(currentVersion);
         UpdateVersion(versionNumbers);
+        
+        RmFile(Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
     }
 
     public void OnPostprocessBuild(BuildReport report)
@@ -35,15 +37,15 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
         string architecture = GetBuildArchitecture(report.summary.platform);
         string version = PlayerSettings.bundleVersion;
         string date = DateTime.Now.ToString("yyyyMMdd");
-        string zipFileName = $"{projectName}_{version}_{architecture}_{date}.zip";
+
         string buildDirectory = Path.GetDirectoryName(buildPath);
 
         ExecuteExecutable(obfuscarPath, Path.Combine(buildToolsPath, "obfuscar.xml"), projectDir);
-
         CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated/InfinitraCore.dll"), Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"));
-        CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"), Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
+        //CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"), Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
         RmDir(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated"));
         
+        string zipFileName = $"{projectName}_{version}_{architecture}_{date}.zip";
         CreateZipArchive(buildDirectory, zipFileName);
     }
 
@@ -73,7 +75,7 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
             throw;
         }
     }
-    public static void RmFile(string filePath)
+    public static void RmFile(string filePath, bool stopOnError = false)
     {
         try
         {
@@ -88,8 +90,14 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Failed to delete file {filePath}: {ex.Message}");
-            throw;
+
+            if (stopOnError)
+            {
+                Debug.LogError($"Failed to delete file {filePath}: {ex.Message}");
+                throw;
+            }
+            
+            Debug.LogWarning($"Failed to delete file {filePath}: {ex.Message}");
         }
     }
     
