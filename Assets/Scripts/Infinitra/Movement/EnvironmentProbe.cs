@@ -12,7 +12,6 @@ namespace Infinitra.Movement
     {
         public AudioReverbZone reverbZone;
         public CharacterController charaController;
-        public GameObject deviceSimulator;
 
         public float maxDistance = 100f;
 
@@ -33,8 +32,6 @@ namespace Infinitra.Movement
             ProbeEnvironment();
             AdjustReverb();
             var heightHalf = charaController.height * 0.6f;
-
-            if (XRSettings.isDeviceActive) deviceSimulator.SetActive(false);
 
             if (initializing)
             {
