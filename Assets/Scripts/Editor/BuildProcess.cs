@@ -42,7 +42,7 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
 
         ExecuteExecutable(obfuscarPath, Path.Combine(buildToolsPath, "obfuscar.xml"), projectDir);
         CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated/InfinitraCore.dll"), Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"));
-        //CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"), Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
+        CopyFile(Path.Combine(buildDirectory, "infinitra_Data/Managed/InfinitraCore.dll"), Path.Combine(projectDir, "Assets/Plugins/InfinitraCore.dll"));
         RmDir(Path.Combine(buildDirectory, "infinitra_Data/Managed/Obfuscated"));
         
         string zipFileName = $"{projectName}_{version}_{architecture}_{date}.zip";

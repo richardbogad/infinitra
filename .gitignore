@@ -74,7 +74,7 @@ crashlytics-build.properties
 # Custom ignores
 Assets/Scripts/InfinitraCore
 Temp/
-Assets/Plugins/*
+# Assets/Plugins/*
 obfuscar*
 .idea
 .meta
