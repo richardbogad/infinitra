@@ -73,6 +73,7 @@ crashlytics-build.properties
 
 # Custom ignores
 Assets/Scripts/InfinitraCore
+Assets/Scripts/G4Sharp
 Temp/
 obfuscar*
 .idea

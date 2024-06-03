@@ -8,21 +8,25 @@ namespace Infinitra.Movement
     [RequireComponent(typeof(AudioSource))]
     public class StepSound : MonoBehaviour
     {
-        public Movement movement;
-        public EnvironmentProbe probe;
+
         public AudioClip[] footstepSounds; // Array of footstep sound clips
 
         public float speedThreshold = 1.0f;
         public float stepIntervalBase = 2.0f; // Base interval between steps at normal speed
         public float speedIntervalDouble = 3.0f;
-
-        private AudioSource audioSource;
+        
         private float groundedTimer;
         private float stepTimer;
-
-        private void Start()
+        
+        private AudioSource audioSource;
+        private Movement movement;
+        private EnvironmentProbe probe;
+        
+        private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+            movement = GetComponentInParent<Movement>();
+            probe = GetComponentInParent<EnvironmentProbe>();
         }
 
         private void Update()
