@@ -3,21 +3,22 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Infinitra.Movement
 {
     public class Crouch : MonoBehaviour
     {
         [SerializeField] private InputActionReference button;
-
-        public bool crouch;
-        private CharacterController characterController;
+        public bool isCrouching;
+        
         private readonly float crouchHeight = 0.8f;
-        private float elapsedTime;
         private readonly float standHeight = 2.0f;
-        private float startHeight;
-
         private readonly float transitionTime = 0.2f; // Adjust as needed
+        
+        private CharacterController characterController;
+        private float elapsedTime;
+        private float startHeight;
 
         private void Awake()
         {
@@ -26,13 +27,13 @@ namespace Infinitra.Movement
 
         private void FixedUpdate()
         {
-            if (crouch && elapsedTime < transitionTime)
+            if (isCrouching && elapsedTime < transitionTime)
             {
                 var newHeight = Mathf.Lerp(startHeight, crouchHeight, elapsedTime / transitionTime);
                 characterController.height = newHeight;
                 elapsedTime += Time.fixedDeltaTime;
             }
-            else if (!crouch && elapsedTime < transitionTime)
+            else if (!isCrouching && elapsedTime < transitionTime)
             {
                 var newHeight = Mathf.Lerp(startHeight, standHeight, elapsedTime / transitionTime);
                 characterController.height = newHeight;
@@ -54,14 +55,14 @@ namespace Infinitra.Movement
 
         private void OnCrouchStarted(InputAction.CallbackContext context)
         {
-            crouch = true;
+            isCrouching = true;
             elapsedTime = 0.0f;
             startHeight = characterController.height;
         }
 
         private void OnCrouchCanceled(InputAction.CallbackContext context)
         {
-            crouch = false;
+            isCrouching = false;
             elapsedTime = 0.0f;
             startHeight = characterController.height;
         }

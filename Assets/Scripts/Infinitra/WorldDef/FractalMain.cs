@@ -2,6 +2,7 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 using System.Collections.Generic;
+using Infinitra.Tools;
 using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Infinitra.WorldDef
 
             foreach (var bm in blockManagers) bm.run();
 
-            mainCamera.cullingMask &= ~(1 << Settings.renderLayer);
+            UnityTools.disableLayer(mainCamera, Settings.layerVisible);
         }
 
         private void Update()
@@ -55,12 +56,12 @@ namespace Infinitra.WorldDef
 
             if (loading)
             {
-                float loadingProgress = Mathf.Sqrt(Mathf.Clamp01(totalPercentageCalculated / 0.05f));
+                float loadingProgress = Mathf.Sqrt(Mathf.Clamp01(totalPercentageCalculated / 0.02f));
                 loadingSlider.value = loadingProgress;
 
                 if (loadingProgress >= 1.0f)
                 {
-                    mainCamera.cullingMask |= 1 << Settings.renderLayer;
+                    UnityTools.enableLayer(mainCamera, Settings.layerVisible);
                     loading = false;
                     Debug.Log("Block calculation status reached loading goal: " + totalPercentageCalculated);
                     foreach (CanvasFadeOut canvasFadeOut in canvasFadeOuts) canvasFadeOut.TriggerFadeOut();
@@ -82,24 +83,25 @@ namespace Infinitra.WorldDef
 
         private IBlockManager createBlockManager(float cpuScore)
         {
-            BlockCreatorDefs blockCreatorDef = new BlockCreatorDefs();
+            BlockCreatorDefs blockCreatorDef = new();
             blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
             blockCreatorDef.addCalcLayer(CalcLayer.INTERACTORS);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_SECTIONIZER);
+            //blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_SECTIONIZER);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_TREE);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_GUIDE);
+            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIPTOP);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_FENCE);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_LIGHT);
-            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIP);
+            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIPBOTTOM);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_PIPE);
-            // blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_CRYSTAL);
+            blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_GRASS);
+            //blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_ROOF);
 
             float smallestBlockSize = 16.0f;
             IBlockManager blockManager;
             if (cpuScore > 400.0)
             {
                 blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 5,
-                    smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
+                    smallestBlockSize*2, 1000, blockCreatorDef, 5);
             }
             else if (cpuScore > 300.0)
             {

@@ -10,23 +10,30 @@ namespace Infinitra.Movement
 {
     public class EnvironmentProbe : MonoBehaviour
     {
-        public AudioReverbZone reverbZone;
-        public CharacterController charaController;
 
         public float maxDistance = 100f;
 
-        [FormerlySerializedAs("avgProbeDistance")]
         public float medianDistance;
 
         public bool isGrounded;
-        public bool initializing = true;
+        
         public float DistanceUp;
         public float DistanceDown;
         public float DistanceLeft;
         public float DistanceRight;
         public float DistanceForward;
         public float DistanceBack;
-
+        
+        private CharacterController charaController;
+        private AudioReverbZone reverbZone;
+        private bool initializing = true;
+        
+        private void Awake()
+        {
+            charaController = GetComponent<CharacterController>();
+            reverbZone = GetComponent<AudioReverbZone>();
+        }
+        
         private void FixedUpdate()
         {
             ProbeEnvironment();
@@ -38,8 +45,7 @@ namespace Infinitra.Movement
                 isGrounded = DistanceDown < 100.0f;
                 if (isGrounded)
                     initializing = false;
-                else
-                    return;
+                else return;
             }
             else
             {
