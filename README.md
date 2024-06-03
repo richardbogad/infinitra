@@ -65,7 +65,7 @@ Development Setup
 -----------------------------
 - **Download:** [Repository ZIP](https://github.com/richardbogad/INFINITRA/archive/master.zip)
 - **Install:** [Unity Hub](https://unity.com/download) and open the INFINITRA project.
-- **Add:** FirebaseAuth and FirebaseFirestore modules from [Firebase](https://firebase.google.com/docs/unity/setup?hl=de).
+- **Add:** FirebaseAuth 12.1 and FirebaseFirestore 12.1 modules from [Firebase](https://firebase.google.com/docs/unity/setup?hl=de).
 - **Add:** InfinitraCore.dll from the current release to Assets/Plugins/ directory.
 - **Add:** google-services.json from the current release to Assets/Standard Assets/ directory.
 

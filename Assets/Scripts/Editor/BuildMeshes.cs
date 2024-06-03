@@ -1,6 +1,7 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using InfinitraCore.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,9 +23,9 @@ public class CreateMeshes : Editor
                     float yn = y / (float)16;
                     float zn = z / (float)16;
 
-                    xn = InfinitraCore.Utils.Calculation.MapTo(x, 0, 16, 0.5f, 1.0f);
-                    yn = InfinitraCore.Utils.Calculation.MapTo(y, 0, 16, 0.0f, 1.0f);
-                    zn = InfinitraCore.Utils.Calculation.MapTo(z, 0, 16, 0.0f, 1.0f);
+                    xn = Various.MapTo(x, 0, 16, 0.5f, 1.0f);
+                    yn = Various.MapTo(y, 0, 16, 0.0f, 1.0f);
+                    zn = Various.MapTo(z, 0, 16, 0.0f, 1.0f);
                     
                     float value = Mathf.PerlinNoise(yn, Mathf.PerlinNoise(xn, zn));
                     map[x, y, z] = value > 0.5;
