@@ -56,9 +56,9 @@ namespace Infinitra.WorldDef
         }
 
         // Shutdown Step
-        private void OnDisable()
+        private void OnApplicationQuit()
         {
-            CompLoader.onDisable();
+            CompLoader.onQuit();
             Debug.LogFormat("Main exit after {0} seconds.", Time.time);
         }
     }

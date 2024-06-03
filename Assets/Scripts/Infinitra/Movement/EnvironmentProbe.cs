@@ -81,7 +81,7 @@ namespace Infinitra.Movement
 
             float[] distances =
                 { DistanceUp, DistanceDown, DistanceLeft, DistanceRight, DistanceForward, DistanceBack };
-            medianDistance = Calculation.calculateCappedMedian(distances, maxDistance);
+            medianDistance = Various.calculateCappedMedian(distances, maxDistance);
         }
 
         private float CheckDistance(Vector3 direction)
