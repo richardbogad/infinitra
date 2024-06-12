@@ -1,10 +1,16 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using System.Collections.Generic;
+using System.Reflection;
 using Infinitra.Tools;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
+using UnityEngine.XR.Interaction.Toolkit.Samples.DeviceSimulator;
 
 namespace Infinitra.Movement
 {
@@ -12,19 +18,26 @@ namespace Infinitra.Movement
     {
         public InputActionReference jumpButton;
         public InputActionReference moveAction; // Reference to your 2D movement action
-
+        public InputActionReference rotAction;
+        public InputActionReference turnAction;
+        
         public float gravityAccel = -1f; // -9.81f;
-        public float jumpSpeed = 5.0f;
-        public float fallSpeed = -50.0f; // Maximum fall speed to prevent infinite acceleration
-        public float moveSpeedWalking = 3.0f;
-        public float moveSpeedFlying = 1.0f;
+        public float jumpSpeed = 5f;
+        public float fallSpeed = -50f; // Maximum fall speed to prevent infinite acceleration
+        public float moveSpeedWalking = 3f;
+        public float moveSpeedFlying = 1f;
 
-        public float moveAccelerationWalking = 10.0f;
-        public float moveAccelerationFlying = 5.0f;
+        public float moveAccelerationWalking = 10f;
+        public float moveAccelerationFlying = 5f;
         public bool followHeadMovement = true;
+
+        public float rotationSensitivity = 0.2f;
+        public float turnSensitivity = 100f;
+        private readonly float friction = 3.0f;
         
         // This vector stores the actual movement.
         public Vector3 moveVector = Vector3.zero;
+        public bool jetPack = true;
         
         private XROrigin xrRig;
         private EnvironmentProbe probe;
@@ -33,10 +46,10 @@ namespace Infinitra.Movement
         private Camera camera;
         private float heightHalf;
         
-        private readonly float friction = 3.0f;
-        private readonly bool jetPack = true;
+
         private bool jumpTrigger;
         private Vector2 movementInput;
+        private Vector2 turnInput;
         private Vector3 playerPosLast;
         private Vector3 hmdOffsetLast;
 
@@ -47,10 +60,19 @@ namespace Infinitra.Movement
             charaController = GetComponent<CharacterController>();
             cameraOffset = UnityTools.getChildGameObject(gameObject, "Camera Offset");
             camera = GetComponentInChildren<Camera>();
+
         }
 
         private void FixedUpdate()
         {
+
+            if (!Vector2.zero.Equals(turnInput))
+            {
+                float rotationX = turnInput.x * turnSensitivity * Time.deltaTime;
+                Vector3 currentRotation = transform.eulerAngles;
+                transform.rotation = Quaternion.Euler(0f, currentRotation.y + rotationX, 0f);
+            }
+            
             heightHalf = charaController.height * 0.6f;
 
             var playerPos = charaController.transform.position;
@@ -82,13 +104,16 @@ namespace Infinitra.Movement
             var maxMoveSpeedXZ = isGrounded ? moveSpeedWalking : moveSpeedFlying;
             var moveAcceleration = isGrounded ? moveAccelerationWalking : moveAccelerationFlying;
             
-            if (new Vector3(moveVector.x, moveVector.y, moveVector.z).magnitude < maxMoveSpeedXZ)
+            if (new Vector3(moveVector.x, 0f, moveVector.z).magnitude < maxMoveSpeedXZ)
             {
                 moveVector.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
                 moveVector.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
                 
-                if (jetPack) moveVector.y += accelInputRotated.y * Time.deltaTime * moveAcceleration;
+
             }
+            
+            // Jetpack
+            if (jetPack && moveVector.y < maxMoveSpeedXZ) moveVector.y += accelInputRotated.y * Time.deltaTime * moveAcceleration;
             
             // Gravity acceleration
             if (moveVector.y > fallSpeed) moveVector.y += Time.deltaTime * gravityAccel;
@@ -145,6 +170,14 @@ namespace Infinitra.Movement
         {
             jumpButton.action.started += JumpEnabled;
             jumpButton.action.canceled += JumpDisabled;
+            
+            rotAction.action.started += OnRotPerformed;
+            rotAction.action.canceled += OnRotCanceled;
+            
+            turnAction.action.performed += OnTurnPerformed; // use "performed" for snap turn
+            turnAction.action.canceled += OnTurnCanceled;
+            moveAction.action.Enable();
+            
             moveAction.action.performed += OnMovePerformed;
             moveAction.action.canceled += OnMoveCanceled;
             moveAction.action.Enable();
@@ -152,8 +185,17 @@ namespace Infinitra.Movement
 
         private void OnDisable()
         {
+
             jumpButton.action.started -= JumpEnabled;
             jumpButton.action.canceled -= JumpDisabled;
+                
+            rotAction.action.started -= OnRotPerformed;
+            rotAction.action.canceled -= OnRotCanceled;
+            
+            turnAction.action.performed -= OnTurnPerformed;
+            turnAction.action.canceled -= OnTurnCanceled;
+            turnAction.action.Disable();
+            
             moveAction.action.performed -= OnMovePerformed;
             moveAction.action.canceled -= OnMoveCanceled;
             moveAction.action.Disable();
@@ -169,6 +211,33 @@ namespace Infinitra.Movement
             movementInput = Vector2.zero;
         }
 
+        private void OnRotPerformed(InputAction.CallbackContext context)
+        {
+            Vector2 input = context.ReadValue<Vector2>();
+            
+            float rotationX = input.x * rotationSensitivity;
+            float rotationY = -input.y * rotationSensitivity;
+
+            Vector3 currentRotation = transform.eulerAngles;
+
+            transform.rotation = Quaternion.Euler(currentRotation.x + rotationY, currentRotation.y + rotationX, 0f);
+        }
+
+        private void OnRotCanceled(InputAction.CallbackContext context)
+        {
+        }
+        
+        private void OnTurnPerformed(InputAction.CallbackContext context)
+        {
+            turnInput = context.ReadValue<Vector2>();
+
+        }
+
+        private void OnTurnCanceled(InputAction.CallbackContext context)
+        {
+            turnInput = Vector2.zero;
+        }
+        
         private void JumpEnabled(InputAction.CallbackContext context)
         {
             jumpTrigger = true;
