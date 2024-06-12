@@ -7,15 +7,14 @@ using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 namespace Infinitra.WorldDef
 {
     public class FractalMain : MonoBehaviour
     {
+        // TODO look up dependencies automatically
         public XROrigin xrOrigin;
-        public Camera mainCamera;
-        public List<CanvasFadeOut> canvasFadeOuts;
+        public Camera camera;
         public Slider loadingSlider;
         public Movement.Movement movement;
         public GameObject deviceSimulator;
@@ -23,7 +22,8 @@ namespace Infinitra.WorldDef
         private readonly List<IBlockManager> blockManagers = new();
 
         private bool loading = true;
-
+        Canvas canvasLoading;
+        
         private async void Start()
         {
             HardwareBenchmark benchmark = new HardwareBenchmark();
@@ -35,7 +35,8 @@ namespace Infinitra.WorldDef
 
             foreach (var bm in blockManagers) bm.run();
 
-            UnityTools.disableLayer(mainCamera, Settings.layerVisible);
+            canvasLoading = UnityTools.getObjectByName<Canvas>("Canvas Loading");
+            UnityTools.showCanvas(camera, canvasLoading);
         }
 
         private void Update()
@@ -61,15 +62,15 @@ namespace Infinitra.WorldDef
 
                 if (loadingProgress >= 1.0f)
                 {
-                    UnityTools.enableLayer(mainCamera, Settings.layerVisible);
                     loading = false;
                     Debug.Log("Block calculation status reached loading goal: " + totalPercentageCalculated);
-                    foreach (CanvasFadeOut canvasFadeOut in canvasFadeOuts) canvasFadeOut.TriggerFadeOut();
+                    
+                    UnityTools.hideCanvas(camera, canvasLoading);
                     movement.enabled = true;
                 }
             }
             
-            if (XRSettings.isDeviceActive) deviceSimulator.SetActive(false);
+            // TODO think about XRSettings.isDeviceActive 
 
         }
 
@@ -85,7 +86,6 @@ namespace Infinitra.WorldDef
         {
             BlockCreatorDefs blockCreatorDef = new();
             blockCreatorDef.addCalcLayer(CalcLayer.FRACTAL_VIS);
-            blockCreatorDef.addCalcLayer(CalcLayer.INTERACTORS);
             //blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_SECTIONIZER);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_TREE);
             blockCreatorDef.addCalcLayer(CalcLayer.DETAIL_STRIPTOP);

@@ -22,7 +22,7 @@ Experience the demo of INFINITRA, currently available for Windows architectures.
 
 - [Download](https://github.com/richardbogad/infinitra/releases/) the latest compiled release and extract the ZIP file.
 - Execute 'infinitra.exe' from the extracted folder.
-- If you're not using a VR Headset, navigate using WASD keys, jump or fly with SPACE + N, and crouch with SPACE + B.
+- If you're not using a VR Headset, navigate using WASD keys, jump or fly with SPACE, and crouch with ALT.
 
 ![First-person view of INFINITRA](images/vr.jpg)
 

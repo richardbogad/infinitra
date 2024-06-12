@@ -5,7 +5,9 @@
         "Unity.XR.CoreUtils",
         "Unity.InputSystem",
         "Unity.TextMeshPro",
-        "InfinitraCore"
+        "Unity.XR.Interaction.Toolkit",
+        "InfinitraCore",
+        "Unity.XR.Interaction.Toolkit.Samples.DeviceSimulator"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
