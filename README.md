@@ -22,16 +22,19 @@ Experience the demo of INFINITRA, currently available for Windows architectures.
 
 - [Download](https://github.com/richardbogad/infinitra/releases/) the latest compiled release and extract the ZIP file.
 - Execute 'infinitra.exe' from the extracted folder.
-- If you're not using a VR Headset, navigate using WASD keys, jump or fly with SPACE, and crouch with ALT.
+- If you're not using a VR Headset, navigate using WASD keys, jump or fly with SPACE, and crouch with ALT. 
+- Press ESC to access the main Menu.
 
-![First-person view of INFINITRA](images/vr.jpg)
+![First-person view of INFINITRA](images/inworld1.jpg)
+![First-person view of INFINITRA](images/inworld2.jpg)
+![First-person view of INFINITRA](images/inworld3.jpg)
 
 Setup Development Environment
 -----------------------------
 - [Download](https://github.com/richardbogad/INFINITRA/archive/master.zip) the repository and extract the ZIP file.
 - [Download](https://unity.com/download) and install Unity Hub, open the extracted INFINITRA project folder.
 
-![First-person view of INFINITRA](images/iso.jpg)
+![Isometric view of INFINITRA](images/iso1.jpg)
 
 How to Contribute
 -----------------

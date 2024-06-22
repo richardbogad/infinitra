@@ -1,0 +1,28 @@
+// Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
+
+#pragma kernel CSMain
+
+RWStructuredBuffer<uint> result;
+
+#pragma kernel CSMain
+
+// Define the number of threads in each dimension
+[numthreads(1, 1, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID) {
+    // Complex max operation example
+    uint val = 0;
+    
+    for (int i = 0; i < 5; i++)
+    {
+        val = max(val, (id.x * id.y * id.z + i) % 1024);
+        val = sin(val);
+        val = cos(val);
+        val = exp(val);
+        val = tan(val);
+    }
+    
+    // Write the result to a RWBuffer
+
+    result[0] = val;
+}
