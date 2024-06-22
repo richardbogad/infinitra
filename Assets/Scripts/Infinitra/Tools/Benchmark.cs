@@ -2,49 +2,87 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using InfinitraCore.Objects;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Debug = UnityEngine.Debug;
 
 internal class HardwareBenchmark
 {
-    internal float cpuScore = 0;
-    internal float gpuScore = 0;
-
-    internal async Task RunBenchmarksAsync()
+    internal float cpuScore = -1;
+    internal float gpuScore = -1;
+    internal float cpuTime = -1;
+    internal float gpuTime = -1;
+    
+    internal void RunBenchmarksAsync()
     {
-        await CPUBenchmarkAsync();
-        await GPUBenchmarkAsync();
-        Debug.Log($"CPU Score: {cpuScore}, GPU Score: {gpuScore}");
+        CPUBenchmarkAsync();
+        GPUBenchmarkAsync();
+        Debug.Log($"PERF measurement, CPU: {cpuScore} in {cpuTime}ms, GPU: {gpuScore} in {gpuTime}ms");
     }
 
-    private async Task CPUBenchmarkAsync()
+    private void CPUBenchmarkAsync()
     {
-        await Task.Run(() =>
+        // Results in ~1000 for a AMD Ryzen 9 7900
+        
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
+        float result = 0;
+        for (int i = 0; i < 1000000; i++)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
-            float result = 0;
-            for (int i = 0; i < 1000000; i++)
-            {
-                result += Mathf.Sqrt(i);
-            }
-
-            sw.Stop();
-            cpuScore = sw.ElapsedMilliseconds * Environment.ProcessorCount;
-        });
+            result += Mathf.Sqrt(i);
+        }
+        sw.Stop();
+        cpuTime = (float)sw.Elapsed.TotalMilliseconds;
+        cpuScore = 1000 * Environment.ProcessorCount / cpuTime;
     }
 
-    private async Task GPUBenchmarkAsync()
+    private void GPUBenchmarkAsync()
     {
-        // GPU benchmarking in a non-MonoBehaviour context is complex because Unity's rendering operations
-        // are mainly designed to be used within the main thread. For a true GPU benchmark, you would need
-        // to perform operations that are meaningful for your application, which might involve rendering
-        // or manipulating textures in a way that's representative of your game's workload.
+        // Results in ~1000 for a GeForce RTX 4060 Ti
+        
+        ComputeShader computeShader = Resources.Load<ComputeShader>("Shaders/GPUBenchmark");
+ 
+        int maxThreadsX = SystemInfo.maxComputeWorkGroupSizeX;
+        int maxThreadsY = SystemInfo.maxComputeWorkGroupSizeY;
+        int maxThreadsZ = SystemInfo.maxComputeWorkGroupSizeZ;
 
-        // Placeholder for GPU benchmark - Implement based on specific needs
-        gpuScore = -1; // Indicate that GPU benchmarking needs a different approach
+        List<float> times = new();
+        
+        for (int i = 0; i < 10; i++)
+        {
+            Stopwatch stopwatch = new();
+
+            stopwatch.Start();
+
+            ComputeBuffer resultBuffer = new(1, sizeof(uint));
+            uint[] resultData = new uint[1];
+
+            computeShader.SetBuffer(0, "result", resultBuffer);
+
+            computeShader.SetInt("numthreads_x", maxThreadsX);
+            computeShader.SetInt("numthreads_y", maxThreadsY);
+            computeShader.SetInt("numthreads_z", maxThreadsZ);
+
+            computeShader.Dispatch(0, maxThreadsX, maxThreadsY, maxThreadsZ);
+            resultBuffer.GetData(resultData);
+            
+            resultBuffer.Release();
+            
+            stopwatch.Stop();
+            
+            times.Add((float)stopwatch.Elapsed.TotalMilliseconds);
+        }
+        
+        gpuTime = times.Average();
+        gpuScore = (maxThreadsX * maxThreadsY * maxThreadsZ) / gpuTime / 600;
+
+        // Release the buffer
+
     }
 }
