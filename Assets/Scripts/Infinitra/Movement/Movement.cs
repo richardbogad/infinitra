@@ -1,12 +1,16 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using Infinitra.Tools;
+using System.Diagnostics;
 using InfinitraCore.Objects;
+using InfinitraCore.Utils;
+using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Infinitra.Movement
 {
@@ -19,14 +23,18 @@ namespace Infinitra.Movement
         public InputActionReference turnAction;
                 
         // switches
-        public bool lockMovement = true;
-        public bool lockRotation = true;
-        public bool followHeadMovement = true;
         public bool jetPack = true;
         
         // This vector stores the actual movement.
         public Vector3 moveVector = Vector3.zero;
+
+        private bool mouseInvert = false;
         
+        private bool lockMovement = true;
+        private bool lockRotation = true;
+        private bool lockTurn = true;
+        private bool followHeadMovement = true;
+        private bool horizontalRotation = false;
         
         private float gravityAccel = -1f; // -9.81f;
         private float jumpSpeed = 5f;
@@ -41,7 +49,7 @@ namespace Infinitra.Movement
         private float turnSensitivity = 100f;
         private readonly float friction = 3.0f;
         
-        private XROrigin xrRig;
+        private XROrigin xrOrigin;
         private EnvironmentProbe probe;
         private CharacterController charaController;
         private GameObject cameraOffset;
@@ -56,58 +64,23 @@ namespace Infinitra.Movement
 
         private GameObject lastSelected;
         
-        private void Awake()
+        private void Start()
         {
-            xrRig = GetComponent<XROrigin>();
+            xrOrigin = GetComponent<XROrigin>();
             probe = GetComponent<EnvironmentProbe>();
             charaController = GetComponent<CharacterController>();
             cameraOffset = AssetTools.getChildGameObject(gameObject, "Camera Offset");
             camera = GetComponentInChildren<Camera>();
-
-            UiVisualizer.instance.addCanvasActiveListener(CanvasActive);
-            UiVisualizer.instance.addCanvasInactiveListener(CanvasInactive);
-        }
-
-        private void CanvasActive()
-        {
-            if (!XRSettings.isDeviceActive)
-            {
-                lockMovement = true;
-                lockRotation = true;
-
-                PlayerInput playerInput = GetComponent<PlayerInput>();
-                Cursor.visible = true;
-            }
-        }
-        private void CanvasInactive()
-        {
-            if (!XRSettings.isDeviceActive)
-            {
-                lockMovement = false;
-                lockRotation = false;
-                
-                PlayerInput playerInput = GetComponent<PlayerInput>();
-                Cursor.visible = false;
-            }           
+            
+            Instances.uiVisualizer.addCanvasActiveEvent(updateRestrictions);  
+            Instances.userContr.addXrActiveEvent(updateRestrictions);
+            Instances.userContr.addLoadingActiveEvent(updateRestrictions);
+            Instances.userContr.addMouseInvertEvent(updateMouseInvert);
         }
         
         private void FixedUpdate()
         {
-            if (!lockRotation)
-            {
-                processControllerTurn();
-            }
-            
-            if (!lockMovement)
-            {
 
-                processMove();
-            }
-
-            if (followHeadMovement)
-            {
-                followHmdOffset();
-            }
         }
 
         private void processMove()
@@ -125,7 +98,7 @@ namespace Infinitra.Movement
 
             // Calculate intended horizontal movement
             var accelInputVec = new Vector3(this.movementInput.x, 0, this.movementInput.y);
-            var cameraYaw = Quaternion.Euler(0, xrRig.Camera.transform.eulerAngles.y, 0);
+            var cameraYaw = Quaternion.Euler(0, xrOrigin.Camera.transform.eulerAngles.y, 0);
             var accelInputRotated = cameraYaw * accelInputVec;
 
             // Calculate intended vertical movement
@@ -147,8 +120,6 @@ namespace Infinitra.Movement
             {
                 moveVector.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
                 moveVector.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
-
-
             }
 
             // Jetpack
@@ -192,12 +163,26 @@ namespace Infinitra.Movement
             playerPosLast = playerPos;
         }
         
-        private void OnRotPerformed(InputAction.CallbackContext context)
+        private void processRotation(InputAction.CallbackContext context)
         {
-            if (!lockRotation)
+            Vector2 input = context.ReadValue<Vector2>();
+            
+            Vector3 currentRotation = transform.eulerAngles;
+            Vector3 newRotation = transform.eulerAngles;
+                        
+            float rotYaw = input.x * rotationSensitivity;
+            newRotation.y += rotYaw;
+
+            if (!horizontalRotation)
             {
-                performRotation(context);
+                float rotPitch = -input.y * rotationSensitivity;
+                if (mouseInvert) rotPitch = -rotPitch;
+                float testRotPitch = currentRotation.x + rotPitch;
+                float testRotPitchAbs = Mathf.Abs(testRotPitch);
+                if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }
+
+            transform.rotation = Quaternion.Euler(newRotation);
         }
         
         private void processControllerTurn()
@@ -221,9 +206,68 @@ namespace Infinitra.Movement
                 hmdOffsetLast = hmdOffset;
             }
         }
+
+        private void updateMouseInvert(object sender, bool value)
+        {
+            mouseInvert = value;
+        }
         
-        private void Update() {
-            UiVisualizer.instance.update();
+        private void updateRestrictions(object sender, bool value)
+        {
+            bool xrActive = Instances.userContr.isXrActive();
+            bool canvasVisible = Instances.uiVisualizer.isCanvasActive();
+
+            horizontalRotation = Instances.userContr.isXrActive();
+            lockTurn = canvasVisible && !xrActive;
+            lockRotation = canvasVisible && !xrActive;
+            lockMovement = canvasVisible;
+
+            if (xrActive)
+            {
+                alignCamera();
+                cameraOffset.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                alignCamera();
+                cameraOffset.transform.localRotation = Quaternion.Inverse(camera.transform.localRotation);   
+            }
+            
+            if (xrActive && canvasVisible)
+            {
+                followHeadMovement = false;
+                controllerLinesVisible(true);
+            }
+            else
+            {
+                followHeadMovement = true;
+                controllerLinesVisible(false);
+            }    
+        }
+
+        private void controllerLinesVisible(bool visible)
+        {
+            foreach (XRInteractorLineVisual renderer in gameObject.GetComponentsInChildren<XRInteractorLineVisual>())
+            {
+                renderer.enabled = visible;
+            }
+        }
+
+        private void alignCamera()
+        {
+            Vector3 rotEuler = xrOrigin.transform.eulerAngles;
+            rotEuler.x = 0;
+            rotEuler.z = 0;
+            xrOrigin.transform.eulerAngles = rotEuler;
+        }
+        
+        private void Update()
+        {
+            if (!lockTurn) processControllerTurn();
+            
+            if (!lockMovement) processMove();
+
+            if (followHeadMovement) followHmdOffset();
         }
 
         private void OnEnable()
@@ -264,7 +308,15 @@ namespace Infinitra.Movement
             moveAction.action.canceled -= OnMoveCanceled;
             moveAction.action.Disable();
         }
-
+        
+        private void OnRotPerformed(InputAction.CallbackContext context)
+        {
+            if (!lockRotation)
+            {
+                processRotation(context);
+            }
+        }
+        
         private void OnMovePerformed(InputAction.CallbackContext context)
         {
             movementInput = context.ReadValue<Vector2>();
@@ -273,27 +325,6 @@ namespace Infinitra.Movement
         private void OnMoveCanceled(InputAction.CallbackContext context)
         {
             movementInput = Vector2.zero;
-        }
-
-
-        private void performRotation(InputAction.CallbackContext context)
-        {
-            Vector2 input = context.ReadValue<Vector2>();
-            
-            float rotationX = input.x * rotationSensitivity;
-            float rotationY = -input.y * rotationSensitivity;
-
-            Vector3 currentRotation = transform.eulerAngles;
-            
-            Vector3 newRotation = transform.eulerAngles;
-
-            newRotation.y += rotationX;
-            
-            float testRotx = currentRotation.x + rotationY;
-            float testRotxAbs = Mathf.Abs(testRotx);
-            if (Mathf.Abs(testRotx) > 275f || testRotxAbs < 85f) newRotation.x = testRotx;
-            
-            transform.rotation = Quaternion.Euler(newRotation);
         }
 
         private void OnRotCanceled(InputAction.CallbackContext context)

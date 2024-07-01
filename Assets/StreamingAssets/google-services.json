@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151877791781",
+    "project_id": "infinitra-630eb",
+    "storage_bucket": "infinitra-630eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151877791781:android:5381ec115c7e1714a18fcc",
+        "android_client_info": {
+          "package_name": "com.rb.infinitra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUtJGgvVElCbxTGuOsV6zYyodXsIDglWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

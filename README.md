@@ -1,54 +1,81 @@
-INFINITRA Project
-=================
+<center>
 
-Welcome to the INFINITRA project repository, where you can explore a virtual reality world that extends beyond the horizons, crafted to let your curiosity roam free in an infinite structure.
+<h1>INFINITRA Project</h1>
 
-INFINITRA is a passion project born from a childhood dream, enhanced by the latest CPU and GPU technology advancements. Developed using the Unity engine, it utilizes intricate fractal geometry and dynamic environments to deliver an immersive experience.
+<img src="images/infinitra-logo01-small.png" />
 
-Encountered an issue? Report it [here](https://github.com/richardbogad/INFINITRA/issues).
+<a href="https://infinitra.web.app/">infinitra.web.app</a>
+</center>
 
-Join discussions and contribute ideas on our [community forum](https://github.com/richardbogad/infinitra/discussions).
+**Welcome to INFINITRA**, an expansive virtual reality world where limitless possibilities await. Crafted with cutting-edge CPU and GPU technologies and powered by Unity, INFINITRA invites you to explore intricate fractal geometries and dynamic environments for an unparalleled immersive experience.
 
-Prerequisites
+**Experiencing Issues?** [Report Here](https://github.com/richardbogad/INFINITRA/issues)
+
+**Join Our Community:** [Forum Discussions](https://github.com/richardbogad/infinitra/discussions)
+
+Features
 -------------
-- Windows Operating System
-- AMD Ryzen 9 7900 CPU or equivalent
-- GeForce RTX 4060Ti OC GPU or equivalent
-- VR Headset (recommended)
+- **Limitless Exploration:** Journey through millions of kilometers in a vast, shared virtual world.
+- **Flexible Viewing Modes:** Dive into full VR immersion or opt for a traditional 2D monitor experience.
+- **Evolving Universe:** Regular updates expand the world, introducing new content and adventures.
 
-Playing Quickstart
+**Technology Meets Dream:** Embrace a new era of digital exploration created from a childhood vision, enhanced for modern tech enthusiasts.
+
+Upcoming Enhancements
+-------------
+- **Interactive Dynamics:** Unlock new regions and engage with a world that reacts to player actions.
+- **Ownership Possibilities:** Claim space and items within the game.
+- **Visually Enhanced:** Experience superior graphics and world design.
+- **Rich Content:** Delve into puzzles, exploration, and hours of relaxation.
+- **Optimized Performance:** Enjoy seamless gameplay with optimized background computations.
+
+Account Options
+-------------
+- **Anonymous:** Access limited-time exploration; progress is not saved.
+- **Registered:** Enjoy unrestricted exploration with the ability to resume anytime.
+- **Infinite Subscription:** Support ongoing development and access exclusive features.
+
+System Requirements
+-------------
+- **OS:** Windows
+- **CPU:** AMD Ryzen 9 7900 or equivalent
+- **GPU:** GeForce RTX 4060Ti OC or equivalent
+- **VR Headset:** Highly recommended
+
+Getting Started
 ----------
-Experience the demo of INFINITRA, currently available for Windows architectures.
+**Try the INFINITRA Demo:** Available for Windows.
 
-- [Download](https://github.com/richardbogad/infinitra/releases/) the latest compiled release and extract the ZIP file.
-- Execute 'infinitra.exe' from the extracted folder.
-- If you're not using a VR Headset, navigate using WASD keys, jump or fly with SPACE, and crouch with ALT. 
-- Press ESC to access the main Menu.
+- **Download:** [Latest Release](https://github.com/richardbogad/infinitra/releases/)
+- **Install:** Extract the ZIP and run 'infinitra.exe'.
+- **Controls:** Navigate with WASD, SPACE to jump or fly, ALT to crouch, ESC for menu.
 
+**Upcoming:** Customizable input features.
+
+Contribute to INFINITRA
+-----------------
+**Enhance INFINITRA:** Your insights and skills can help expand this universe.
+
+**Getting Started:**
+- **Fork:** Click the **Fork button** to start.
+- **Setup:** [Configure Git](https://help.github.com/articles/set-up-git), sync, and modify.
+- **Collaborate:** Submit changes via [Pull Request](https://help.github.com/articles/using-pull-requests).
+
+Development Setup
+-----------------------------
+- **Download:** [Repository ZIP](https://github.com/richardbogad/INFINITRA/archive/master.zip)
+- **Install:** [Unity Hub](https://unity.com/download) and open the INFINITRA project.
+- **Add:** FirebaseAuth and FirebaseFirestore modules from [Firebase](https://firebase.google.com/docs/unity/setup?hl=de).
+
+Support and Feedback
+-------------
+**Need Help or Have Suggestions?**
+- **Issues:** Submit on [Infinitra GitHub](https://github.com/richardbogad/INFINITRA/issues)
+- **Contact:** [Email Us](mailto:infinitra.world@gmail.com)
+
+Impressions
+-----------
 ![First-person view of INFINITRA](images/inworld1.jpg)
 ![First-person view of INFINITRA](images/inworld2.jpg)
 ![First-person view of INFINITRA](images/inworld3.jpg)
-
-Setup Development Environment
------------------------------
-- [Download](https://github.com/richardbogad/INFINITRA/archive/master.zip) the repository and extract the ZIP file.
-- [Download](https://unity.com/download) and install Unity Hub, open the extracted INFINITRA project folder.
-
 ![Isometric view of INFINITRA](images/iso1.jpg)
-
-How to Contribute
------------------
-Your insights and improvements can help shape the future of INFINITRA. Join us in refining and expanding this infinite virtual universe.
-
-**To get started:**
-- Fork the project by clicking the **Fork button**.
-- [Set up Git](https://help.github.com/articles/set-up-git) and sync the project to your computer.
-- Modify the source code and validate your changes.
-- Send your improvements via a [Pull Request](https://help.github.com/articles/using-pull-requests).
-
-Common Issues
--------------
-**Feature Requests or Bugs:**
-Open an issue on our [GitHub page](https://github.com/richardbogad/INFINITRA/issues) if you have suggestions or encounter bugs.
-
-This version includes a general description, imagery references, and essential details, structured to fit within the streamlined README format appropriate for a GitHub repository.

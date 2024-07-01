@@ -74,8 +74,8 @@ crashlytics-build.properties
 # Custom ignores
 Assets/Scripts/InfinitraCore
 Assets/Scripts/G4Sharp
+Assets/Firebase
 Temp/
 obfuscar*
 .idea
 archive/
-# Assets/Plugins/*
