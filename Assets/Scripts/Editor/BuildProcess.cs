@@ -162,10 +162,10 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
 
         if (match.Success)
         {
-            string year = match.Groups[1].Value;
-            string release = match.Groups[2].Value;
+            string major = match.Groups[1].Value;
+            string minor = match.Groups[2].Value;
             string build = match.Groups[3].Value;
-            return new string[] { year, release, build };
+            return new string[] { major, minor, build };
         }
         else
         {
@@ -177,12 +177,12 @@ public class BuildProcess : IPreprocessBuildWithReport, IPostprocessBuildWithRep
     {
         if (versionNumbers != null && versionNumbers.Length == 3)
         {
-            if (int.TryParse(versionNumbers[0], out int year) &&
-                int.TryParse(versionNumbers[1], out int release) &&
+            if (int.TryParse(versionNumbers[0], out int major) &&
+                int.TryParse(versionNumbers[1], out int minor) &&
                 int.TryParse(versionNumbers[2], out int build))
             {
                 build++;
-                string newVersion = $"{year}.{release}.{build}";
+                string newVersion = $"{major}.{minor}.{build}";
                 string date = DateTime.Now.ToString("yyyyMMdd");
                 PlayerSettings.bundleVersion = $"v{newVersion}";
 
