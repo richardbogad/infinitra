@@ -1,16 +1,13 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using System.Diagnostics;
 using InfinitraCore.Objects;
-using InfinitraCore.Utils;
 using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
+using Debug = UnityEngine.Debug;
 
 namespace Infinitra.Movement
 {
@@ -63,24 +60,38 @@ namespace Infinitra.Movement
         private Vector3 hmdOffsetLast;
 
         private GameObject lastSelected;
-        
-        private void Start()
+
+        private void Awake()
         {
             xrOrigin = GetComponent<XROrigin>();
             probe = GetComponent<EnvironmentProbe>();
             charaController = GetComponent<CharacterController>();
             cameraOffset = AssetTools.getChildGameObject(gameObject, "Camera Offset");
             camera = GetComponentInChildren<Camera>();
-            
-            Instances.uiVisualizer.addCanvasActiveEvent(updateRestrictions);  
-            Instances.userContr.addXrActiveEvent(updateRestrictions);
-            Instances.userContr.addLoadingActiveEvent(updateRestrictions);
-            Instances.userContr.addMouseInvertEvent(updateMouseInvert);
         }
         
-        private void FixedUpdate()
+        private void OnEnable()
         {
-
+            ComponentLoader.uiVisualizer.addCanvasActiveEvent(updateRestrictions);  
+            ComponentLoader.userContr.addXrActiveEvent(updateRestrictions);
+            ComponentLoader.userContr.addLoadingActiveEvent(updateRestrictions);
+            ComponentLoader.userContr.addControlSettingsHandler(updateControlSettings);
+            
+            jumpButton.action.started += JumpEnabled;
+            jumpButton.action.canceled += JumpDisabled;
+            jumpButton.action.Enable();
+            
+            rotAction.action.started += OnRotPerformed;
+            rotAction.action.canceled += OnRotCanceled;
+            rotAction.action.Enable();
+            
+            turnAction.action.performed += OnTurnPerformed; // use "performed" for snap turn
+            turnAction.action.canceled += OnTurnCanceled;
+            turnAction.action.Enable();
+            
+            moveAction.action.performed += OnMovePerformed;
+            moveAction.action.canceled += OnMoveCanceled;
+            moveAction.action.Enable();
         }
 
         private void processMove()
@@ -207,17 +218,18 @@ namespace Infinitra.Movement
             }
         }
 
-        private void updateMouseInvert(object sender, bool value)
+        private void updateControlSettings(object sender, ControlSettings value)
         {
-            mouseInvert = value;
+            Debug.Log("Movement script received new control settings.");
+            mouseInvert = value.mouseInvert;
         }
         
         private void updateRestrictions(object sender, bool value)
         {
-            bool xrActive = Instances.userContr.isXrActive();
-            bool canvasVisible = Instances.uiVisualizer.isCanvasActive();
+            bool xrActive = ComponentLoader.userContr.isXrActive();
+            bool canvasVisible = ComponentLoader.uiVisualizer.isCanvasActive();
 
-            horizontalRotation = Instances.userContr.isXrActive();
+            horizontalRotation = ComponentLoader.userContr.isXrActive();
             lockTurn = canvasVisible && !xrActive;
             lockRotation = canvasVisible && !xrActive;
             lockMovement = canvasVisible;
@@ -268,25 +280,6 @@ namespace Infinitra.Movement
             if (!lockMovement) processMove();
 
             if (followHeadMovement) followHmdOffset();
-        }
-
-        private void OnEnable()
-        {
-            jumpButton.action.started += JumpEnabled;
-            jumpButton.action.canceled += JumpDisabled;
-            jumpButton.action.Enable();
-            
-            rotAction.action.started += OnRotPerformed;
-            rotAction.action.canceled += OnRotCanceled;
-            rotAction.action.Enable();
-            
-            turnAction.action.performed += OnTurnPerformed; // use "performed" for snap turn
-            turnAction.action.canceled += OnTurnCanceled;
-            turnAction.action.Enable();
-            
-            moveAction.action.performed += OnMovePerformed;
-            moveAction.action.canceled += OnMoveCanceled;
-            moveAction.action.Enable();
         }
 
         private void OnDisable()
