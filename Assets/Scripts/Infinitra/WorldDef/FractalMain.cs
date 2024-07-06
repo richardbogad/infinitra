@@ -1,10 +1,7 @@
 ﻿// Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using System;
 using System.Collections.Generic;
-using InfinitraCore.Rendering;
-using InfinitraCore.Threading;
 using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -26,12 +23,8 @@ namespace Infinitra.WorldDef
 
         private bool loading = true;
 
-        private MatMeshRenderer matMeshRenderer;
-        
         private async void Start()
         {
-            matMeshRenderer = MatMeshRenderService.getMatMeshRenderer();
-
             HardwareBenchmark benchmark = new HardwareBenchmark();
 
             await benchmark.RunBenchmarksAsync();
@@ -74,7 +67,6 @@ namespace Infinitra.WorldDef
                     movement.enabled = true;
                 }
             }
-            matMeshRenderer.Update();
             
             if (XRSettings.isDeviceActive) deviceSimulator.SetActive(false);
 
@@ -106,7 +98,7 @@ namespace Infinitra.WorldDef
             IBlockManager blockManager;
             if (cpuScore > 400.0)
             {
-                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 6,
+                blockManager = BlockManagerFactory.getBlockManager(10.0f, smallestBlockSize, 16, 4, 5,
                     smallestBlockSize*2, smallestBlockSize*3, blockCreatorDef, 5);
             }
             else if (cpuScore > 300.0)
