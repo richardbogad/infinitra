@@ -14,9 +14,7 @@ namespace Infinitra.WorldDef
     public class InfinitraMain : MonoBehaviour
     {
         // TODO look up dependencies automatically
-        
-        public InputActionReference menuAction;
-        
+  
         private XROrigin xrOrigin;
         private Movement.Movement movement;
         private Camera camera;
@@ -26,8 +24,8 @@ namespace Infinitra.WorldDef
         // Component Initialization Step
         private void Awake()
         {
-            ComponentLoader.awake();
-            GameObject goXrOrigin = AssetTools.getInGameObjectByName<GameObject>("XR Origin");
+            CompLoader.awake();
+            GameObject goXrOrigin = AssetTools.getInGameObjectByName<GameObject>("XR Origin (XR Rig)");
             xrOrigin = goXrOrigin.GetComponent<XROrigin>();
             movement = goXrOrigin.GetComponent<Movement.Movement>();
             camera = AssetTools.getInGameObjectByName<Camera>("Main Camera");
@@ -36,26 +34,19 @@ namespace Infinitra.WorldDef
         // Component Linking and Registration Step
         private void OnEnable()
         {
-            blockManager = ComponentLoader.blockManager;
+            blockManager = CompLoader.blockManager;
             
-            ComponentLoader.blockManager.registerXrOrigin(xrOrigin);
-            ComponentLoader.uiVisualizer.registerXrOrigin(xrOrigin);
-            ComponentLoader.userContr.registerXrOrigin(xrOrigin);
-            menuAction.action.started += ComponentLoader.userContr.showMenu;
+            CompLoader.blockManager.registerXrOrigin(xrOrigin);
+            CompLoader.uiVisualizer.registerXrOrigin(xrOrigin);
+            CompLoader.userContr.registerXrOrigin(xrOrigin);
             
-            ComponentLoader.onEnable();
+            CompLoader.onEnable();
         }
 
         // Routine Startup Step
         private void Start()
         {
-            ComponentLoader.start();
-
-            HardwareBenchmark benchmark = new HardwareBenchmark();
-            benchmark.RunBenchmarksAsync();
-            
-            blockManager.changeQuality(benchmark.cpuScore, benchmark.gpuScore);
-            
+            CompLoader.start();
             started = true;
         }
 
@@ -64,14 +55,14 @@ namespace Infinitra.WorldDef
         {
             if (!started) return;
 
-            ComponentLoader.update(Time.deltaTime);
+            CompLoader.update(Time.deltaTime);
         }
 
         // Shutdown Step
         private void OnDisable()
         {
-            ComponentLoader.onDisable();
-            Debug.Log("Main exit after " + Time.time + " seconds.");
+            CompLoader.onDisable();
+            Debug.LogFormat("Main exit after {0} seconds.", Time.time);
         }
     }
 }

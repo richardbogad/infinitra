@@ -6,35 +6,28 @@ using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
-using Debug = UnityEngine.Debug;
 
 namespace Infinitra.Movement
 {
-    public class Movement : MonoBehaviour
+
+    public class Movement : MonoBehaviour, IMovement
     {
 
-        public InputActionReference jumpButton;
-        public InputActionReference moveAction; // Reference to your 2D movement action
-        public InputActionReference rotAction;
-        public InputActionReference turnAction;
-                
-        // switches
+        // switches 
         public bool jetPack = true;
-        
+
         // This vector stores the actual movement.
         public Vector3 moveVector = Vector3.zero;
 
-        private bool mouseInvert = false;
-        
         private bool lockMovement = true;
         private bool lockRotation = true;
         private bool lockTurn = true;
-        private bool followHeadMovement = true;
+        private bool originFollowHeadMovement = true;
         private bool horizontalRotation = false;
-        
+        private bool mouseInvert = false;
+
         private float gravityAccel = -1f; // -9.81f;
-        private float jumpSpeed = 5f;
+        private float jumpSpeed = 3f;
         private float fallSpeed = -50f; // Maximum fall speed to prevent infinite acceleration
         private float moveSpeedWalking = 3f;
         private float moveSpeedFlying = 1f;
@@ -43,23 +36,32 @@ namespace Infinitra.Movement
         private float moveAccelerationFlying = 5f;
 
         private float rotationSensitivity = 0.2f;
-        private float turnSensitivity = 100f;
         private readonly float friction = 3.0f;
-        
+
         private XROrigin xrOrigin;
         private EnvironmentProbe probe;
         private CharacterController charaController;
         private GameObject cameraOffset;
+   
         private Camera camera;
-        private float heightHalf;
-
+ 
         private bool jumpTrigger;
         private Vector2 movementInput;
-        private Vector2 controllerTurnInput;
         private Vector3 playerPosLast;
         private Vector3 hmdOffsetLast;
 
         private GameObject lastSelected;
+
+        private bool isCrouching = false;
+
+        private float crouchTimeElapsed;
+        private float crouchHeightStart;
+        private readonly float crouchHeight = 0.8f;
+        private readonly float standHeight = 1.8f;
+        private readonly float transitionTime = 0.5f; // Adjust as needed
+        private readonly float cameraHeightFactor = 0.75f;
+        //private SetupControls setupControls;
+
 
         private void Awake()
         {
@@ -67,40 +69,23 @@ namespace Infinitra.Movement
             probe = GetComponent<EnvironmentProbe>();
             charaController = GetComponent<CharacterController>();
             cameraOffset = AssetTools.getChildGameObject(gameObject, "Camera Offset");
+
             camera = GetComponentInChildren<Camera>();
+
         }
-        
+
         private void OnEnable()
         {
-            ComponentLoader.uiVisualizer.addCanvasActiveEvent(updateRestrictions);  
-            ComponentLoader.userContr.addXrActiveEvent(updateRestrictions);
-            ComponentLoader.userContr.addLoadingActiveEvent(updateRestrictions);
-            ComponentLoader.userContr.addControlSettingsHandler(updateControlSettings);
-            
-            jumpButton.action.started += JumpEnabled;
-            jumpButton.action.canceled += JumpDisabled;
-            jumpButton.action.Enable();
-            
-            rotAction.action.started += OnRotPerformed;
-            rotAction.action.canceled += OnRotCanceled;
-            rotAction.action.Enable();
-            
-            turnAction.action.performed += OnTurnPerformed; // use "performed" for snap turn
-            turnAction.action.canceled += OnTurnCanceled;
-            turnAction.action.Enable();
-            
-            moveAction.action.performed += OnMovePerformed;
-            moveAction.action.canceled += OnMoveCanceled;
-            moveAction.action.Enable();
+            if (!Debug.isDebugBuild) jetPack = false;
+            CompLoader.userContr.setMovementScript(this);
         }
 
         private void processMove()
         { 
-            heightHalf = charaController.height * 0.6f;
 
             var playerPos = charaController.transform.position;
 
-            var isGrounded = probe.isGrounded;
+            var isGrounded = probe.collisionDown;
 
             var moveAccelFactor = 1.0f;
             if (!isGrounded)
@@ -149,7 +134,7 @@ namespace Infinitra.Movement
             else
             {
                 // Collision while moving up
-                if (probe.DistanceUp < heightHalf && moveVector.y > 0.0) moveVector.y = 0.0f;
+                if (probe.collisionUp && moveVector.y > 0.0) moveVector.y = 0.0f;
             }
 
             // Calculate movement friction/decay
@@ -178,8 +163,8 @@ namespace Infinitra.Movement
         {
             Vector2 input = context.ReadValue<Vector2>();
             
-            Vector3 currentRotation = transform.eulerAngles;
-            Vector3 newRotation = transform.eulerAngles;
+            Vector3 currentRotation = cameraOffset.transform.eulerAngles;
+            Vector3 newRotation = cameraOffset.transform.eulerAngles;
                         
             float rotYaw = input.x * rotationSensitivity;
             newRotation.y += rotYaw;
@@ -193,79 +178,44 @@ namespace Infinitra.Movement
                 if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }
 
-            transform.rotation = Quaternion.Euler(newRotation);
-        }
-        
-        private void processControllerTurn()
-        {
-            if (!Vector2.zero.Equals(controllerTurnInput))
-            {
-                float rotationX = controllerTurnInput.x * turnSensitivity * Time.deltaTime;
-                Vector3 currentRotation = transform.eulerAngles;
-                transform.rotation = Quaternion.Euler(0f, currentRotation.y + rotationX, 0f);
-            }
+            cameraOffset.transform.rotation = Quaternion.Euler(newRotation);
         }
 
-        private void followHmdOffset()
+        /*
+         * The position of the XrOrigin GameObject shall be on the bottom of the character controller.
+         * The camera shall be offsetted at a height of 'cameraHeightFactor'. 
+         */
+        private Vector3 calculateOffsets()
         {
+            // The camera position (relative to the root of the character controller) shall be set via the cameraOffset GameObject
+            cameraOffset.transform.localPosition = Vector3.up * (charaController.height * cameraHeightFactor);
+            charaController.center = Vector3.up * (charaController.height * 0.5f);
+            
             Vector3 hmdOffset = camera.transform.localPosition;
             Vector3 movedSinceLastUpdate = hmdOffset - hmdOffsetLast;
             if (!movedSinceLastUpdate.Equals(Vector3.zero))
             {
-                cameraOffset.transform.localPosition = -hmdOffset;
-                gameObject.transform.position += camera.transform.rotation*movedSinceLastUpdate*2;
+                // This line relies on the calculateOffsets() function, which defined the camera offset previously.
+                cameraOffset.transform.localPosition += -hmdOffset;
                 hmdOffsetLast = hmdOffset;
             }
-        }
 
-        private void updateControlSettings(object sender, ControlSettings value)
-        {
-            Debug.Log("Movement script received new control settings.");
-            mouseInvert = value.mouseInvert;
+            return movedSinceLastUpdate;
         }
         
-        private void updateRestrictions(object sender, bool value)
+        /*
+         * The XrOrigin gameObject shall follow the head/camera movement.
+         */
+        private void followHmdOffset(Vector3 movedSinceLastUpdate)
         {
-            bool xrActive = ComponentLoader.userContr.isXrActive();
-            bool canvasVisible = ComponentLoader.uiVisualizer.isCanvasActive();
-
-            horizontalRotation = ComponentLoader.userContr.isXrActive();
-            lockTurn = canvasVisible && !xrActive;
-            lockRotation = canvasVisible && !xrActive;
-            lockMovement = canvasVisible;
-
-            if (xrActive)
+            if (!movedSinceLastUpdate.Equals(Vector3.zero))
             {
-                alignCamera();
-                cameraOffset.transform.localRotation = Quaternion.identity;
-            }
-            else
-            {
-                alignCamera();
-                cameraOffset.transform.localRotation = Quaternion.Inverse(camera.transform.localRotation);   
-            }
-            
-            if (xrActive && canvasVisible)
-            {
-                followHeadMovement = false;
-                controllerLinesVisible(true);
-            }
-            else
-            {
-                followHeadMovement = true;
-                controllerLinesVisible(false);
-            }    
-        }
-
-        private void controllerLinesVisible(bool visible)
-        {
-            foreach (XRInteractorLineVisual renderer in gameObject.GetComponentsInChildren<XRInteractorLineVisual>())
-            {
-                renderer.enabled = visible;
+                gameObject.transform.position += cameraOffset.transform.rotation*movedSinceLastUpdate*2;
             }
         }
 
-        private void alignCamera()
+
+        public void alignCamera()
         {
             Vector3 rotEuler = xrOrigin.transform.eulerAngles;
             rotEuler.x = 0;
@@ -275,74 +225,136 @@ namespace Infinitra.Movement
         
         private void Update()
         {
-            if (!lockTurn) processControllerTurn();
-            
             if (!lockMovement) processMove();
+            
+            Vector3 movedSinceLastUpdate = calculateOffsets();
+            
+            if (originFollowHeadMovement) followHmdOffset(movedSinceLastUpdate);
+            
+            processCrouch();
+            
 
-            if (followHeadMovement) followHmdOffset();
         }
 
-        private void OnDisable()
+        private void processCrouch()
         {
+            if (isCrouching && crouchTimeElapsed < transitionTime)
+            {
+                var newHeight = Mathf.Lerp(crouchHeightStart, crouchHeight, crouchTimeElapsed / transitionTime);
+                charaController.height = newHeight;
+                crouchTimeElapsed += Time.fixedDeltaTime;
+            }
+            else if (!isCrouching && crouchTimeElapsed < transitionTime)
+            {
+                var newHeight = Mathf.Lerp(crouchHeightStart, standHeight, crouchTimeElapsed / transitionTime);
+                charaController.height = newHeight;
+                crouchTimeElapsed += Time.fixedDeltaTime;
+            }
+        }
 
-            jumpButton.action.started -= JumpEnabled;
-            jumpButton.action.canceled -= JumpDisabled;
-            jumpButton.action.Disable();
-            
-            rotAction.action.started -= OnRotPerformed;
-            rotAction.action.canceled -= OnRotCanceled;
-            rotAction.action.Disable();
-            
-            turnAction.action.performed -= OnTurnPerformed;
-            turnAction.action.canceled -= OnTurnCanceled;
-            turnAction.action.Disable();
-            
-            moveAction.action.performed -= OnMovePerformed;
-            moveAction.action.canceled -= OnMoveCanceled;
-            moveAction.action.Disable();
+        public void OnCrouchStarted(InputAction.CallbackContext context)
+        {
+            isCrouching = true;
+            crouchTimeElapsed = 0.0f;
+            crouchHeightStart = charaController.height;
+        }
+
+        public void OnCrouchCanceled(InputAction.CallbackContext context)
+        {
+            isCrouching = false;
+            crouchTimeElapsed = 0.0f;
+            crouchHeightStart = charaController.height;
         }
         
-        private void OnRotPerformed(InputAction.CallbackContext context)
+        private void OnDisable()
+        {
+        }
+
+        public void OnActionRotPerformed(InputAction.CallbackContext context)
         {
             if (!lockRotation)
             {
                 processRotation(context);
             }
         }
-        
-        private void OnMovePerformed(InputAction.CallbackContext context)
+
+        public void OnActionMovePerformed(InputAction.CallbackContext context)
         {
             movementInput = context.ReadValue<Vector2>();
         }
 
-        private void OnMoveCanceled(InputAction.CallbackContext context)
+        public void OnActionMoveCanceled(InputAction.CallbackContext context)
         {
             movementInput = Vector2.zero;
         }
 
-        private void OnRotCanceled(InputAction.CallbackContext context)
+        public void OnActionRotCanceled(InputAction.CallbackContext context)
         {
-        }
-        
-        private void OnTurnPerformed(InputAction.CallbackContext context)
-        {
-            controllerTurnInput = context.ReadValue<Vector2>();
-
         }
 
-        private void OnTurnCanceled(InputAction.CallbackContext context)
-        {
-            controllerTurnInput = Vector2.zero;
-        }
-        
-        private void JumpEnabled(InputAction.CallbackContext context)
+        public void OnJumpStarted(InputAction.CallbackContext context)
         {
             jumpTrigger = true;
         }
 
-        private void JumpDisabled(InputAction.CallbackContext context)
+        public void OnJumpCanceled(InputAction.CallbackContext context)
         {
             jumpTrigger = false;
+        }
+
+        public void setMouseInvert(bool value)
+        {
+            mouseInvert = value;
+        }
+
+        public bool isLockMovement()
+        {
+            return lockMovement;
+        }
+
+        public bool isLockTurn()
+        {
+            return lockTurn;
+        }
+
+        public void setLockTurn(bool value)
+        {
+            lockTurn = value;
+        }
+
+        public void setLockRotation(bool value)
+        {
+            lockRotation = value;
+        }
+
+        public void setLockMovement(bool value)
+        {
+            lockMovement = value;
+        }
+
+        public void setHorizontalRotation(bool value)
+        {
+            horizontalRotation = value;
+        }
+
+        public void setOriginFollowHeadMovement(bool value)
+        {
+            originFollowHeadMovement = value;
+        }
+
+        public GameObject getCameraOffset()
+        {
+            return cameraOffset;
+        }
+
+        public XROrigin getXrOrigin()
+        {
+            return xrOrigin;
+        }
+
+        public Camera getCamera()
+        {
+            return camera;
         }
     }
 }

@@ -11,11 +11,14 @@ namespace Infinitra.Movement
     public class EnvironmentProbe : MonoBehaviour
     {
 
+        private static readonly float COLL_EPSILON = 0.05f;
+        
         public float maxDistance = 100f;
 
         public float medianDistance;
 
-        public bool isGrounded;
+        public bool collisionDown;
+        public bool collisionUp;
         
         public float DistanceUp;
         public float DistanceDown;
@@ -38,19 +41,21 @@ namespace Infinitra.Movement
         {
             ProbeEnvironment();
             AdjustReverb();
-            var heightHalf = charaController.height * 0.6f;
+
 
             if (initializing)
             {
-                isGrounded = DistanceDown < 100.0f;
-                if (isGrounded)
+                collisionDown = DistanceDown < 100.0f;
+                if (collisionDown)
                     initializing = false;
                 else return;
             }
             else
             {
-                isGrounded = DistanceDown < heightHalf;
+                collisionDown = DistanceDown < COLL_EPSILON;
             }
+            
+            collisionUp = DistanceUp < charaController.height + COLL_EPSILON;
         }
 
         private void AdjustReverb()

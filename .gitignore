@@ -73,9 +73,12 @@ crashlytics-build.properties
 
 # Custom ignores
 Assets/Scripts/InfinitraCore
+geometry4Sharp.csproj
 Assets/Scripts/G4Sharp
 Assets/Firebase
 Temp/
 obfuscar*
 .idea
 archive/
+Assets/Plugins/InfinitraCore.dll
+Assets/StreamingAssets/google-services-desktop.*
