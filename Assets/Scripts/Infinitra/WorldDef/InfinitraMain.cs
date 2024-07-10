@@ -24,7 +24,6 @@ namespace Infinitra.WorldDef
         // Component Initialization Step
         private void Awake()
         {
-            CompLoader.awake();
             GameObject goXrOrigin = AssetTools.getInGameObjectByName<GameObject>("XR Origin (XR Rig)");
             xrOrigin = goXrOrigin.GetComponent<XROrigin>();
             movement = goXrOrigin.GetComponent<Movement.Movement>();
@@ -39,8 +38,6 @@ namespace Infinitra.WorldDef
             CompLoader.blockManager.registerXrOrigin(xrOrigin);
             CompLoader.uiVisualizer.registerXrOrigin(xrOrigin);
             CompLoader.userContr.registerXrOrigin(xrOrigin);
-            
-            CompLoader.onEnable();
         }
 
         // Routine Startup Step
