@@ -11,7 +11,7 @@ namespace Infinitra.Movement
     public class EnvironmentProbe : MonoBehaviour
     {
 
-        private static readonly float COLL_EPSILON = 0.05f;
+        private static readonly float COLL_EPSILON = 0.1f;
         
         public float maxDistance = 100f;
 

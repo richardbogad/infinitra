@@ -30,10 +30,10 @@ namespace Infinitra.Movement
         private float jumpSpeed = 3f;
         private float fallSpeed = -50f; // Maximum fall speed to prevent infinite acceleration
         private float moveSpeedWalking = 3f;
-        private float moveSpeedFlying = 1f;
+        private float moveSpeedFlying = 1.5f;
 
         private float moveAccelerationWalking = 10f;
-        private float moveAccelerationFlying = 5f;
+        private float moveAccelerationFlying = 10f;
 
         private float rotationSensitivity = 0.2f;
         private readonly float friction = 3.0f;
@@ -112,7 +112,19 @@ namespace Infinitra.Movement
             var maxMoveSpeedXZ = isGrounded ? moveSpeedWalking : moveSpeedFlying;
             var moveAcceleration = isGrounded ? moveAccelerationWalking : moveAccelerationFlying;
 
-            if (new Vector3(moveVector.x, 0f, moveVector.z).magnitude < maxMoveSpeedXZ)
+            bool allowXZ = false;
+
+            Vector3 moveXZ = new(moveVector.x, 0f, moveVector.z);
+            Vector3 inputXZ = new(accelInputRotated.x, 0f, accelInputRotated.z);
+            if (moveXZ.magnitude < maxMoveSpeedXZ) allowXZ = true;
+            else
+            {
+                // Check if the input direction is roughly the opposite of the movement direction
+                float dotProduct = Vector3.Dot(moveXZ.normalized, inputXZ.normalized);
+                if (dotProduct < 0.0f) allowXZ = true;
+            }
+            
+            if (allowXZ)
             {
                 moveVector.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
                 moveVector.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
