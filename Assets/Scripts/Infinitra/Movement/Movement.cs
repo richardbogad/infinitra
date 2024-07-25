@@ -1,8 +1,8 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using InfinitraCore.Components;
 using InfinitraCore.Objects;
-using InfinitraCore.WorldAPI;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -77,7 +77,7 @@ namespace Infinitra.Movement
         private void OnEnable()
         {
             if (!Debug.isDebugBuild) jetPack = false;
-            CompLoader.userContr.setMovementScript(this);
+            CompLoader.setMovementScript(this);
         }
 
         private void processMove()

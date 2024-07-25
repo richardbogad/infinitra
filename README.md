@@ -7,54 +7,60 @@
 <a href="https://infinitra.web.app/">infinitra.web.app</a>
 </center>
 
-**Welcome to INFINITRA**, an expansive virtual reality world where limitless possibilities await. Crafted with cutting-edge CPU and GPU technologies and powered by Unity, INFINITRA invites you to explore intricate fractal geometries and dynamic environments for an unparalleled immersive experience.
+**Welcome to INFINITRA**, a boundless virtual reality universe where your imagination comes to life. Powered by cutting-edge CPU and GPU technologies and developed with Unity, INFINITRA offers an extraordinary journey through intricate fractal landscapes and dynamic environments for an unmatched immersive experience.
 
-**Experiencing Issues?** [Report Here](https://github.com/richardbogad/INFINITRA/issues)
+**Having Issues?** [Report Here](https://github.com/richardbogad/INFINITRA/issues)
 
 **Join Our Community:** [Forum Discussions](https://github.com/richardbogad/infinitra/discussions)
 
-Features
--------------
-- **Limitless Exploration:** Journey through millions of kilometers in a vast, shared virtual world.
-- **Flexible Viewing Modes:** Dive into full VR immersion or opt for a traditional 2D monitor experience.
-- **Evolving Universe:** Regular updates expand the world, introducing new content and adventures.
+Introduction
+------------
+During an unexpected alien abduction, I managed to acquire a data device containing a game from Earth in 2124. After accessing and converting part of the code to C#, I've made it available to you, though some calculations are disabled due to the advanced hardware of the future. While gameplay is not yet implemented, you're free to explore this fascinating world.
 
-**Technology Meets Dream:** Embrace a new era of digital exploration created from a childhood vision, enhanced for modern tech enthusiasts.
+Features
+--------
+- **Infinite Exploration:** Discover a vast, shared virtual world spanning millions of kilometers.
+- **Flexible Viewing Options:** Experience full VR immersion or choose a traditional 2D monitor setup.
+- **Dynamic Universe:** Regular updates bring new content and adventures, ensuring the world evolves continuously.
+
+**Where Technology Meets Vision:** Step into a digital realm born from a childhood dream, now realized for tech enthusiasts.
 
 Upcoming Enhancements
--------------
-- **Interactive Dynamics:** Unlock new regions and engage with a world that reacts to player actions.
-- **Ownership Possibilities:** Claim space and items within the game.
-- **Visually Enhanced:** Experience superior graphics and world design.
-- **Rich Content:** Delve into puzzles, exploration, and hours of relaxation.
-- **Optimized Performance:** Enjoy seamless gameplay with optimized background computations.
+---------------------
+- **Interactive Dynamics:** Unlock new regions and interact with a world that responds to your actions.
+- **Ownership Possibilities:** Claim spaces and items within the game.
+- **Enhanced Visuals:** Enjoy superior graphics and world design.
+- **Rich Content:** Engage with puzzles, exploration, and hours of relaxation.
+- **Optimized Performance:** Experience smooth gameplay with efficient background computations.
 
 Account Options
--------------
-- **Anonymous:** Access limited-time exploration; progress is not saved.
-- **Registered:** Enjoy unrestricted exploration with the ability to resume anytime.
+---------------
+- **Anonymous:** Explore with limited-time access; progress is not saved.
+- **Registered:** Enjoy unrestricted exploration with saved progress.
 - **Infinite Subscription:** Support ongoing development and access exclusive features.
 
 System Requirements
--------------
+-------------------
+INFINITRA requires a powerful computer due to its complex mathematical calculations. The software has been developed and tested on:
+
 - **OS:** Windows
 - **CPU:** AMD Ryzen 9 7900 or equivalent
 - **GPU:** GeForce RTX 4060Ti OC or equivalent
 - **VR Headset:** Highly recommended
 
 Getting Started
-----------
+---------------
 **Try the INFINITRA Demo:** Available for Windows.
 
 - **Download:** [Latest Release](https://github.com/richardbogad/infinitra/releases/)
 - **Install:** Extract the ZIP and run 'infinitra.exe'.
-- **Controls:** Navigate with WASD, SPACE to jump or fly, ALT to crouch, ESC for menu.
+- **Controls:** Navigate with WASD, jump or fly with SPACE, crouch with ALT, and open the menu with ESC.
 
 **Upcoming:** Customizable input features.
 
 Contribute to INFINITRA
------------------
-**Enhance INFINITRA:** Your insights and skills can help expand this universe.
+-----------------------
+**Help Expand INFINITRA:** Your insights and skills can help grow this universe.
 
 **Getting Started:**
 - **Fork:** Click the **Fork button** to start.
@@ -62,15 +68,15 @@ Contribute to INFINITRA
 - **Collaborate:** Submit changes via [Pull Request](https://help.github.com/articles/using-pull-requests).
 
 Development Setup
------------------------------
+-----------------
 - **Download:** [Repository ZIP](https://github.com/richardbogad/INFINITRA/archive/master.zip)
 - **Install:** [Unity Hub](https://unity.com/download) and open the INFINITRA project.
 - **Add:** FirebaseAuth 12.1 and FirebaseFirestore 12.1 modules from [Firebase](https://firebase.google.com/docs/unity/setup?hl=de).
-- **Add:** InfinitraCore.dll from the current release to Assets/Plugins/ directory.
-- **Add:** google-services.json from the current release to Assets/Standard Assets/ directory.
+- **Add:** InfinitraCore.dll from the latest release to the Assets/Plugins/ directory.
+- **Add:** google-services.json from the latest release to the Assets/Standard Assets/ directory.
 
 Support and Feedback
--------------
+--------------------
 **Need Help or Have Suggestions?**
 - **Issues:** Submit on [Infinitra GitHub](https://github.com/richardbogad/INFINITRA/issues)
 - **Contact:** [Email Us](mailto:infinitra.world@gmail.com)
@@ -89,4 +95,5 @@ Impressions
 ![First-person view of INFINITRA](images/inworld1.jpg)
 ![First-person view of INFINITRA](images/inworld2.jpg)
 ![First-person view of INFINITRA](images/inworld3.jpg)
+![First-person view of INFINITRA](images/inworld4.jpg)
 ![Isometric view of INFINITRA](images/iso1.jpg)
