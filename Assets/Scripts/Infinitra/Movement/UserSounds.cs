@@ -1,12 +1,12 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using InfinitraCore.WorldAPI;
+using InfinitraCore.Components;
+using InfinitraCore.FX;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
-using Random = UnityEngine.Random;
 
 namespace Infinitra.Movement
 {
@@ -45,16 +45,16 @@ namespace Infinitra.Movement
             movement = GetComponentInParent<Movement>();
             probe = GetComponentInParent<EnvironmentProbe>();
             
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step1", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step2", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step3", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step4", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step5", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step6", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step7", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step8", 0.7f, false);
-            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step9", 0.7f, false);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step1", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step2", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step3", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step4", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step5", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step6", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step7", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step8", 0.7f, false, priority: 50);
+            footstepSounds.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step9", 0.7f, false, priority: 50);
             
             teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_12", 0.5f, false);
             teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_13", 0.5f, false);
@@ -66,7 +66,7 @@ namespace Infinitra.Movement
             teleportSelect.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_03", 0.02f, true, pitch: 2.0f);
             
             teleportEnqueue.addSound("Sounds/SpaceSFX/lowpitch/noise/noise03", 0.7f, false);
-            teleporting.addSound("Sounds/SpaceSFX/lowpitch/hit/hit12", 0.7f, false);
+            teleporting.addSound("Sounds/SpaceSFX/lowpitch/hit/hit12", 0.7f, false, pitch: 1.125f);
             
             footstepSounds.load();
             teleportMode.load();
@@ -78,7 +78,7 @@ namespace Infinitra.Movement
 
         private void OnEnable()
         {
-            CompLoader.userContr.setUserSoundScript(this);
+            CompLoader.setUserSoundScript(this);
         }
 
         private void Update()
