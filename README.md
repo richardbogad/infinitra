@@ -92,8 +92,8 @@ Legal and Licensing
 
 Impressions
 -----------
-![First-person view of INFINITRA](images/inworld1.jpg)
-![First-person view of INFINITRA](images/inworld2.jpg)
-![First-person view of INFINITRA](images/inworld3.jpg)
-![First-person view of INFINITRA](images/inworld4.jpg)
-![Isometric view of INFINITRA](images/iso1.jpg)
+<img src="images/inworld1.jpg" />
+<img src="images/inworld2.jpg" />
+<img src="images/inworld3.jpg" />
+<img src="images/inworld4.jpg" />
+<img src="images/iso1.jpg" />
