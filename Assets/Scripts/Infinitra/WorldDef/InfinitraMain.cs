@@ -1,20 +1,21 @@
 ﻿// Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using System.Collections.Generic;
+using InfinitraCore.Calculation;
 using InfinitraCore.Components;
 using InfinitraCore.Objects;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
-
 namespace Infinitra.WorldDef
 {
     public class InfinitraMain : MonoBehaviour
     {
-        // TODO look up dependencies automatically
-  
         private XROrigin xrOrigin;
         private bool started;
+        private IWorldController worldController;
+        private ObjectVisualizer objectVisualizer;
 
         // Component Initialization Step
         private void Awake()
@@ -27,6 +28,8 @@ namespace Infinitra.WorldDef
         private void OnEnable()
         {
             CompLoader.registerXrOrigin(xrOrigin);
+            worldController = CompLoader.getWorldController();
+            objectVisualizer = new ObjectVisualizer();
         }
 
         // Routine Startup Step
@@ -42,6 +45,9 @@ namespace Infinitra.WorldDef
             if (!started) return;
 
             CompLoader.update(Time.deltaTime);
+
+            Dictionary<string, Vector> userPositions = worldController.getObjectPositions();
+            objectVisualizer.UpdateObjects(userPositions, Time.deltaTime);
         }
 
         // Shutdown Step
