@@ -82,3 +82,4 @@ obfuscar*
 archive/
 Assets/Plugins/InfinitraCore.dll
 Assets/StreamingAssets/google-services-desktop.*
+Assets/Scripts/Editor/BuildProcess.cs
