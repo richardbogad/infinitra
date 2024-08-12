@@ -2,6 +2,8 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 using System.Collections.Generic;
+using Infinitra.Movement;
+using Infinitra.Objects;
 using InfinitraCore.Components;
 using InfinitraCore.Controllers;
 using InfinitraCore.Objects;
@@ -29,7 +31,7 @@ namespace Infinitra.WorldDef
         {
             CompLoader.registerXrOrigin(xrOrigin);
             worldController = CompLoader.getWorldController();
-            objectVisualizer = new ObjectVisualizer();
+            objectVisualizer = new ObjectVisualizer(new GameObjectFactory());
         }
 
         // Routine Startup Step
@@ -46,7 +48,7 @@ namespace Infinitra.WorldDef
 
             CompLoader.update(Time.deltaTime);
 
-            Dictionary<string, ObjectInfo> userPositions = worldController.getObjectPositions();
+            Dictionary<string, ObjectInfo> userPositions = worldController.getObjectInfos();
             objectVisualizer.UpdateObjects(userPositions, Time.deltaTime);
         }
 
