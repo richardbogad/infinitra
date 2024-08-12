@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using InfinitraCore.Calculation;
+using InfinitraCore.Controllers;
 using InfinitraCore.Objects;
 using InfinitraCore.WorldCore;
 using UnityEngine;
@@ -19,15 +20,16 @@ namespace Infinitra.WorldDef
         private Dictionary<string, ReferenceWrapper<Vector3>> position = new();
         private Dictionary<string, ReferenceWrapper<Vector3>> moveDirection = new();
 
-        internal void UpdateObjects(Dictionary<string, Vector> userPositions, float deltaTime)
+        internal void UpdateObjects(Dictionary<string, ObjectInfo> userPositions, float deltaTime)
         {
 
             if (deltaTime > totalMoveTime) deltaTime = totalMoveTime;
             
-            foreach (KeyValuePair<string, Vector> entry in userPositions)
+            foreach (KeyValuePair<string, ObjectInfo> entry in userPositions)
             {
                 string objectId = entry.Key;
-                Vector3 destPosition = UnityConversions.ToVector3(entry.Value);
+                ObjectInfo objectInfo = entry.Value;
+                Vector3 destPosition = UnityConversions.ToVector3(objectInfo.position);
 
                 if (!userGos.TryGetValue(objectId, out GameObject go))
                 {
@@ -40,6 +42,9 @@ namespace Infinitra.WorldDef
                     userCollisionTime.Add(objectId, new ReferenceWrapper<float>(0f));
                     position.Add(objectId, new ReferenceWrapper<Vector3>(destPosition));
                     moveDirection.Add(objectId, new ReferenceWrapper<Vector3>(Vector3.zero));
+                    
+                    TextMesh textMesh = go.GetComponentInChildren<TextMesh>();
+                    textMesh.text = objectInfo.displayName;
                 }
 
                 UpdateObjectMovement(objectId, go, destPosition, deltaTime);
@@ -85,14 +90,14 @@ namespace Infinitra.WorldDef
             lastMoveDirection.Value = relPos.normalized;
         }
 
-        private void RemoveInactiveObjects(Dictionary<string, Vector> userPositions)
+        private void RemoveInactiveObjects(Dictionary<string, ObjectInfo> userPositions)
         {
             LinkedList<string> deletedKeys = new();
             foreach (KeyValuePair<string, GameObject> entry in userGos)
             {
                 if (!userPositions.ContainsKey(entry.Key))
                 {
-                    Object.DestroyImmediate(entry.Value);
+                    Object.Destroy(entry.Value);
                     deletedKeys.AddLast(entry.Key);
                 }
             }

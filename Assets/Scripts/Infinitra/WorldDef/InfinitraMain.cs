@@ -2,8 +2,8 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 using System.Collections.Generic;
-using InfinitraCore.Calculation;
 using InfinitraCore.Components;
+using InfinitraCore.Controllers;
 using InfinitraCore.Objects;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -46,7 +46,7 @@ namespace Infinitra.WorldDef
 
             CompLoader.update(Time.deltaTime);
 
-            Dictionary<string, Vector> userPositions = worldController.getObjectPositions();
+            Dictionary<string, ObjectInfo> userPositions = worldController.getObjectPositions();
             objectVisualizer.UpdateObjects(userPositions, Time.deltaTime);
         }
 
