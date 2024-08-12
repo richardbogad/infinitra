@@ -86,3 +86,4 @@ archive/
 Assets/Plugins/InfinitraCore.*
 Assets/StreamingAssets/google-services-desktop.*
 Assets/Scripts/Editor/BuildProcess.cs
+Assets/Scripts/Editor/BuildProcess.cs.meta

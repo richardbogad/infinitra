@@ -7,7 +7,6 @@
         "Unity.TextMeshPro",
         "Unity.XR.Interaction.Toolkit",
         "InfinitraCore",
-        "Unity.XR.Interaction.Toolkit.Samples.DeviceSimulator",
         "Unity.XR.Interaction.Toolkit.Samples.StarterAssets"
     ],
     "includePlatforms": [],
