@@ -9,11 +9,9 @@ namespace Infinitra.Objects
     public interface IGameObject
     {
         string Name { get; set; }
-        
         Vector3 Position { get; set; }
-        
+        Quaternion Rotation { get; set; }   
         string Label { get; set; }
-        
         void Move(Vector3 movement);
         void Destroy();
 
@@ -45,6 +43,12 @@ namespace Infinitra.Objects
             set => _gameObject.transform.position = value;
         }
 
+        public Quaternion Rotation
+        {
+            get => _gameObject.transform.rotation;
+            set => _gameObject.transform.rotation = value;
+        }
+        
         public string Label
         {
             get {                

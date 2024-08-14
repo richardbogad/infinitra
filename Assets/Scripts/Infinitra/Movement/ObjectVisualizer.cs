@@ -6,6 +6,7 @@ using Infinitra.Objects;
 using InfinitraCore.Controllers;
 using InfinitraCore.WorldCore;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
 
 namespace Infinitra.Movement
 {
@@ -16,6 +17,7 @@ namespace Infinitra.Movement
         internal float userCollisionTime;
         internal float transcendanceTime;
         internal Vector3 position;
+        internal Quaternion rotation;
         internal Vector3 moveDirection;
     }
     
@@ -43,7 +45,7 @@ namespace Infinitra.Movement
                 string objectId = entry.Key;
                 ObjectInfo objectInfo = entry.Value;
                 Vector3 destPosition = UnityConversions.ToVector3(objectInfo.position);
-
+                Quaternion destRotation = UnityConversions.ToUnityQuaternion(objectInfo.rotation);
                 if (!userWis.TryGetValue(objectId, out ObjectWorkItem wi))
                 {
                     wi = new ObjectWorkItem();
@@ -53,7 +55,7 @@ namespace Infinitra.Movement
                     go.Name = "user-" + objectId;
                     go.Label = objectInfo.displayName;
                     go.Position = destPosition;
-
+                    go.Rotation = destRotation;
                     wi.go = go;
                     wi.userCollisionTime = 0f;
                     wi.transcendanceTime = 0f;
@@ -61,26 +63,26 @@ namespace Infinitra.Movement
                     wi.moveDirection = Vector3.zero;
                 }
 
-                UpdateObjectMovement(objectId, wi, destPosition, deltaTime);
+                UpdateObjectMovement(objectInfo.displayName, wi, destPosition, destRotation, deltaTime);
             }
 
             RemoveInactiveObjects(userPositions);
         }
 
-        private void UpdateObjectMovement(string objectId, ObjectWorkItem wi, Vector3 destPosition, float deltaTime)
+        private void UpdateObjectMovement(string displayName, ObjectWorkItem wi, Vector3 destPosition, Quaternion destRotation, float deltaTime)
         {
             IGameObject go = wi.go;
             var lastPosition = wi.position;
             var lastMoveDirection = wi.moveDirection;
 
-            Vector3 sourcePosition = go.Position;
-            Vector3 relPos = destPosition - sourcePosition;
-
-            Vector3 movement = relPos * (deltaTime / totalMoveTime);
-            Vector3 lastMovementNorm = (sourcePosition - lastPosition).normalized;
+            Vector3 goPosition = go.Position;
+            Vector3 relPos = destPosition - goPosition;
+            float moveFraction = (deltaTime / totalMoveTime);
+            Vector3 movement = relPos * moveFraction;
 
             if (wi.transcendanceTime <= 0f)
             {
+                Vector3 lastMovementNorm = (goPosition - lastPosition).normalized;
                 if (Vector3.Dot(lastMovementNorm, lastMoveDirection) < 0.95f)
                 {
                     wi.userCollisionTime += deltaTime;
@@ -96,7 +98,10 @@ namespace Infinitra.Movement
                 wi.transcendanceTime -= deltaTime;
             }
 
-            wi.position = sourcePosition;
+            if (go.Label != displayName) go.Label = displayName;
+            go.Rotation = Quaternion.SlerpUnclamped(go.Rotation, destRotation, moveFraction);
+            wi.rotation = go.Rotation;
+            wi.position = goPosition;
             wi.moveDirection = relPos.normalized;
         }
 
