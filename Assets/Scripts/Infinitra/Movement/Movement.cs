@@ -1,6 +1,7 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+using Infinitra.Objects;
 using InfinitraCore.Components;
 using InfinitraCore.Objects;
 using Unity.XR.CoreUtils;
@@ -12,39 +13,21 @@ namespace Infinitra.Movement
 
     public class Movement : MonoBehaviour, IMovement
     {
+        public Vector3 velocity = Vector3.zero;
+        private IModelConfig modelConfig;
+        private CharacterController charaController; 
 
-        // switches 
-        public bool jetPack = true;
-
-        // This vector stores the actual movement.
-        public Vector3 moveVector = Vector3.zero;
-
+        private GoUserXr goUserXr;
+        private XROrigin xrOrigin;
+        private Camera camera;
+        
         private bool lockMovement = true;
         private bool lockRotation = true;
         private bool lockTurn = true;
         private bool originFollowHeadMovement = true;
         private bool horizontalRotation = false;
         private bool mouseInvert = false;
-
-        private float gravityAccel = -1f; // -9.81f;
-        private float jumpSpeed = 3f;
-        private float fallSpeed = -50f; // Maximum fall speed to prevent infinite acceleration
-        private float moveSpeedWalking = 3f;
-        private float moveSpeedFlying = 1.5f;
-
-        private float moveAccelerationWalking = 10f;
-        private float moveAccelerationFlying = 10f;
-
-        private float rotationSensitivity = 0.2f;
-        private readonly float friction = 3.0f;
-
-        private XROrigin xrOrigin;
-        private EnvironmentProbe probe;
-        private CharacterController charaController;
-        private GameObject cameraOffset;
-   
-        private Camera camera;
- 
+        
         private bool jumpTrigger;
         private Vector2 movementInput;
         private Vector3 playerPosLast;
@@ -56,28 +39,20 @@ namespace Infinitra.Movement
 
         private float crouchTimeElapsed;
         private float crouchHeightStart;
-        private readonly float crouchHeight = 0.8f;
-        private readonly float standHeight = 1.8f;
-        private readonly float transitionTime = 0.5f; // Adjust as needed
-        private readonly float cameraHeightFactor = 0.75f;
-        //private SetupControls setupControls;
 
-
-        private void Awake()
+        public void Awake()
         {
             xrOrigin = GetComponent<XROrigin>();
-            probe = GetComponent<EnvironmentProbe>();
-            charaController = GetComponent<CharacterController>();
-            cameraOffset = AssetTools.getChildGameObject(gameObject, "Camera Offset");
-
+            GameObject cameraOffset = AssetTools.getChildGameObject(gameObject, "Camera Offset");
             camera = GetComponentInChildren<Camera>();
-
+            goUserXr = new GoUserXr(xrOrigin.gameObject, cameraOffset, this);
         }
-
-        private void OnEnable()
+        
+        public void OnEnable()
         {
-            if (!Debug.isDebugBuild) jetPack = false;
-            CompLoader.setMovementScript(this);
+
+            CompLoader.regMovementScript(this);
+            CompLoader.getUserController().registerGoUserXr(goUserXr);
         }
 
         private void processMove()
@@ -85,10 +60,8 @@ namespace Infinitra.Movement
 
             var playerPos = charaController.transform.position;
 
-            var isGrounded = probe.collisionDown;
-
             var moveAccelFactor = 1.0f;
-            if (!isGrounded)
+            if (!goUserXr.collDown)
                 // Don't accelerate fast while flying
                 moveAccelFactor = 0.2f;
 
@@ -100,21 +73,21 @@ namespace Infinitra.Movement
             // Calculate intended vertical movement
             if (jumpTrigger)
             {
-                if (jetPack) accelInputRotated.y = 1.0f;
-                else if (isGrounded)
+                if (modelConfig.jetPack) accelInputRotated.y = 1.0f;
+                else if (goUserXr.collDown)
                 {
-                    moveVector.y += jumpSpeed; // TODO jumping should be more sophisticated
+                    velocity.y += modelConfig.jumpSpeed; // TODO jumping should be more sophisticated
                     jumpTrigger = false;
                 }
             }
 
             // Only accelerate if the speed is within the limits
-            var maxMoveSpeedXZ = isGrounded ? moveSpeedWalking : moveSpeedFlying;
-            var moveAcceleration = isGrounded ? moveAccelerationWalking : moveAccelerationFlying;
+            var maxMoveSpeedXZ = goUserXr.collDown ? modelConfig.moveSpeedWalking : modelConfig.moveSpeedFlying;
+            var moveAcceleration = goUserXr.collDown ? modelConfig.moveAccelerationWalking : modelConfig.moveAccelerationFlying;
 
             bool allowXZ = false;
 
-            Vector3 moveXZ = new(moveVector.x, 0f, moveVector.z);
+            Vector3 moveXZ = new(velocity.x, 0f, velocity.z);
             Vector3 inputXZ = new(accelInputRotated.x, 0f, accelInputRotated.z);
             if (moveXZ.magnitude < maxMoveSpeedXZ) allowXZ = true;
             else
@@ -126,47 +99,47 @@ namespace Infinitra.Movement
             
             if (allowXZ)
             {
-                moveVector.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
-                moveVector.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
+                velocity.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
+                velocity.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
             }
 
             // Jetpack
-            if (jetPack && moveVector.y < maxMoveSpeedXZ)
-                moveVector.y += accelInputRotated.y * Time.deltaTime * moveAcceleration;
+            if (modelConfig.jetPack && velocity.y < maxMoveSpeedXZ)
+                velocity.y += accelInputRotated.y * Time.deltaTime * moveAcceleration;
 
             // Gravity acceleration
-            if (moveVector.y > fallSpeed) moveVector.y += Time.deltaTime * gravityAccel;
+            if (velocity.y > modelConfig.fallSpeed) velocity.y += Time.deltaTime * modelConfig.gravityAccel;
 
             // Movement restrictions
-            if (isGrounded)
+            if (goUserXr.collDown)
             {
                 // Restrict downward movement due to ground
-                if (moveVector.y < 0.0) moveVector.y = -moveVector.y * 0.25f;
+                if (velocity.y < 0.0) velocity.y = -velocity.y * 0.25f;
             }
             else
             {
                 // Collision while moving up
-                if (probe.collisionUp && moveVector.y > 0.0) moveVector.y = 0.0f;
+                if (goUserXr.collUp && velocity.y > 0.0) velocity.y = 0.0f;
             }
 
             // Calculate movement friction/decay
-            float frictionFactor = isGrounded ? 1.0f : 0.05f;
-            var frictionVector = moveVector;
-            if (isGrounded)
+            float frictionFactor = goUserXr.collDown ? 1.0f : 0.05f;
+            var frictionVector = velocity;
+            if (goUserXr.collDown)
             {
                 // Apply ground friction only to the normal component of the movement vector
                 if (!accelInputRotated.Equals(Vector3.zero))
-                    frictionVector *= Vector3.Cross(moveVector, accelInputRotated.normalized).magnitude /
-                                      moveVector.magnitude;
+                    frictionVector *= Vector3.Cross(velocity, accelInputRotated.normalized).magnitude /
+                                      velocity.magnitude;
             }
 
-            moveVector.x -= frictionVector.x * Time.deltaTime * friction * frictionFactor;
-            moveVector.z -= frictionVector.z * Time.deltaTime * friction * frictionFactor;
-            moveVector.y -= frictionVector.y * Time.deltaTime * friction * frictionFactor;
+            velocity.x -= frictionVector.x * Time.deltaTime * modelConfig.friction * frictionFactor;
+            velocity.z -= frictionVector.z * Time.deltaTime * modelConfig.friction * frictionFactor;
+            velocity.y -= frictionVector.y * Time.deltaTime * modelConfig.friction * frictionFactor;
 
-            // Update final position
-            charaController.Move(moveVector * Time.deltaTime);
-
+            // Update final velocity / position
+            goUserXr.Move(velocity, Time.deltaTime);
+            
             var playerVel = (playerPos - playerPosLast) / Time.deltaTime;
             playerPosLast = playerPos;
         }
@@ -175,22 +148,22 @@ namespace Infinitra.Movement
         {
             Vector2 input = context.ReadValue<Vector2>();
             
-            Vector3 currentRotation = cameraOffset.transform.eulerAngles;
-            Vector3 newRotation = cameraOffset.transform.eulerAngles;
+            Vector3 currentRotation = goUserXr.goRotation.eulerAngles;
+            Vector3 newRotation = goUserXr.goRotation.eulerAngles;
                         
-            float rotYaw = input.x * rotationSensitivity;
+            float rotYaw = input.x * modelConfig.rotationSensitivity;
             newRotation.y += rotYaw;
 
             if (!horizontalRotation)
             {
-                float rotPitch = -input.y * rotationSensitivity;
+                float rotPitch = -input.y * modelConfig.rotationSensitivity;
                 if (mouseInvert) rotPitch = -rotPitch;
                 float testRotPitch = currentRotation.x + rotPitch;
                 float testRotPitchAbs = Mathf.Abs(testRotPitch);
                 if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }
 
-            cameraOffset.transform.rotation = Quaternion.Euler(newRotation);
+            goUserXr.goRotation = Quaternion.Euler(newRotation);
         }
 
         /*
@@ -200,7 +173,7 @@ namespace Infinitra.Movement
         private Vector3 calculateOffsets()
         {
             // The camera position (relative to the root of the character controller) shall be set via the cameraOffset GameObject
-            cameraOffset.transform.localPosition = Vector3.up * (charaController.height * cameraHeightFactor);
+            goUserXr.camOffset = Vector3.up * (charaController.height * modelConfig.cameraHeightFactor);
             charaController.center = Vector3.up * (charaController.height * 0.5f);
             
             Vector3 hmdOffset = camera.transform.localPosition;
@@ -208,7 +181,7 @@ namespace Infinitra.Movement
             if (!movedSinceLastUpdate.Equals(Vector3.zero))
             {
                 // This line relies on the calculateOffsets() function, which defined the camera offset previously.
-                cameraOffset.transform.localPosition += -hmdOffset;
+                goUserXr.camOffset += -hmdOffset;
                 hmdOffsetLast = hmdOffset;
             }
 
@@ -222,11 +195,10 @@ namespace Infinitra.Movement
         {
             if (!movedSinceLastUpdate.Equals(Vector3.zero))
             {
-                gameObject.transform.position += cameraOffset.transform.rotation*movedSinceLastUpdate*2;
+                gameObject.transform.position += goUserXr.goRotation*movedSinceLastUpdate*2;
             }
         }
-
-
+        
         public void alignCamera()
         {
             Vector3 rotEuler = xrOrigin.transform.eulerAngles;
@@ -235,7 +207,7 @@ namespace Infinitra.Movement
             xrOrigin.transform.eulerAngles = rotEuler;
         }
         
-        private void Update()
+        public void Update()
         {
             if (!lockMovement) processMove();
             
@@ -244,21 +216,19 @@ namespace Infinitra.Movement
             if (originFollowHeadMovement) followHmdOffset(movedSinceLastUpdate);
             
             processCrouch();
-            
-
         }
 
         private void processCrouch()
         {
-            if (isCrouching && crouchTimeElapsed < transitionTime)
+            if (isCrouching && crouchTimeElapsed < modelConfig.transitionTime)
             {
-                var newHeight = Mathf.Lerp(crouchHeightStart, crouchHeight, crouchTimeElapsed / transitionTime);
+                var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.crouchHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
                 crouchTimeElapsed += Time.fixedDeltaTime;
             }
-            else if (!isCrouching && crouchTimeElapsed < transitionTime)
+            else if (!isCrouching && crouchTimeElapsed < modelConfig.transitionTime)
             {
-                var newHeight = Mathf.Lerp(crouchHeightStart, standHeight, crouchTimeElapsed / transitionTime);
+                var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.charHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
                 crouchTimeElapsed += Time.fixedDeltaTime;
             }
@@ -266,6 +236,8 @@ namespace Infinitra.Movement
 
         public void OnCrouchStarted(InputAction.CallbackContext context)
         {
+            if (!modelConfig.canCrouch) return;
+            
             isCrouching = true;
             crouchTimeElapsed = 0.0f;
             crouchHeightStart = charaController.height;
@@ -354,9 +326,9 @@ namespace Infinitra.Movement
             originFollowHeadMovement = value;
         }
 
-        public GameObject getCameraOffset()
+        public void setLocalRot(Quaternion rotation)
         {
-            return cameraOffset;
+            goUserXr.goRotationLocal = rotation;
         }
 
         public XROrigin getXrOrigin()
@@ -367,6 +339,20 @@ namespace Infinitra.Movement
         public Camera getCamera()
         {
             return camera;
+        }
+
+        public void applyModelConfig(IModelConfig config)
+        {
+            modelConfig = config;
+            
+            charaController = goUserXr.gameObject.GetComponent<CharacterController>();
+            if (charaController == null) charaController = goUserXr.gameObject.AddComponent<CharacterController>();
+            
+            if (!Debug.isDebugBuild) config.jetPack = false;
+            charaController.height = config.charHeight;
+            charaController.radius = config.charRadius;
+            charaController.stepOffset = config.charStep;
+            charaController.center = config.charOffset;
         }
     }
 }

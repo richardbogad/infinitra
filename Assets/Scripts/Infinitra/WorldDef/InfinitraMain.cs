@@ -16,22 +16,18 @@ namespace Infinitra.WorldDef
     {
         private XROrigin xrOrigin;
         private bool started;
-        private IWorldController worldController;
-        private ObjectVisualizer objectVisualizer;
 
         // Component Initialization Step
         private void Awake()
         {
             GameObject goXrOrigin = AssetTools.getInGameObjectByName<GameObject>("XR Origin (XR Rig)");
             xrOrigin = goXrOrigin.GetComponent<XROrigin>();
-            objectVisualizer = new ObjectVisualizer();
         }
         
         // Component Linking and Registration Step
         private void OnEnable()
         {
-            CompLoader.registerXrOrigin(xrOrigin);
-            worldController = CompLoader.getWorldController();
+            CompLoader.regXrOrigin(xrOrigin);
         }
 
         // Routine Startup Step
@@ -47,9 +43,6 @@ namespace Infinitra.WorldDef
             if (!started) return;
 
             CompLoader.update(Time.deltaTime);
-
-            Dictionary<string, GameObjectLabeled> objectStates = worldController.getObjectStates();
-            objectVisualizer.UpdateObjects(objectStates, Time.deltaTime);
         }
 
         // Shutdown Step
