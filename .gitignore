@@ -75,12 +75,10 @@ crashlytics-build.properties
 Assets/Scripts/InfinitraCore
 Assets/Tests/InfinitraCore
 Assets/Tests/InfinitraCore.meta
-Assets/InitTest*
 geometry4Sharp.csproj
 Assets/Scripts/G4Sharp
 Assets/Firebase
 Temp/
-obfuscar*
 .idea
 archive/
 Assets/Plugins/InfinitraCore.*

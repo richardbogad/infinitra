@@ -4,7 +4,6 @@
 
 <img src="images/infinitra-logo01-small.png" />
 
-<a href="https://infinitra.web.app/">infinitra.web.app</a>
 </center>
 
 **Welcome to INFINITRA**, a boundless virtual reality universe where your imagination comes to life. Powered by cutting-edge CPU and GPU technologies and developed with Unity, INFINITRA offers an extraordinary journey through intricate fractal landscapes and dynamic environments for an unmatched immersive experience.
@@ -15,11 +14,16 @@
 
 Introduction
 ------------
-During an unexpected alien abduction, I managed to acquire a data device containing a game from Earth in 2124. After accessing and converting part of the code to C#, I've made it available to you, though some calculations are disabled due to the advanced hardware of the future. While gameplay is not yet implemented, you're free to explore this fascinating world.
+
+During an unexpected alien abduction, I managed to acquire a data device containing a game from Earth in 2124. After accessing and converting part of the code to C#, I've made it available to you, though some calculations are disabled due to the advanced hardware of the future. While gameplay is still under development, you're free to explore this fascinating world and witness its growth from the very beginning.
+
+**Important Note:** INFINITRA is in a very early **Alpha state**. This is just the beginning of what we hope will become a vibrant, ever-evolving virtual universe. Your feedback and support are invaluable as we shape this journey together!
 
 Features
 --------
 - **Infinite Exploration:** Discover a vast, shared virtual world spanning millions of kilometers.
+- **Multiplayer Exploration:** Join friends and other adventurers in a shared universe. Registered users can explore together in real time, creating memories and forging paths through the unknown.
+- **Registered Users:** Choose a unique name and select from a variety of characters to represent your virtual self. Your position and progress will be saved, allowing you to continue your adventure anytime.
 - **Flexible Viewing Options:** Experience full VR immersion or choose a traditional 2D monitor setup.
 - **Dynamic Universe:** Regular updates bring new content and adventures, ensuring the world evolves continuously.
 
@@ -27,6 +31,9 @@ Features
 
 Upcoming Enhancements
 ---------------------
+
+These future features are just an idea of what's possible, driven by community feedback and technological innovation:
+
 - **Interactive Dynamics:** Unlock new regions and interact with a world that responds to your actions.
 - **Ownership Possibilities:** Claim spaces and items within the game.
 - **Enhanced Visuals:** Enjoy superior graphics and world design.
@@ -36,8 +43,8 @@ Upcoming Enhancements
 Account Options
 ---------------
 - **Anonymous:** Explore with limited-time access; progress is not saved.
-- **Registered:** Enjoy unrestricted exploration with saved progress.
-- **Infinite Subscription:** Support ongoing development and access exclusive features.
+- **Registered:** Enjoy unrestricted exploration with saved progress and character customization.
+- **Infinite Subscription:** Support ongoing development and access exclusive features. The INFINITRA project is running on servers that need to be financed, and your subscription helps keep the world alive and growing.
 
 System Requirements
 -------------------
@@ -71,9 +78,10 @@ Development Setup
 -----------------
 - **Download:** [Repository ZIP](https://github.com/richardbogad/INFINITRA/archive/master.zip)
 - **Install:** [Unity Hub](https://unity.com/download) and open the INFINITRA project.
-- **Add:** FirebaseAuth 12.1 and FirebaseFirestore 12.1 modules from [Firebase](https://firebase.google.com/docs/unity/setup?hl=de).
+- **Add:** FirebaseAuth 12.1 and FirebaseFirestore 12.1 Unity modules from [GitHub](https://github.com/firebase/firebase-unity-sdk/releases).
 - **Add:** InfinitraCore.dll from the latest release to the Assets/Plugins/ directory.
 - **Add:** google-services.json from the latest release to the Assets/Standard Assets/ directory.
+- **Add:** geometry4Sharp from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) to the Assets/Scripts/G4Sharp/ directory.
 
 Support and Feedback
 --------------------
