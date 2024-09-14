@@ -180,7 +180,6 @@ namespace Infinitra.Movement
             Vector3 movedSinceLastUpdate = hmdOffset - hmdOffsetLast;
             if (!movedSinceLastUpdate.Equals(Vector3.zero))
             {
-                // This line relies on the calculateOffsets() function, which defined the camera offset previously.
                 goUserXr.camOffset += -hmdOffset;
                 hmdOffsetLast = hmdOffset;
             }
@@ -211,9 +210,11 @@ namespace Infinitra.Movement
         {
             if (!lockMovement) processMove();
             
-            Vector3 movedSinceLastUpdate = calculateOffsets();
-            
-            if (originFollowHeadMovement) followHmdOffset(movedSinceLastUpdate);
+            if (originFollowHeadMovement)
+            {
+                Vector3 movedSinceLastUpdate = calculateOffsets();
+                followHmdOffset(movedSinceLastUpdate);
+            }
             
             processCrouch();
         }

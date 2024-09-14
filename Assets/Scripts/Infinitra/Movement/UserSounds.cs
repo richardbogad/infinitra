@@ -40,14 +40,14 @@ namespace Infinitra.Movement
 
         private void LoadAllSounds()
         {
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_12", 0.5f, false);
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_13", 0.5f, false);
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_15", 0.5f, false);
-            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_09", 0.5f, false);
-            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_14", 0.5f, false);
+            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_12", 0.5f);
+            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_13", 0.5f);
+            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_15", 0.5f);
+            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_09", 0.5f);
+            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_14", 0.5f);
             teleportSelect.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_03", 0.02f, true, pitch: 2.0f);
-            teleportEnqueue.addSound("Sounds/SpaceSFX/lowpitch/noise/noise03", 0.7f, false);
-            teleporting.addSound("Sounds/SpaceSFX/lowpitch/hit/hit12", 0.7f, false, pitch: 1.125f);
+            teleportEnqueue.addSound("Sounds/SpaceSFX/lowpitch/noise/noise03", 0.7f);
+            teleporting.addSound("Sounds/SpaceSFX/lowpitch/hit/hit12", 0.7f, pitch: 1.125f);
 
             teleportMode.load();
             teleportModeCancel.load();
