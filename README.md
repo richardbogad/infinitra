@@ -74,13 +74,13 @@ Due to advanced calculations and graphics, a powerful computer is recommended:
 - **GPU:** GeForce RTX 4060Ti OC or equivalent
 - **VR Headset:** Highly recommended for full immersion
 
-Getting Started
----------------
-**Try the INFINITRA Demo:** Get a glimpse of the universe.
+How to Run the Software
+-----------------------
+**Run INFINITRA:** Get a glimpse of a new universe.
 
 - **Download:** [Latest Release](https://github.com/richardbogad/infinitra/releases/)
-- **Install:** Extract the ZIP file and run 'infinitra.exe'.
-- **Controls:** Use WASD to move, SPACE to jump/fly, ALT to crouch, ESC for the menu.
+- **Execute:** Run the EXE file or extract the ZIP file and execute 'infinitra.exe'.
+- **Controls:** Use WASD to move, SPACE to jump, ALT to crouch, ESC for the menu.
 
 **Upcoming:** 
 - Customizable input features to enhance your gameplay.
