@@ -200,10 +200,10 @@ namespace Infinitra.Movement
         
         public void alignCamera()
         {
-            Vector3 rotEuler = xrOrigin.transform.eulerAngles;
+            Vector3 rotEuler = goUserXr.goRotation.eulerAngles;
             rotEuler.x = 0;
             rotEuler.z = 0;
-            xrOrigin.transform.eulerAngles = rotEuler;
+            goUserXr.goRotation = Quaternion.Euler(rotEuler);
         }
         
         public void Update()
