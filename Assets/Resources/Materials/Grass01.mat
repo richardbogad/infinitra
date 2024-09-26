@@ -90,7 +90,7 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
-    - _Smoothness_Intensity: 1.49
+    - _Smoothness_Intensity: 0
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 8

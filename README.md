@@ -2,117 +2,145 @@
 
 <h1>INFINITRA Project</h1>
 
-<img src="images/infinitra-logo01-small.png" />
-
+<img src="images/inworld1.jpg" />
 </center>
 
-**Welcome to INFINITRA**, a limitless virtual reality universe where your imagination takes flight. Built with cutting-edge CPU and GPU technology and developed on Unity, INFINITRA invites you on an extraordinary journey through intricate fractal landscapes and dynamic environments, offering a truly immersive experience.
+**A Limitless Virtual Reality Universe**
 
-**Need Help?** [Report Issues](https://github.com/richardbogad/INFINITRA/issues)
+[![Latest Release](https://img.shields.io/github/release/richardbogad/INFINITRA.svg)](https://github.com/richardbogad/INFINITRA/releases)
+[![Issues](https://img.shields.io/github/issues/richardbogad/INFINITRA.svg)](https://github.com/richardbogad/INFINITRA/issues)
+[![Discussions](https://img.shields.io/github/discussions/richardbogad/INFINITRA)](https://github.com/richardbogad/INFINITRA/discussions)
+[![License](https://img.shields.io/github/license/richardbogad/INFINITRA.svg)](LICENSE.txt)
 
-**Join Us:** [Community Forum](https://github.com/richardbogad/infinitra/discussions)
+## Table of Contents
 
-Introduction
-------------
+- [Introduction](#introduction)
+- [Features](#features)
+- [Upcoming Features](#upcoming-features)
+- [System Requirements](#system-requirements)
+- [Installation and Setup](#installation-and-setup)
+- [Controls](#controls)
+- [Contributing](#contributing)
+- [Legal and Licensing](#legal-and-Licensing)
+- [Impressions](#impressions)
 
-**INFINITRA** was born from an unexpected event—an alien encounter and the discovery of a futuristic data device containing a game from Earth in 2124. We've adapted part of its code to C# to bring this early version to you. While some features are limited due to the advanced hardware it requires, INFINITRA is now available for you to explore and shape with your feedback.
+---
 
-**Note:** INFINITRA is in a **very early Alpha stage**. This is the beginning of a dynamic, ever-expanding universe. Your participation is key to bringing this vision to life!
+## Introduction
 
-Features
---------
+**INFINITRA** is a groundbreaking shared universe that offers limitless exploration and immersive experiences with virtual reality support. Developed using advanced CPU and GPU technology with Unity, it presents intricate fractal landscapes and dynamic environments, pushing the boundaries of what's possible in virtual reality.
 
-Dive into a universe where technology meets imagination, crafted for explorers like you. The future is here—are you ready to explore?
+**Note:** INFINITRA is currently in a **very early Alpha stage**. We are continuously expanding and improving the universe, and your participation and feedback are crucial to its development.
 
-- **Infinite Exploration:** Roam an endless virtual world with vast terrains to discover. The journey never ends, and the mysteries are infinite.
+---
 
-- **Procedural Fractals:** Marvel at endlessly generating fractals that create a unique, ever-changing world.
+## Features
 
-- **Multiplayer Adventures:** Join forces with friends or other explorers in real-time to create memorable experiences together.
+- **Infinite Exploration:** Traverse an endless virtual world with vast, procedurally generated terrains and structures.
+- **Procedural Fractals:** Experience unique, ever-changing fractal environments that provide a new experience every time.
+- **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
+- **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
+- **Customizable Characters:** Personalize your avatar.
+- **VR and Non-VR Compatibility:** Play in full VR for immersive experiences or on a traditional screen.
+- **Enhanced Movement Mechanics:** Utilize VR movement features such as snap-turning and teleportation for seamless exploration.
+- **Optimized Performance:** Enjoy smooth gameplay with efficient background processing and optimized resource management.
+- **Enhanced Visuals:** Experience improved voxel graphics with additional objects, clouds and terrain models.
 
-- **Customizable Characters:** Choose a unique identity with customizable avatars, animations, and sounds.
+---
 
-- **Dynamic World:** Every action affects the world around you. Experience real-time changes and interactions.
+## Upcoming Features
 
-- **VR and 2D Compatibility:** Whether in full VR immersion or on a traditional screen, play your way.
+We're actively working on expanding INFINITRA with the following planned enhancements:
 
-- **Enhanced Movement:** Utilize VR movement mechanics like snap-turning and teleportation for dynamic exploration.
+- **Object Trading System:** Trade items with other explorers in shared world mode to enhance your collection.
+- **World Modification Tools:** Modify and create new persisting structures within the environment.
+- **Region Ownership:** Claim and customize areas within the universe.
+- **Advanced Visuals:** Ongoing improvements to graphics and content for a richer experience.
+- **Enhanced Interactions:** Introducing puzzles, challenges, and new activities for deeper engagement.
+- **Cross-Platform Releases:** Expanding support to Linux and Mac systems.
 
-- **Optimized Performance:** Smooth gameplay and efficient background processing for a seamless experience.
+---
 
-Upcoming Enhancements
----------------------
+## System Requirements
 
-We're just beginning to expand INFINITRA. Here's a look at what's coming:
+To fully enjoy INFINITRA, we recommend the following system specifications:
 
-- **Unique Objects:** Find and trade rare items, each with its own story.
+- **Operating System:** Windows 10 or later
+- **Processor:** AMD Ryzen 9 7900 or equivalent
+- **Graphics:** NVIDIA GeForce RTX 4060 Ti OC or equivalent
+- **Memory:** 16 GB RAM or more
+- **Storage:** At least 2 GB of free space
+- **VR Headset:** Strongly recommended (i.e. OpenXR compatible)
 
-- **Modifiable World:** Shape the landscape to your liking by modifying and creating new structures.
+---
 
-- **Region Ownership:** Claim and customize your own areas within the world.
+## Installation and Setup
 
-- **Improved Visuals:** Expect stunning graphics and richer content updates.
+### Download
 
-- **Next-Level Interactions:** Solve puzzles, explore more, and discover new relaxation and adventure opportunities.
+- **Latest Release:** [Download INFINITRA](https://github.com/richardbogad/INFINITRA/releases)
 
-Account Options
----------------
+### Installation Steps
 
-- **Guest Access:** Enter anonymously with temporary access; ideal for single-player exploration without saving progress.
+1. **Download the Software:**
+    - Choose the appropriate installer for your system from the releases page.
+2. **Run the Executable:**
+    - For EXE files, double-click to run the software.
+    - For ZIP files, extract the contents and run `infinitra.exe`.
 
-- **Registered Access:** Save your progress and customizations for continued adventures.
+### Account Creation
 
-- **Infinite Subscription:** Support development and access exclusive features, helping INFINITRA grow and maintain its servers and keep the universe alive!
+- **Guest Access:**
+    - Launch the game and explore anonymously with limited features.
+- **Registered Access:**
+    - Create an account to save your progress and access additional features like more complex structures, item collection, and avatar customization.
+- **INFINITRA Subscription:**
+    - Support development and access exclusive features, helping us maintain servers and expand the universe.
 
-System Requirements
--------------------
+---
 
-Due to advanced calculations and graphics, a powerful computer is recommended:
+## Controls
 
-- **OS:** Windows
-- **CPU:** AMD Ryzen 9 7900 or equivalent
-- **GPU:** GeForce RTX 4060Ti OC or equivalent
-- **VR Headset:** Highly recommended for full immersion
+### 2D Controls
 
-How to Run the Software
------------------------
-**Run INFINITRA:** Get a glimpse of a new universe.
+- **Menu:** `Escape` key
+- **Movement:** `W` `A` `S` `D` keys
+- **Jump:** `Spacebar`
+- **Crouch:** `Left Alt`
+- **Collect Items:** `C` key
+- **Inventory:** `I` key
 
-- **Download:** [Latest Release](https://github.com/richardbogad/infinitra/releases/)
-- **Execute:** Run the EXE file or extract the ZIP file and execute 'infinitra.exe'.
-- **Controls:** Use WASD to move, SPACE to jump, ALT to crouch, C to collect, ESC for the menu.
+### VR Controls
 
-**Upcoming:** 
-- Customizable input features to enhance your gameplay.
-- Releases for other systems like Linux and Mac.
+- **Moving, Teleportation, Turning:** Utilize the thumbstick or touchpad of your VR controllers.
+- **Menu, Jump, Crouch:** Use the corresponding buttons of your VR controllers.
 
-Contribute to INFINITRA
------------------------
+*Note: Customizable input bindings are coming soon.*
 
-**Help Build the Universe:** Your creativity and skills can shape INFINITRA.
+---
 
-**Get Involved:**
-- **Fork:** Start by forking the GitHub repository.
-- **Setup:** Use the [Git Setup Guide](https://help.github.com/articles/set-up-git) to sync your local repository.
-- **Collaborate:** Submit changes via [Pull Requests](https://help.github.com/articles/using-pull-requests) and join the community effort.
+## Contributing
 
-Development Setup
------------------
+We welcome contributions from the community to help shape INFINITRA.
 
-- **Download:** [Repository ZIP](https://github.com/richardbogad/INFINITRA/archive/master.zip)
-- **Install Unity Hub:** [Unity Hub](https://unity.com/download) and open the INFINITRA project.
-- **Add Firebase Modules:** Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [GitHub](https://github.com/firebase/firebase-unity-sdk/releases).
-- **Include Libraries:** Add InfinitraCore.dll and google-services.json from the latest release.
-- **Geometry Calculations:** Add geometry4Sharp from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for advanced fractal computations.
+### How to Contribute:
 
-Support and Feedback
---------------------
-**Have Questions or Feedback?**
-- **Report Issues:** [Infinitra GitHub](https://github.com/richardbogad/INFINITRA/issues)
-- **Contact Us:** [Email Us](mailto:infinitra.world@gmail.com)
+1. **Fork the Repository:** Click on the 'Fork' button at the top right of the GitHub page.
+2. **Clone Your Fork:** Use `git clone` to clone your forked repository to your local machine.
+3. **Install Unity:** Download and install [Unity Hub](https://unity.com/download) and the required Unity version.
+4. **Set Up the Project:**
+    - Open the INFINITRA project in Unity.
+    - Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
+    - Include `InfinitraCore.dll` and `google-services.json` from the latest release.
+    - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
+5. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
+6. **Testing:** Ensure your changes do not break existing functionality.
+7. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.
 
-Legal and Licensing
--------------------
+---
+
+## Legal and Licensing
+
 - **Terms of Service:** [View Terms](TERMS.md)
 - **Copyright:** [View Copyright](COPYRIGHT.md)
 - **End User License Agreement:** [View EULA](EULA.md)
@@ -120,12 +148,13 @@ Legal and Licensing
 - **Privacy Policy:** [View Privacy](PRIVACY.md)
 - **Source Code License:** [View License](LICENSE.txt)
 
-Impressions
------------
-<img src="images/inworld1.jpg" />
+---
+
+## Impressions
+
 <img src="images/inworld2.jpg" />
 <img src="images/inworld3.jpg" />
 <img src="images/inworld4.jpg" />
-<img src="images/iso1.jpg" />
+<img src="images/inworld5.jpg" />
 
 Join INFINITRA today and be part of a universe where the only limit is your imagination!
