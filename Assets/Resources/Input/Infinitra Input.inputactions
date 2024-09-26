@@ -3522,6 +3522,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Collect",
+                    "type": "Button",
+                    "id": "a1b47bec-8cdd-485e-9890-3b77be13791d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "9e190272-949a-4a26-bb54-692dabd3b59a",
@@ -3670,6 +3679,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2042415c-f8a7-4919-9802-2f3360a628e7",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Collect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -80,7 +80,7 @@ How to Run the Software
 
 - **Download:** [Latest Release](https://github.com/richardbogad/infinitra/releases/)
 - **Execute:** Run the EXE file or extract the ZIP file and execute 'infinitra.exe'.
-- **Controls:** Use WASD to move, SPACE to jump, ALT to crouch, ESC for the menu.
+- **Controls:** Use WASD to move, SPACE to jump, ALT to crouch, C to collect, ESC for the menu.
 
 **Upcoming:** 
 - Customizable input features to enhance your gameplay.
