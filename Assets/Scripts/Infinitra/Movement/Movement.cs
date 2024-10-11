@@ -27,6 +27,7 @@ namespace Infinitra.Movement
         private bool originFollowHeadMovement = true;
         private bool horizontalRotation = false;
         private bool mouseInvert = false;
+        private float mouseRotateFactor = 1f;
         
         private bool jumpTrigger;
         private Vector2 movementInput;
@@ -151,7 +152,7 @@ namespace Infinitra.Movement
             Vector3 currentRotation = goUserXr.goRotation.eulerAngles;
             Vector3 newRotation = goUserXr.goRotation.eulerAngles;
                         
-            float rotYaw = input.x * modelConfig.rotationSensitivity;
+            float rotYaw = input.x * modelConfig.rotationSensitivity * mouseRotateFactor;
             newRotation.y += rotYaw;
 
             if (!horizontalRotation)
@@ -290,6 +291,28 @@ namespace Infinitra.Movement
         public void setMouseInvert(bool value)
         {
             mouseInvert = value;
+        }
+
+        public void setMouseSpeed(ControlSettings.MouseSpeed value)
+        {
+            switch (value)
+            {
+                case ControlSettings.MouseSpeed.MIN:
+                    mouseRotateFactor = 0.33f;
+                    break;
+                case ControlSettings.MouseSpeed.SLOW:
+                    mouseRotateFactor = 0.66f;
+                    break;
+                case ControlSettings.MouseSpeed.MEDIUM:
+                    mouseRotateFactor = 1.0f;
+                    break;
+                case ControlSettings.MouseSpeed.HIGH:
+                    mouseRotateFactor = 1.33f;
+                    break;
+                case ControlSettings.MouseSpeed.MAX:
+                    mouseRotateFactor = 1.66f;
+                    break;
+            }
         }
 
         public bool isLockMovement()

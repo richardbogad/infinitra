@@ -30,7 +30,7 @@
 
 **INFINITRA** is a groundbreaking shared universe that offers limitless exploration and immersive experiences with virtual reality support. Developed using advanced CPU and GPU technology with Unity, it presents intricate fractal landscapes and dynamic environments, pushing the boundaries of what's possible in virtual reality.
 
-**Note:** INFINITRA is currently in a **very early Alpha stage**. We are continuously expanding and improving the universe, and your participation and feedback are crucial to its development.
+**Note:** INFINITRA is currently in an **early Alpha stage**. We are continuously expanding and improving the universe, and your participation and feedback are crucial to its development.
 
 ---
 
