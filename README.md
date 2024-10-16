@@ -112,8 +112,9 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 
 ### VR Controls
 
-- **Moving, Teleportation, Turning:** Utilize the thumbstick or touchpad of your VR controllers.
-- **Menu, Jump, Crouch:** Use the corresponding buttons of your VR controllers.
+- **Moving, Teleportation, Turning:** Utilize the thumbstick or touchpad on your VR controllers.
+- **Menu, Inventory, Jump, Crouch:** Use the corresponding buttons on your VR controllers.
+- **Collect Items:** Point at objects and use the grab buttons on your VR controllers.
 
 *Note: Customizable input bindings are coming soon.*
 
