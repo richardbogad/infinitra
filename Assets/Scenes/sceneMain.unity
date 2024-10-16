@@ -8050,7 +8050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31dea562c6e64ac43bb3928741fc8024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!167 &7873184976584795773
 AudioReverbZone:
   m_ObjectHideFlags: 0

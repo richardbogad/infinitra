@@ -23,9 +23,9 @@ public class CreateMeshes : Editor
                     float yn = y / (float)16;
                     float zn = z / (float)16;
 
-                    xn = Various.MapTo(x, 0, 16, 0.5f, 1.0f);
-                    yn = Various.MapTo(y, 0, 16, 0.0f, 1.0f);
-                    zn = Various.MapTo(z, 0, 16, 0.0f, 1.0f);
+                    xn = Various.MapRange(x, 0, 16, 0.5f, 1.0f);
+                    yn = Various.MapRange(y, 0, 16, 0.0f, 1.0f);
+                    zn = Various.MapRange(z, 0, 16, 0.0f, 1.0f);
                     
                     float value = Mathf.PerlinNoise(yn, Mathf.PerlinNoise(xn, zn));
                     map[x, y, z] = value > 0.5;
