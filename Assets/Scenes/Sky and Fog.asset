@@ -383,10 +383,10 @@ MonoBehaviour:
     m_Value: 0.5
   densityMultiplier:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 0.3
   shapeFactor:
     m_OverrideState: 1
-    m_Value: 0.72373945
+    m_Value: 0.6563502
   shapeScale:
     m_OverrideState: 1
     m_Value: 5
@@ -404,10 +404,10 @@ MonoBehaviour:
     m_Value: 1
   ambientLightProbeDimmer:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
   sunLightDimmer:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
   erosionOcclusion:
     m_OverrideState: 0
     m_Value: 0.1
@@ -649,7 +649,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: -2
+    m_Value: -4
   multiplier:
     m_OverrideState: 1
     m_Value: 0
@@ -715,7 +715,7 @@ MonoBehaviour:
     m_Value: 0
   groundTint:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    m_Value: {r: 0.42745098, g: 0.42745098, b: 0.42745098, a: 1}
   groundColorTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -724,7 +724,7 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   groundEmissionMultiplier:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   planetRotation:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0, z: 0}
@@ -748,9 +748,9 @@ MonoBehaviour:
     m_Value: 1
   horizonTint:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   zenithTint:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   horizonZenithShift:
     m_OverrideState: 1
@@ -780,6 +780,9 @@ MonoBehaviour:
     m_Value:
     - {fileID: 11400000, guid: 404820c4cf36ad944862fa59c56064f0, type: 2}
     - {fileID: 11400000, guid: 2384dbf2c1c420f45a792fbc315fbfb1, type: 2}
+    - {fileID: 11400000, guid: fd758c9e27d8d784980e86ac31c1676f, type: 2}
+    - {fileID: 11400000, guid: 21b6e5b5286bf9244a1572f4e9bdec1a, type: 2}
+    - {fileID: 11400000, guid: 10bcfeca40eec5a45baae8f0d56d27c4, type: 2}
 --- !u!114 &-5903264509035830326
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1346,7 +1349,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 4
   cloudType:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   skyAmbientMode:
     m_OverrideState: 1
