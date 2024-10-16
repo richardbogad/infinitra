@@ -83,7 +83,7 @@ Material:
     - _Hex_Rotation: 0
     - _Mask_Enable: 1
     - _Normal_Enable: 1
-    - _Normal_Intensity: 3.24
+    - _Normal_Intensity: 5
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -91,7 +91,7 @@ Material:
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
-    - _Smoothness_Intensity: 0
+    - _Smoothness_Intensity: 0.1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 8
@@ -105,7 +105,7 @@ Material:
     - _StencilWriteMaskMV: 41
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _Tiling: 1
+    - _Tiling: 0.5
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -119,7 +119,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Color_Tint: {r: 0.21700001, g: 0.18228, b: 0.14177333, a: 0.13333334}
+    - _Color_Tint: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

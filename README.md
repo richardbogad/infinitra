@@ -123,6 +123,10 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 
 We welcome contributions from the community to help shape INFINITRA.
 
+NOTE:
+At this early stage, the main logic of INFINITRA is implemented in a core DLL.
+We plan to introduce interfaces soon to allow users to add modular, custom content.
+
 ### How to Contribute:
 
 1. **Fork the Repository:** Click on the 'Fork' button at the top right of the GitHub page.
@@ -132,10 +136,14 @@ We welcome contributions from the community to help shape INFINITRA.
     - Open the INFINITRA project in Unity.
     - Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
     - Include `InfinitraCore.dll` and `google-services.json` from the latest release.
+5. **Add packages**
     - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
-5. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
-6. **Testing:** Ensure your changes do not break existing functionality.
-7. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.
+    - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)
+    - Import Unity Asset 'Rock_Pack' [link](https://assetstore.unity.com/packages/3d/environments/landscapes/rock-pack-210536)
+    - Import Unity Asset 'The Toby Foliage Engine / Light' [link](https://assetstore.unity.com/packages/vfx/shaders/the-toby-foliage-engine-light-282901)
+6. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
+7. **Testing:** Ensure your changes do not break existing functionality.
+8. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.
 
 ---
 
@@ -151,7 +159,6 @@ We welcome contributions from the community to help shape INFINITRA.
 ---
 
 ## Impressions
-
 <img src="images/inworld2.jpg" />
 <img src="images/inworld3.jpg" />
 <img src="images/inworld4.jpg" />
