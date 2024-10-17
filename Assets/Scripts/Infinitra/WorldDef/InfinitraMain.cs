@@ -44,12 +44,5 @@ namespace Infinitra.WorldDef
 
             CompLoader.update(Time.deltaTime);
         }
-
-        // Shutdown Step
-        private void OnApplicationQuit()
-        {
-            CompLoader.onQuit();
-            Debug.LogFormat("Main exit after {0} seconds.", Time.time);
-        }
     }
 }
