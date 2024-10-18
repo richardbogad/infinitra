@@ -142,6 +142,11 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
     - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)
     - Import Unity Asset 'Rock_Pack' [link](https://assetstore.unity.com/packages/3d/environments/landscapes/rock-pack-210536)
     - Import Unity Asset 'The Toby Foliage Engine / Light' [link](https://assetstore.unity.com/packages/vfx/shaders/the-toby-foliage-engine-light-282901)
+    - Import Unity Asset 'Free High-Poly Drone' [link](https://assetstore.unity.com/packages/3d/characters/robots/free-high-poly-drone-231255)
+    - Import Unity Asset 'Banana Man' [link](https://assetstore.unity.com/packages/3d/characters/humanoids/banana-man-196830)
+    - Import Unity Asset 'HDRP Dissolve' [link](https://assetstore.unity.com/packages/vfx/shaders/directx-11/hdrp-dissolve-192055)
+    - Import Unity Asset 'Basic Motions FREE' [link](https://assetstore.unity.com/packages/p/basic-motions-free-154271)
+    - Import Unity Asset 'Surface Gradient Bump Mapping Samples' (without Project Settings) [link](https://assetstore.unity.com/packages/templates/tutorials/surface-gradient-bump-mapping-samples-240786)
 6. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
 7. **Testing:** Ensure your changes do not break existing functionality.
 8. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.

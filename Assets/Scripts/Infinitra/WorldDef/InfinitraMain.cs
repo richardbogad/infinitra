@@ -27,7 +27,6 @@ namespace Infinitra.WorldDef
         // Component Linking and Registration Step
         private void OnEnable()
         {
-            CompLoader.regXrOrigin(xrOrigin);
         }
 
         // Routine Startup Step

@@ -77,7 +77,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
-    - _EdgeColorIntensity: 1000
+    - _EdgeColorIntensity: 100
     - _EdgeWidth: 0.049
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1

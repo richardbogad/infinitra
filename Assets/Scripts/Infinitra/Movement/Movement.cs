@@ -143,8 +143,6 @@ namespace Infinitra.Movement
 
             // Update final velocity / position
             goUserXr.Move(velocity, Time.deltaTime);
-            
-            Vector playerVel = (playerPos - playerPosLast) / Time.deltaTime;
             playerPosLast = playerPos;
         }
         

@@ -71,6 +71,16 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Packages
+/[Aa]ssets/Free Sci-Fi Drone/
+/[Aa]ssets/Granite Rocks/
+/[Aa]ssets/Kevin Iglesias/
+/[Aa]ssets/Prototype Collection/
+/[Aa]ssets/ShaderGraph_Dissolve/
+/[Aa]ssets/Surface Gradient Bump Mapping Samples/
+/[Aa]ssets/Toby Fredson/
+/[Aa]ssets/Plugins/Banana Yellow Games/
+
 # Custom ignores
 Assets/Scripts/InfinitraCore
 Assets/Tests/InfinitraCore
