@@ -674,7 +674,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_ShadowAngle: 2
 --- !u!1 &299963068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,24 +1177,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    albedo: {r: 1, g: 1, b: 1, a: 1}
-    meanFreePath: 2000
-    blendingMode: 1
+    albedo: {r: 0.3333333, g: 0.5332674, b: 0.98039216, a: 1}
+    meanFreePath: 1000
+    blendingMode: 0
     priority: 0
     anisotropy: 0
     volumeMask: {fileID: 0}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
-    positiveFade: {x: 0.5, y: 0.5, z: 0.5}
-    negativeFade: {x: 0.5, y: 0.5, z: 0.5}
-    m_EditorUniformFade: 2000
-    m_EditorPositiveFade: {x: 0, y: 0, z: 0.000024999998}
-    m_EditorNegativeFade: {x: 0, y: 0, z: 0.000024999998}
+    positiveFade: {x: 0, y: 0, z: 0}
+    negativeFade: {x: 0, y: 0, z: 0}
+    m_EditorUniformFade: 0
+    m_EditorPositiveFade: {x: 0, y: 0, z: 0.000009999999}
+    m_EditorNegativeFade: {x: 0, y: 0, z: 0.000009999999}
     m_EditorAdvancedFade: 0
-    size: {x: 4000, y: 4000, z: 4000}
+    size: {x: 10000, y: 10000, z: 10000}
     invertFade: 0
-    distanceFadeStart: 2000
-    distanceFadeEnd: 2000
+    distanceFadeStart: 0
+    distanceFadeEnd: 10000
     textureOffset: {x: 0, y: 0, z: 0}
     falloffMode: 0
     maskMode: 0
@@ -7851,7 +7851,7 @@ Transform:
   m_GameObject: {fileID: 7696548426158909434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -613.6824, y: 90.06854, z: 1348.7028}
+  m_LocalPosition: {x: -1984, y: 128, z: 2624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9664,8 +9664,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
-  far clip plane: 2000
+  near clip plane: 0.05
+  far clip plane: 5000
   field of view: 90
   orthographic: 0
   orthographic size: 5

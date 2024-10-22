@@ -16,6 +16,7 @@ namespace Infinitra.Movement
 
     public class Movement : MonoBehaviour, IMovement
     {
+        private Quaternion currentRotation = default;
         public Vector velocity = Vector.zero;
         private IModelConfig modelConfig;
         private CharacterController charaController; 
@@ -34,7 +35,6 @@ namespace Infinitra.Movement
         
         private bool jumpTrigger;
         private Vector2 movementInput;
-        private Vector playerPosLast;
         private Vector hmdOffsetLast;
 
         private GameObject lastSelected;
@@ -59,18 +59,19 @@ namespace Infinitra.Movement
             CompLoader.getUserController().registerGoUserXr(goUserXr);
         }
 
-        private void processMove()
+        private void processMove(float deltaTime)
         { 
-
-            Vector playerPos = UnityConversions.FromUnity(charaController.transform.position);
-
+            // Position fetching is necessary for internal calculation.
+            goUserXr.goPositionGetUnity();
+            currentRotation = goUserXr.goRotationLow;
+            
             var moveAccelFactor = 1.0f;
             if (!goUserXr.collDown)
                 // Don't accelerate fast while flying
                 moveAccelFactor = 0.2f;
 
             // Calculate intended horizontal movement
-            Vector accelInputVec = new(this.movementInput.x, 0, this.movementInput.y);
+            Vector accelInputVec = new(movementInput.x, 0, movementInput.y);
             Quaternion cameraYaw = Quaternion.Euler(0, xrOrigin.Camera.transform.eulerAngles.y, 0);
             Vector accelInputRotated = cameraYaw * accelInputVec;
 
@@ -103,16 +104,16 @@ namespace Infinitra.Movement
             
             if (allowXZ)
             {
-                velocity.x += accelInputRotated.x * Time.deltaTime * moveAcceleration * moveAccelFactor;
-                velocity.z += accelInputRotated.z * Time.deltaTime * moveAcceleration * moveAccelFactor;
+                velocity.x += accelInputRotated.x * deltaTime * moveAcceleration * moveAccelFactor;
+                velocity.z += accelInputRotated.z * deltaTime * moveAcceleration * moveAccelFactor;
             }
 
             // Jetpack
             if (modelConfig.jetPack && velocity.y < maxMoveSpeedXZ)
-                velocity.y += accelInputRotated.y * Time.deltaTime * moveAcceleration;
+                velocity.y += accelInputRotated.y * deltaTime * moveAcceleration;
 
             // Gravity acceleration
-            if (velocity.y > modelConfig.fallSpeed) velocity.y += Time.deltaTime * modelConfig.gravityAccel;
+            if (velocity.y > modelConfig.fallSpeed) velocity.y += deltaTime * modelConfig.gravityAccel;
 
             // Movement restrictions
             if (goUserXr.collDown)
@@ -137,21 +138,20 @@ namespace Infinitra.Movement
                                       velocity.magnitude;
             }
 
-            velocity.x -= frictionVector.x * Time.deltaTime * modelConfig.friction * frictionFactor;
-            velocity.z -= frictionVector.z * Time.deltaTime * modelConfig.friction * frictionFactor;
-            velocity.y -= frictionVector.y * Time.deltaTime * modelConfig.friction * frictionFactor;
+            velocity.x -= frictionVector.x * deltaTime * modelConfig.friction * frictionFactor;
+            velocity.z -= frictionVector.z * deltaTime * modelConfig.friction * frictionFactor;
+            velocity.y -= frictionVector.y * deltaTime * modelConfig.friction * frictionFactor;
 
             // Update final velocity / position
-            goUserXr.Move(velocity, Time.deltaTime);
-            playerPosLast = playerPos;
+            goUserXr.Move(velocity, deltaTime);
         }
         
         private void processRotation(InputAction.CallbackContext context)
         {
             Vector2 input = context.ReadValue<Vector2>();
-            
-            Vector currentRotation = goUserXr.goRotation.ToEulerAngles();
-            Vector newRotation = goUserXr.goRotation.ToEulerAngles();
+
+            Vector currentEuler = currentRotation.ToEulerAngles();
+            Vector newRotation = currentEuler.Clone();
                         
             float rotYaw = input.x * modelConfig.rotationSensitivity * mouseRotateFactor;
             newRotation.y += rotYaw;
@@ -160,12 +160,12 @@ namespace Infinitra.Movement
             {
                 float rotPitch = -input.y * modelConfig.rotationSensitivity;
                 if (mouseInvert) rotPitch = -rotPitch;
-                float testRotPitch = currentRotation.x + rotPitch;
+                float testRotPitch = currentEuler.x + rotPitch;
                 float testRotPitchAbs = Mathf.Abs(testRotPitch);
                 if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }
 
-            goUserXr.goRotation = Quaternion.Euler(newRotation);
+            goUserXr.goRotationLow = Quaternion.Euler(newRotation);
         }
 
         /*
@@ -196,21 +196,24 @@ namespace Infinitra.Movement
         {
             if (!movedSinceLastUpdate.Equals(Vector.zero))
             {
-                goUserXr.goPosition += goUserXr.goRotation * movedSinceLastUpdate * 2;
+                goUserXr.goPositionLow += currentRotation * movedSinceLastUpdate * 2;
             }
         }
         
         public void alignCamera()
         {
-            Vector rotEuler = goUserXr.goRotation.ToEulerAngles();
+            Vector rotEuler = currentRotation.ToEulerAngles();
             rotEuler.x = 0;
             rotEuler.z = 0;
-            goUserXr.goRotation = Quaternion.Euler(rotEuler);
+            goUserXr.goRotationLow = Quaternion.Euler(rotEuler);
         }
         
-        public void Update()
+        public void FixedUpdate()
         {
-            if (!lockMovement) processMove();
+            float delta = Time.deltaTime;
+            
+            // The movement should not depend on the game position, as this may change suddenly due to foldback.
+            if (!lockMovement) processMove(delta);
             
             if (originFollowHeadMovement)
             {
@@ -218,22 +221,22 @@ namespace Infinitra.Movement
                 followHmdOffset(movedSinceLastUpdate);
             }
             
-            processCrouch();
+            processCrouch(delta);
         }
 
-        private void processCrouch()
+        private void processCrouch(float deltaTime)
         {
             if (isCrouching && crouchTimeElapsed < modelConfig.transitionTime)
             {
                 var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.crouchHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
-                crouchTimeElapsed += Time.fixedDeltaTime;
+                crouchTimeElapsed += deltaTime;
             }
             else if (!isCrouching && crouchTimeElapsed < modelConfig.transitionTime)
             {
                 var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.charHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
-                crouchTimeElapsed += Time.fixedDeltaTime;
+                crouchTimeElapsed += deltaTime;
             }
         }
 
@@ -351,19 +354,9 @@ namespace Infinitra.Movement
             originFollowHeadMovement = value;
         }
 
-        public void setLocalRot(Quaternion rotation)
-        {
-            goUserXr.goRotationLocal = rotation;
-        }
-
         public XROrigin getXrOrigin()
         {
             return xrOrigin;
-        }
-
-        public Camera getCamera()
-        {
-            return camera;
         }
 
         public void applyModelConfig(IModelConfig config)
@@ -373,11 +366,14 @@ namespace Infinitra.Movement
             charaController = goUserXr.gameObject.GetComponent<CharacterController>();
             if (charaController == null) charaController = goUserXr.gameObject.AddComponent<CharacterController>();
             
-            if (!Debug.isDebugBuild) config.jetPack = false;
+            // config.jetPack = false;
             charaController.height = config.charHeight;
             charaController.radius = config.charRadius;
             charaController.stepOffset = config.charStep;
             charaController.center = config.charOffset;
+            charaController.skinWidth = config.charSkin;
+            charaController.slopeLimit = config.charSlope;
+            charaController.minMoveDistance = config.charMoveDist;
         }
     }
 }

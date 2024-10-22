@@ -202,13 +202,13 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   type:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 2
   sphericalMode:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0
   seaLevel:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   planetaryRadius:
     m_OverrideState: 0
@@ -217,13 +217,13 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: 0, y: -6378100, z: 0}
   airDensityR:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.04534
   airDensityG:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.10237241
   airDensityB:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.23264056
   airTint:
     m_OverrideState: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   groundEmissionMultiplier:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0
   planetRotation:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0, z: 0}
@@ -283,8 +283,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   horizonZenithShift:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -1
   numberOfBounces:
     m_OverrideState: 0
     m_Value: 3
@@ -675,7 +675,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 4
   cloudType:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   skyAmbientMode:
     m_OverrideState: 1
@@ -800,7 +800,7 @@ MonoBehaviour:
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   maxFogDistance:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: 10000
   mipFogMaxMip:
     m_OverrideState: 0
     m_Value: 0.5
@@ -818,19 +818,19 @@ MonoBehaviour:
     m_Value: -1e+10
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: 10000
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
   albedo:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   globalLightProbeDimmer:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   depthExtent:
     m_OverrideState: 1
-    m_Value: 2000
+    m_Value: 10000
   denoisingMode:
     m_OverrideState: 0
     m_Value: 2
@@ -1066,8 +1066,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   earthCurvature:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   cloudTiling:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1}
@@ -1244,7 +1244,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   scatteringTint:
     m_OverrideState: 1
-    m_Value: {r: 0.61006284, g: 0.61006284, b: 0.61006284, a: 1}
+    m_Value: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   powderEffectIntensity:
     m_OverrideState: 0
     m_Value: 0.25
@@ -1256,7 +1256,7 @@ MonoBehaviour:
     m_Value: 0.4
   shapeFactor:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.9360342
   shapeScale:
     m_OverrideState: 1
     m_Value: 5
@@ -1265,7 +1265,7 @@ MonoBehaviour:
     m_Value: {x: 0, y: 0, z: 0}
   erosionFactor:
     m_OverrideState: 1
-    m_Value: 0.863
+    m_Value: 0.942
   erosionScale:
     m_OverrideState: 1
     m_Value: 107
