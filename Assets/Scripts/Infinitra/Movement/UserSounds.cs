@@ -19,7 +19,10 @@ namespace Infinitra.Movement
         private readonly SoundClips teleportSelect = new();
         private readonly SoundClips teleportEnqueue = new();
         private readonly SoundClips teleporting = new();
-
+        private readonly SoundClips itemCollect = new();
+        private readonly SoundClips itemDrop = new();
+        private readonly SoundClips itemDestroy = new();
+        
         private AudioSource audioSource;
         private AudioSource audioSourceLoop1;
 
@@ -40,20 +43,30 @@ namespace Infinitra.Movement
 
         private void LoadAllSounds()
         {
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_12", 0.5f);
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_13", 0.5f);
-            teleportMode.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_15", 0.5f);
-            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_09", 0.5f);
-            teleportModeCancel.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_14", 0.5f);
-            teleportSelect.addSound("Sounds/UI Sfx/Wav/Click_Electronic/Click_Electronic_03", 0.02f, true, pitch: 2.0f);
+            teleportMode.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_12", 0.5f);
+            teleportMode.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_13", 0.5f);
+            teleportMode.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_15", 0.5f);
+            teleportModeCancel.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_09", 0.5f);
+            teleportModeCancel.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_14", 0.5f);
+            teleportSelect.addSound("Sounds/UI Sfx/Click_Electronic/Click_Electronic_03", 0.02f, true, pitch: 2.0f);
             teleportEnqueue.addSound("Sounds/SpaceSFX/lowpitch/noise/noise03", 0.7f);
             teleporting.addSound("Sounds/SpaceSFX/lowpitch/hit/hit12", 0.7f, pitch: 1.125f);
-
+            
+            itemCollect.addSound("Sounds/Free UI Click Sound Effects Pack/AUDIO/Wooden/SFX_UI_Click_Organic_Wooden_Plastic_Negative_Back_1", 0.75f);
+            itemCollect.addSound("Sounds/Free UI Click Sound Effects Pack/AUDIO/Wooden/SFX_UI_Click_Organic_Wooden_Plastic_Negative_Back_2", 0.75f);
+            itemCollect.addSound("Sounds/Free UI Click Sound Effects Pack/AUDIO/Wooden/SFX_UI_Click_Organic_Wooden_Plastic_Negative_Close_1", 0.75f);
+            itemDrop.addSound("Sounds/Free UI Click Sound Effects Pack/AUDIO/Wooden/SFX_UI_Click_Organic_Wooden_Select_1", 0.75f);
+            itemDestroy.addSound("Sounds/Free UI Click Sound Effects Pack/AUDIO/Sci-Fi/SFX_UI_Click_Designed_Scifi_Movement_Open_1", 07.5f);
+            
             teleportMode.load();
             teleportModeCancel.load();
             teleportSelect.load();
             teleportEnqueue.load();
             teleporting.load();
+            
+            itemCollect.load();
+            itemDrop.load();
+            itemDestroy.load();
         }
 
         private void OnEnable()
@@ -91,6 +104,21 @@ namespace Infinitra.Movement
         public void PlayTeleporting(LocomotionProvider locomotionProvider)
         {
             teleporting.playSound(audioSource);
+        }
+
+        public void PlayItemCollect()
+        {
+            itemCollect.playSound(audioSource);
+        }
+
+        public void PlayItemDrop()
+        {
+            itemDrop.playSound(audioSource);
+        }
+
+        public void PlayItemDestroy()
+        {
+            itemDestroy.playSound(audioSource);
         }
     }
 }
