@@ -1143,7 +1143,7 @@ GameObject:
   - component: {fileID: 1540914019}
   - component: {fileID: 1540914018}
   m_Layer: 0
-  m_Name: Fog
+  m_Name: Local Fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

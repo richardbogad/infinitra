@@ -17,11 +17,11 @@ namespace Infinitra.Movement
     public class Movement : MonoBehaviour, IMovement
     {
         private Quaternion currentRotation = default;
-        public Vector velocity = Vector.zero;
-        private IModelConfig modelConfig;
-        private CharacterController charaController; 
 
-        private GoUserXr goUserXr;
+        private IModelConfig modelConfig;
+        private CharacterController charaController;
+
+        internal GoUserXr goUserXr;
         private XROrigin xrOrigin;
         private Camera camera;
         
@@ -75,6 +75,8 @@ namespace Infinitra.Movement
             Quaternion cameraYaw = Quaternion.Euler(0, xrOrigin.Camera.transform.eulerAngles.y, 0);
             Vector accelInputRotated = cameraYaw * accelInputVec;
 
+            Vector velocity = goUserXr.velocity;
+            
             // Calculate intended vertical movement
             if (jumpTrigger)
             {
@@ -112,35 +114,48 @@ namespace Infinitra.Movement
             if (modelConfig.jetPack && velocity.y < maxMoveSpeedXZ)
                 velocity.y += accelInputRotated.y * deltaTime * moveAcceleration;
 
-            // Gravity acceleration
-            if (velocity.y > modelConfig.fallSpeed) velocity.y += deltaTime * modelConfig.gravityAccel;
-
             // Movement restrictions
             if (goUserXr.collDown)
             {
-                // Restrict downward movement due to ground
+                // Bouncing off ground.
                 if (velocity.y < 0.0) velocity.y = -velocity.y * 0.25f;
             }
             else
             {
-                // Collision while moving up
+                // Collision while moving up.
                 if (goUserXr.collUp && velocity.y > 0.0) velocity.y = 0.0f;
             }
+            
+            // Gravity acceleration
+            if (velocity.y > modelConfig.fallSpeed) velocity.y += deltaTime * modelConfig.gravityAccel;
 
-            // Calculate movement friction/decay
-            float frictionFactor = goUserXr.collDown ? 1.0f : 0.05f;
-            var frictionVector = velocity;
-            if (goUserXr.collDown)
+
+            if (!velocity.Equals(Vector.zero))
             {
-                // Apply ground friction only to the normal component of the movement vector
-                if (!accelInputRotated.Equals(Vector.zero))
-                    frictionVector *= Vector.Cross(velocity, Vector.Normalize(accelInputRotated)).magnitude /
-                                      velocity.magnitude;
-            }
+                // Calculate movement friction/decay
+                float frictionFactor = goUserXr.collDown ? 1.0f : 0.05f;
+                
+                Vector frictionVector;
+                
+                if (!accelInputRotated.Equals(Vector3.zero))
+                {
+                    // Normalize the velocity and acceleration input vectors
+                    Vector normalizedAccelInput = Vector.Normalize(accelInputRotated);
 
-            velocity.x -= frictionVector.x * deltaTime * modelConfig.friction * frictionFactor;
-            velocity.z -= frictionVector.z * deltaTime * modelConfig.friction * frictionFactor;
-            velocity.y -= frictionVector.y * deltaTime * modelConfig.friction * frictionFactor;
+                    // Calculate the projection of velocity onto the acceleration vector (parallel component)
+                    Vector parallelComponent = Vector.Dot(velocity, normalizedAccelInput) * normalizedAccelInput;
+
+                    // The remaining part is the normal component (orthogonal to the acceleration direction)
+                    Vector normalComponent = velocity - parallelComponent;
+                    
+                    frictionVector = -normalComponent * deltaTime * modelConfig.friction * frictionFactor;
+                    }
+                else
+                {
+                    frictionVector = -velocity * deltaTime * modelConfig.friction * frictionFactor;
+                }
+                velocity += frictionVector;
+            }
 
             // Update final velocity / position
             goUserXr.Move(velocity, deltaTime);
@@ -210,7 +225,7 @@ namespace Infinitra.Movement
         
         public void FixedUpdate()
         {
-            float delta = Time.deltaTime;
+            float delta = Time.fixedDeltaTime;
             
             // The movement should not depend on the game position, as this may change suddenly due to foldback.
             if (!lockMovement) processMove(delta);
@@ -374,6 +389,7 @@ namespace Infinitra.Movement
             charaController.skinWidth = config.charSkin;
             charaController.slopeLimit = config.charSlope;
             charaController.minMoveDistance = config.charMoveDist;
+            charaController.enableOverlapRecovery = true;
         }
     }
 }

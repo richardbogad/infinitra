@@ -1,10 +1,13 @@
 <center>
 
 <h1>INFINITRA Project</h1>
-
-<img src="images/inworld1.jpg" />
+  <img src="images/inworld3.jpg" style="width: 45%; display: inline-block;"/>
+  <img src="images/inworld8.jpg" style="width: 45%; display: inline-block;"/>
 </center>
+<center>
 
+[more impressions](#impressions)
+</center>
 **A Limitless Virtual Reality Universe**
 
 [![Latest Release](https://img.shields.io/github/release/richardbogad/INFINITRA.svg)](https://github.com/richardbogad/INFINITRA/releases)
@@ -36,8 +39,8 @@
 
 ## Features
 
-- **Infinite Exploration:** Traverse an endless virtual world with vast, procedurally generated terrains and structures.
-- **Procedural Fractals:** Experience unique, ever-changing fractal environments that provide a new experience every time.
+- **Infinite Exploration:** Explore a seamless world with 250 billion km² of terrain and an unprecedented 500 000 km vertical structure.
+- **Procedural Fractals:** Experience unique, ever-changing terrains and structures that provide a new experience every time.
 - **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
 - **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
 - **Customizable Characters:** Personalize your avatar.
@@ -58,6 +61,7 @@ We're actively working on expanding INFINITRA with the following planned enhance
 - **Advanced Visuals:** Ongoing improvements to graphics and content for a richer experience.
 - **Enhanced Interactions:** Introducing puzzles, challenges, and new activities for deeper engagement.
 - **Cross-Platform Releases:** Expanding support to Linux and Mac systems.
+- **Even more Space:** Extension to 1 billion km of space in every direction.
 
 ---
 
@@ -165,9 +169,13 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 ---
 
 ## Impressions
+<img src="images/inworld1.jpg" />
 <img src="images/inworld2.jpg" />
-<img src="images/inworld3.jpg" />
 <img src="images/inworld4.jpg" />
 <img src="images/inworld5.jpg" />
+<img src="images/inworld6.jpg" />
+<img src="images/inworld7.jpg" />
+<img src="images/inworld3.jpg" />
+<img src="images/inworld8.jpg" />
 
 Join INFINITRA today and be part of a universe where the only limit is your imagination!

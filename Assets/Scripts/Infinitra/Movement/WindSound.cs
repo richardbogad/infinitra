@@ -38,8 +38,8 @@ namespace Infinitra.Movement
             // Smoothly interpolate wind sound volume towards the target volume
             currentVolume = Mathf.Lerp(currentVolume, targetVolume, Time.deltaTime * volumeChangeSpeed);
 
-            audioSource.volume = currentVolume + movement.velocity.magnitude / fullVolumeSpeed;
-            audioSource.pitch = 1 + movement.velocity.magnitude / doublePitchSpeed;
+            audioSource.volume = currentVolume + movement.goUserXr.velocityMag / fullVolumeSpeed;
+            audioSource.pitch = 1 + movement.goUserXr.velocityMag / doublePitchSpeed;
         }
 
         private float CalculateTargetVolume()
