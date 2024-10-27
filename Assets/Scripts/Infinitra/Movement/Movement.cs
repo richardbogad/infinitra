@@ -102,7 +102,7 @@ namespace Infinitra.Movement
             else
             {
                 // Check if the input direction is roughly the opposite of the movement direction
-                float dotProduct = Vector.Dot(Vector.Normalize(moveXZ), Vector.Normalize(inputXZ));
+                float dotProduct = (float)Vector.Dot(Vector.Normalize(moveXZ), Vector.Normalize(inputXZ));
                 if (dotProduct < 0.0f) allowXZ = true;
             }
             
@@ -177,7 +177,7 @@ namespace Infinitra.Movement
             {
                 float rotPitch = -input.y * modelConfig.rotationSensitivity;
                 if (mouseInvert) rotPitch = -rotPitch;
-                float testRotPitch = currentEuler.x + rotPitch;
+                float testRotPitch = (float)currentEuler.x + rotPitch;
                 float testRotPitchAbs = Mathf.Abs(testRotPitch);
                 if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }

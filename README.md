@@ -39,7 +39,7 @@
 
 ## Features
 
-- **Infinite Exploration:** Explore a seamless world with 250 billion km² of terrain and an unprecedented 500 000 km vertical structure.
+- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and an 10 trillion km vertical structure.
 - **Procedural Fractals:** Experience unique, ever-changing terrains and structures that provide a new experience every time.
 - **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
 - **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
