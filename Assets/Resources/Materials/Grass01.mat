@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask_MODS:
-        m_Texture: {fileID: 2800000, guid: 304567ae5be9a5442af4eafc5ae76007, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_TS:
@@ -80,7 +80,7 @@ Material:
     - _Hex_Debug_Opacity: 0.3
     - _Hex_Enable: 1
     - _Hex_Rotation: 0
-    - _Mask_Enable: 1
+    - _Mask_Enable: 0
     - _Normal_Enable: 1
     - _Normal_Intensity: 2
     - _OpaqueCullMode: 2
