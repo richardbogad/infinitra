@@ -408,6 +408,34 @@ MonoBehaviour:
   m_SampleCount:
     m_OverrideState: 1
     m_Value: 16
+--- !u!114 &-4084540982018832788
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f034cba68ab55e046ae1445a42f18c0e, type: 3}
+  m_Name: IndirectLightingController
+  m_EditorClassIdentifier: 
+  active: 1
+  indirectDiffuseLightingMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+  indirectDiffuseLightingLayers:
+    m_OverrideState: 1
+    m_Value: 255
+  reflectionLightingMultiplier:
+    m_OverrideState: 1
+    m_Value: 0.05
+  reflectionLightingLayers:
+    m_OverrideState: 1
+    m_Value: 255
+  reflectionProbeIntensityMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-1694892147687252462
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -658,6 +686,7 @@ MonoBehaviour:
   - {fileID: 1990838189775262048}
   - {fileID: -7837267949358888959}
   - {fileID: -7159108009902753314}
+  - {fileID: -4084540982018832788}
 --- !u!114 &1990838189775262048
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1256,7 +1285,7 @@ MonoBehaviour:
     m_Value: 0.4
   shapeFactor:
     m_OverrideState: 1
-    m_Value: 0.9360342
+    m_Value: 0.95542836
   shapeScale:
     m_OverrideState: 1
     m_Value: 5

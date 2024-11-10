@@ -39,7 +39,7 @@
 
 ## Features
 
-- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and an 10 trillion km vertical structure.
+- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and an 5 trillion km vertical structure.
 - **Procedural Fractals:** Experience unique, ever-changing terrains and structures that provide a new experience every time.
 - **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
 - **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
@@ -151,6 +151,8 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
     - Import Unity Asset 'HDRP Dissolve' [link](https://assetstore.unity.com/packages/vfx/shaders/directx-11/hdrp-dissolve-192055)
     - Import Unity Asset 'Basic Motions FREE' [link](https://assetstore.unity.com/packages/p/basic-motions-free-154271)
     - Import Unity Asset 'Surface Gradient Bump Mapping Samples' (without Project Settings) [link](https://assetstore.unity.com/packages/templates/tutorials/surface-gradient-bump-mapping-samples-240786)
+    - Import Unity Asset 'House Interior - Free' [link](https://assetstore.unity.com/packages/3d/props/interior/house-interior-free-258782)
+
 6. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
 7. **Testing:** Ensure your changes do not break existing functionality.
 8. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.

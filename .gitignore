@@ -80,6 +80,8 @@ crashlytics-build.properties
 /[Aa]ssets/Surface Gradient Bump Mapping Samples/
 /[Aa]ssets/Toby Fredson/
 /[Aa]ssets/Plugins/Banana Yellow Games/
+/[Aa]ssets/Nanolod/
+/[Aa]ssets/nappin/
 
 # Custom ignores
 Assets/Scripts/InfinitraCore
