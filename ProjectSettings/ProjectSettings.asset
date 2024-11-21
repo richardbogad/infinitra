@@ -142,7 +142,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: v0.0.280
+  bundleVersion: v0.0.287
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -725,7 +725,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Android: USE_INPUT_SYSTEM_POSE_CONTROL;USE_INPUT_SYSTEM_POSE_CONTROL
-    Standalone: USE_INPUT_SYSTEM_POSE_CONTROL;G3_USING_UNITY
+    Standalone: USE_INPUT_SYSTEM_POSE_CONTROL;G3_USING_UNITY;REMOVE_ANNOYING;EDEBUG;ETRACE-
     Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_INPUT_SYSTEM_POSE_CONTROL
   additionalCompilerArguments: {}
   platformArchitecture: {}

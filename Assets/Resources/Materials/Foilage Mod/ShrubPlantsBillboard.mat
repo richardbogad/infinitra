@@ -160,7 +160,7 @@ Material:
     m_Floats:
     - _AddPrecomputedVelocity: 1
     - _AlbedoLightness: 1
-    - _AlphaCutoff: 0.7
+    - _AlphaCutoff: 0.4
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
@@ -177,7 +177,7 @@ Material:
     - _ConservativeDepthOffsetEnable: 1
     - _CullMode: 2
     - _CullModeForward: 2
-    - _Cutoff: 0.7
+    - _Cutoff: 0.4
     - _DepthOffsetEnable: 1
     - _DetailNormalMapScale: 1
     - _DirectionalWind: 1
