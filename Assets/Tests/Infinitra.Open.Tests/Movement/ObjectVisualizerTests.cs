@@ -1,7 +1,7 @@
 
 using NUnit.Framework;
 
-namespace Infinitra.Tests.Movement
+namespace Tests.Infinitra.Open.Tests.Movement
 {
     [TestFixture]
     public class ObjectVisualizerTests

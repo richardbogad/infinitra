@@ -1,17 +1,17 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using Infinitra.Objects;
-using InfinitraCore.Components;
-using InfinitraCore.Objects;
-using InfinitraCore.Shared;
-using InfinitraCore.WorldCore;
+using Infinitra.Core.Components;
+using Infinitra.Core.Objects;
+using Infinitra.Core.Settings;
+using Infinitra.Core.Shared;
+using Infinitra.Core.Utils;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Quaternion = InfinitraCore.Shared.Quaternion;
+using Quaternion = Infinitra.Core.Shared.Quaternion;
 
-namespace Infinitra.Movement
+namespace Infinitra.Open.Movement
 {
 
     public class Movement : MonoBehaviour, IMovement

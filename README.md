@@ -140,7 +140,7 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 4. **Set Up the Project:**
     - Open the INFINITRA project in Unity.
     - Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
-    - Include `InfinitraCore.dll` and `google-services.json` from the latest release.
+    - Include `Infinitra.Core.dll` and `google-services.json` from the latest release.
 5. **Add packages**
     - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
     - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)

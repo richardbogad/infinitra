@@ -1,11 +1,9 @@
 {
-    "name": "InfinitraTests",
+    "name": "Infinitra.Open.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "InfinitraCore",
-        "Infinitra"
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [
         "Editor"

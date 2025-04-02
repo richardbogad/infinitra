@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Infinitra
+namespace Infinitra.Open
 {
     public class Cleanup : MonoBehaviour
     {

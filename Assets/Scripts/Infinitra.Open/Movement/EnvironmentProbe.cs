@@ -1,10 +1,10 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using InfinitraCore.Shared;
+using Infinitra.Core.Shared;
 using UnityEngine;
 
-namespace Infinitra.Movement
+namespace Infinitra.Open.Movement
 {
     public class EnvironmentProbe : MonoBehaviour
     {

@@ -2,7 +2,7 @@
     "name": "EditorScript",
     "rootNamespace": "",
     "references": [
-        "InfinitraCore"
+        "Infinitra.Core"
     ],
     "includePlatforms": [
         "Editor"

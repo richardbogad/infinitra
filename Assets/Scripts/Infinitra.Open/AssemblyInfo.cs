@@ -4,5 +4,5 @@
 // In AssemblyInfo.cs of the main assembly
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("InfinitraTests")]
-[assembly: InternalsVisibleTo("InfinitraCoreTests")]
+[assembly: InternalsVisibleTo("Infinitra.Tests")]
+[assembly: InternalsVisibleTo("Infinitra.Core.Tests")]

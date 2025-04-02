@@ -2,9 +2,8 @@
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Infinitra.Movement
+namespace Infinitra.Open.Movement
 {
     public class WindSound : MonoBehaviour
     {

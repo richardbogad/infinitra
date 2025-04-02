@@ -1,14 +1,14 @@
 // Infinitra © 2024 by Richard Bogad is licensed under CC BY-NC-SA 4.0.
 // To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-using InfinitraCore.Components;
-using InfinitraCore.FX;
+using Infinitra.Core.Components;
+using Infinitra.Core.FX;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 
-namespace Infinitra.Movement
+namespace Infinitra.Open.Movement
 {
 
     [RequireComponent(typeof(AudioSource))]

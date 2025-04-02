@@ -4,7 +4,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Infinitra.GUI
+namespace Infinitra.Open.GUI
 {
     public class VersionShower : MonoBehaviour
     {
