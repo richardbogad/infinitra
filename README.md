@@ -1,19 +1,22 @@
 <center>
+  <p>
+<h1>INFINITRA</h1>
+  <img src="images/infinitra-logo03-small.png" style="width: 25%; display: inline-block;"/>
 
-<h1>INFINITRA Project</h1>
+**A Limitless Virtual Reality Universe**
+  <p>
   <img src="images/inworld3.jpg" style="width: 45%; display: inline-block;"/>
   <img src="images/inworld8.jpg" style="width: 45%; display: inline-block;"/>
-</center>
-<center>
+  <p>
 
 [more impressions](#impressions)
-</center>
-**A Limitless Virtual Reality Universe**
 
-[![Latest Release](https://img.shields.io/github/v/release/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/releases/)
+  <p>
+
+[![Latest Release](https://img.shields.io/github/release/richardbogad/infinitra.svg?style=for-the-badge&include_prereleases&label=pre-release)](https://github.com/richardbogad/INFINITRA/releases/)
 [![Issues](https://img.shields.io/github/issues/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/issues)
 [![Discussions](https://img.shields.io/github/discussions/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/discussions)
-[![License](https://img.shields.io/github/license/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/blob/rel/LICENSE.md)
+</center>
 
 ## Table of Contents
 
@@ -24,10 +27,8 @@
 - [Installation and Setup](#installation-and-setup)
 - [Controls](#controls)
 - [Contributing](#contributing)
-- [Legal and Licensing](#legal-and-Licensing)
 - [Impressions](#impressions)
-
----
+- [Legal and Licensing](#legal-and-Licensing)
 
 ## Introduction
 
@@ -35,11 +36,9 @@
 
 **Note:** INFINITRA is currently in an **early Alpha stage**. We are continuously expanding and improving the universe, and your participation and feedback are crucial to its development.
 
----
-
 ## Features
 
-- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and an 5 trillion km vertical structure.
+- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and a 5 trillion km vertical structure.
 - **Procedural Fractals:** Experience unique, ever-changing terrains and structures that provide a new experience every time.
 - **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
 - **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
@@ -48,8 +47,6 @@
 - **Enhanced Movement Mechanics:** Utilize VR movement features such as snap-turning and teleportation for seamless exploration.
 - **Optimized Performance:** Enjoy smooth gameplay with efficient background processing and optimized resource management.
 - **Enhanced Visuals:** Experience improved voxel graphics with additional objects, clouds and terrain models.
-
----
 
 ## Upcoming Features
 
@@ -63,8 +60,6 @@ We're actively working on expanding INFINITRA with the following planned enhance
 - **Cross-Platform Releases:** Expanding support to Linux and Mac systems.
 - **Even more Space:** Extension to 1 billion km of space in every direction.
 
----
-
 ## System Requirements
 
 To fully enjoy INFINITRA, we recommend the following system specifications:
@@ -75,8 +70,6 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 - **Memory:** 16 GB RAM or more
 - **Storage:** At least 2 GB of free space
 - **VR Headset:** Strongly recommended (i.e. OpenXR compatible)
-
----
 
 ## Installation and Setup
 
@@ -101,8 +94,6 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 - **INFINITRA Subscription:**
     - Support development and access exclusive features, helping us maintain servers and expand the universe.
 
----
-
 ## Controls
 
 ### 2D Controls
@@ -121,8 +112,6 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 - **Collect Items:** Point at objects and use the grab buttons on your VR controllers.
 
 *Note: Customizable input bindings are coming soon.*
-
----
 
 ## Contributing
 
@@ -157,19 +146,6 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 7. **Testing:** Ensure your changes do not break existing functionality.
 8. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.
 
----
-
-## Legal and Licensing
-
-- **Terms of Service:** [View Terms](TERMS.md)
-- **Copyright:** [View Copyright](COPYRIGHT.md)
-- **End User License Agreement:** [View EULA](EULA.md)
-- **No Refund Policy:** [View Policy](NOREFUND.md)
-- **Privacy Policy:** [View Privacy](PRIVACY.md)
-- **Source Code License:** [View License](LICENSE.md)
-
----
-
 ## Impressions
 <img src="images/inworld1.jpg" />
 <img src="images/inworld2.jpg" />
@@ -181,3 +157,23 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 <img src="images/inworld8.jpg" />
 
 Join INFINITRA today and be part of a universe where the only limit is your imagination!
+
+## Legal and Licensing
+
+Your use of the INFINITRA software, website ([www.infinitra.xyz](https://www.infinitra.xyz)), accounts, and related services ("Service") signifies your agreement to the following legal documents. Please review them carefully:
+
+* **[Terms of Service (`TERMS.md`)](TERMS.md):** The main agreement governing your use of the Service, including accounts, subscriptions, rules of conduct, and liability limitations.
+* **[EULA (`EULA.md`)](EULA.md):** The license terms specifically for downloading, installing, and using the INFINITRA software application.
+* **[Privacy Policy (`PRIVACY.md`)](PRIVACY.md):** Explains how we collect, use, and protect your personal data in compliance with GDPR and other applicable laws.
+* **[License (`LICENSE.md`)](LICENSE.md):** Details the dual-licensing model: MIT license for designated open-source files and proprietary restrictions (governed by EULA/Terms) for `Infinitra.Core.DLL` and the software overall.
+* **[Copyright Notice (`COPYRIGHT.md`)](COPYRIGHT.md):** Information regarding copyright ownership.
+
+By accessing or using the Service, you agree to be bound by the Terms of Service, EULA, and Privacy Policy.
+
+Copyright © 2025 Richard Bogad Solutions. All rights reserved.
+
+INFINITRA and the INFINITRA logo are trademarks of Richard Bogad Solutions. All other trademarks are the property of their respective owners.
+
+<center>
+<img src="images/rbs-small.jpg" style="width: 25%; display: inline-block;"/>
+</center>
