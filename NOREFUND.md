@@ -18,6 +18,6 @@ If you choose to downgrade or cancel your subscription, please note that no refu
 
 ## Contact Us
 If you have any questions or concerns about our no refund policy, please contact us at:
-- Email: **infinitra.world@gmail.com**
+- Email: **office@infinitra.xyz**
 
 By subscribing to our services, you agree to this no refund policy.

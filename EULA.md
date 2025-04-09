@@ -165,4 +165,4 @@ You may be subject to additional terms and conditions that apply when You use or
 
 If you have any questions about this Agreement, You can contact Us:
 
-*   By sending us an email: **infinitra.world@gmail.com**
+*   By sending us an email: **office@infinitra.xyz**

@@ -71,4 +71,4 @@ You may opt out of receiving promotional emails from us by following the instruc
 
 ## Contact Us
 
-If you have any questions about this privacy policy, please contact us at: **infinitra.world@gmail.com**.
+If you have any questions about this privacy policy, please contact us at: **office@infinitra.xyz**.

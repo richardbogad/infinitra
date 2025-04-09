@@ -10,10 +10,10 @@
 </center>
 **A Limitless Virtual Reality Universe**
 
-[![Latest Release](https://img.shields.io/github/release/richardbogad/INFINITRA.svg)](https://github.com/richardbogad/INFINITRA/releases)
-[![Issues](https://img.shields.io/github/issues/richardbogad/INFINITRA.svg)](https://github.com/richardbogad/INFINITRA/issues)
-[![Discussions](https://img.shields.io/github/discussions/richardbogad/INFINITRA)](https://github.com/richardbogad/INFINITRA/discussions)
-[![License](https://img.shields.io/github/license/richardbogad/INFINITRA.svg)](LICENSE.txt)
+[![Latest Release](https://img.shields.io/github/v/release/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/releases/)
+[![Issues](https://img.shields.io/github/issues/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/issues)
+[![Discussions](https://img.shields.io/github/discussions/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/discussions)
+[![License](https://img.shields.io/github/license/richardbogad/infinitra.svg?style=for-the-badge)](https://github.com/richardbogad/INFINITRA/blob/rel/LICENSE.md)
 
 ## Table of Contents
 
@@ -166,7 +166,7 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 - **End User License Agreement:** [View EULA](EULA.md)
 - **No Refund Policy:** [View Policy](NOREFUND.md)
 - **Privacy Policy:** [View Privacy](PRIVACY.md)
-- **Source Code License:** [View License](LICENSE.txt)
+- **Source Code License:** [View License](LICENSE.md)
 
 ---
 
