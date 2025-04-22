@@ -4,6 +4,7 @@
 // This work is licensed under the terms of the MIT license.
 // For a copy, see <https://opensource.org/licenses/MIT>.
 //
+
 using Infinitra.Core.Components;
 using Infinitra.Core.Objects;
 using Infinitra.Core.Settings;
@@ -19,8 +20,6 @@ namespace Infinitra.Open.Movement
 
     public class Movement : MonoBehaviour, IMovement
     {
-        private Quaternion currentRotation = default;
-
         private IModelConfig modelConfig;
         private CharacterController charaController;
 
@@ -38,6 +37,7 @@ namespace Infinitra.Open.Movement
         
         private bool jumpTrigger;
         private Vector2 movementInput;
+        private Vector2 rotationInputAccumulated;
         private Vector hmdOffsetLast;
 
         private GameObject lastSelected;
@@ -66,9 +66,6 @@ namespace Infinitra.Open.Movement
 
         private void processMove(float deltaTime)
         { 
-            // Position fetching is necessary for internal calculation.
-            goUserXr.goPositionGetUnity();
-            currentRotation = goUserXr.goRotationLow;
             
             var moveAccelFactor = 1.0f;
             if (!goUserXr.collDown)
@@ -166,26 +163,25 @@ namespace Infinitra.Open.Movement
             goUserXr.Move(velocity, deltaTime);
         }
         
-        private void processRotation(InputAction.CallbackContext context)
+        private void processRotation(Vector2 rotationInput, Quaternion currentRotation)
         {
-            Vector2 input = context.ReadValue<Vector2>();
 
             Vector currentEuler = currentRotation.ToEulerAngles();
             Vector newRotation = currentEuler.Clone();
                         
-            float rotYaw = input.x * modelConfig.rotationSensitivity * mouseRotateFactor;
+            float rotYaw = rotationInput.x * modelConfig.rotationSensitivity * mouseRotateFactor;
             newRotation.y += rotYaw;
 
             if (!horizontalRotation)
             {
-                float rotPitch = -input.y * modelConfig.rotationSensitivity;
+                float rotPitch = -rotationInput.y * modelConfig.rotationSensitivity;
                 if (mouseInvert) rotPitch = -rotPitch;
                 float testRotPitch = (float)currentEuler.x + rotPitch;
                 float testRotPitchAbs = Mathf.Abs(testRotPitch);
                 if (Mathf.Abs(testRotPitch) > 275f || testRotPitchAbs < 85f) newRotation.x = testRotPitch;
             }
 
-            goUserXr.goRotationLow = Quaternion.Euler(newRotation);
+            goUserXr.goRotationUnity = Quaternion.Euler(newRotation);
         }
 
         /*
@@ -216,21 +212,49 @@ namespace Infinitra.Open.Movement
         {
             if (!movedSinceLastUpdate.Equals(Vector.zero))
             {
-                goUserXr.goPositionLow += currentRotation * movedSinceLastUpdate * 2;
+                goUserXr.goPositionUnity += goUserXr.goRotationUnity.Value * movedSinceLastUpdate * 2;
             }
         }
         
         public void alignCamera()
         {
-            Vector rotEuler = currentRotation.ToEulerAngles();
+            Vector rotEuler = goUserXr.goRotationUnity.Value.ToEulerAngles();
             rotEuler.x = 0;
             rotEuler.z = 0;
-            goUserXr.goRotationLow = Quaternion.Euler(rotEuler);
+            goUserXr.goRotationUnity = Quaternion.Euler(rotEuler);
         }
-        
+
+        public void Update()
+        {
+            Quaternion currentRotation = goUserXr.goRotationUnity.Value;
+                        
+            // Check for external rotation changes
+            if (goUserXr.newRotation.HasValue)
+            {
+                currentRotation = goUserXr.newRotation.Value;
+                goUserXr.goRotationUnity = currentRotation;
+                goUserXr.newRotation = null;
+            }
+            
+            if (rotationInputAccumulated != Vector2.zero)
+            {
+                processRotation(rotationInputAccumulated, currentRotation);
+                rotationInputAccumulated = Vector2.zero;
+            }
+            
+            goUserXr.goRotationFromUnity();
+        }
+
         public void FixedUpdate()
         {
             float delta = Time.fixedDeltaTime;
+            
+            // Check for position and rotation changes
+            if (goUserXr.newPosition.HasValue)
+            {
+                goUserXr.goPositionUnity = goUserXr.newPosition.Value;
+                goUserXr.newPosition = null;
+            }
             
             // The movement should not depend on the game position, as this may change suddenly due to foldback.
             if (!lockMovement) processMove(delta);
@@ -240,8 +264,9 @@ namespace Infinitra.Open.Movement
                 Vector movedSinceLastUpdate = calculateOffsets();
                 followHmdOffset(movedSinceLastUpdate);
             }
-            
             processCrouch(delta);
+            
+            goUserXr.goPositionFromUnity();
         }
 
         private void processCrouch(float deltaTime)
@@ -282,10 +307,7 @@ namespace Infinitra.Open.Movement
 
         public void OnActionRotPerformed(InputAction.CallbackContext context)
         {
-            if (!lockRotation)
-            {
-                processRotation(context);
-            }
+            if (!lockRotation) rotationInputAccumulated += context.ReadValue<Vector2>();
         }
 
         public void OnActionMovePerformed(InputAction.CallbackContext context)
