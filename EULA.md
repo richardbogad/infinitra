@@ -12,7 +12,7 @@ This End-User License Agreement ("EULA") is a legally binding contract between y
 * If you agree, you receive a limited license to use the Software for free on Windows PCs for personal, non-commercial purposes, subject to these terms.
 * The Software communicates with our servers (hosted by Google Cloud/Firebase) for functionality, updates, and potentially to send diagnostic data *if you consent*. Details are in our [Privacy Policy (`PRIVACY.md`)](PRIVACY.md).
 * The Software is provided "AS IS" without warranties. Our liability is strictly limited as permitted by Austrian law.
-* You **may not** reverse engineer, decompile, or resell the core component (`Infinitra.Core.DLL`).
+* You **may not** reverse engineer, decompile, or resell the core components (`Infinitra.Core.dll` and `Infinitra.Shared.dll`).
 * You **may** redistribute the official installer from our authorized source (GitHub) if unmodified and accompanied by all legal documents.
 * This summary does not replace the full EULA. Please read the entire document.
 
@@ -29,8 +29,8 @@ You agree that you will not, and will not permit others to:
 3.  Modify, adapt, translate, or create derivative works based upon the Software, except as relates to the Open-Source Components governed by their respective licenses.
 4.  Redistribute the official Software installer only if obtained directly from the official distribution source (e.g., `https://github.com/richardbogad/infinitra`) and only if it includes this EULA, the Terms of Service, Privacy Policy, and other accompanying legal documents, and provided you do not repackage, modify, or bundle the Software with any other items.
 5.  Remove, alter, or obscure any copyright, trademark, or other proprietary notices or labels on or within the Software.
-6.  Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source code, underlying ideas, algorithms, structure, or organization of the proprietary core component `Infinitra.Core.DLL` or any other non-Open-Source Component of the Software, except and only to the extent that such activity is expressly permitted by applicable mandatory law (e.g., for interoperability purposes under specific conditions).
-7.  Include the `Infinitra.Core.DLL` or other proprietary components of the Software in any product, service, or software offered for sale or commercial distribution.
+6.  Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source code, underlying ideas, algorithms, structure, or organization of the proprietary core components `Infinitra.Core.dll` and `Infinitra.Shared.dll` or any other non-Open-Source Component of the Software, except and only to the extent that such activity is expressly permitted by applicable mandatory law (e.g., for interoperability purposes under specific conditions).
+7.  Include the `Infinitra.Core.dll` and `Infinitra.Shared.dll` or other proprietary components of the Software in any product, service, or software offered for sale or commercial distribution.
 8.  Use the Software for any purpose other than its intended personal, non-commercial entertainment use.
 9.  Violate any terms outlined in the [Terms of Service (`TERMS.md`)](TERMS.md).
 
@@ -46,11 +46,11 @@ Your privacy is important to us. Our [Privacy Policy (`PRIVACY.md`)](PRIVACY.md)
 
 Certain parts of the Software, specifically those located in the `Assets/Scripts/Infinitra.Open/` directory or otherwise explicitly marked, are licensed under the MIT License or other open-source licenses ("Open-Source Components"). The applicable license terms are provided (e.g., in `LICENSE.md`).
 
-This EULA does **not** apply to the Open-Source Components. To the extent there is a conflict between this EULA and the applicable open-source license regarding an Open-Source Component, the terms of the open-source license shall prevail *solely with respect to that specific Open-Source Component*. The proprietary core component `Infinitra.Core.DLL` is **not** an Open-Source Component and remains subject to the restrictions in this EULA and the Terms of Service.
+This EULA does **not** apply to the Open-Source Components. To the extent there is a conflict between this EULA and the applicable open-source license regarding an Open-Source Component, the terms of the open-source license shall prevail *solely with respect to that specific Open-Source Component*. The proprietary core components `Infinitra.Core.dll` and `Infinitra.Shared.dll` are **not** Open-Source Components and remain subject to the restrictions in this EULA and the Terms of Service.
 
 ## 6. Intellectual Property Rights
 
-The Software (including, but not limited to, the `Infinitra.Core.DLL`, visual interfaces, graphics, design, compilation, code, features, and underlying technology, excluding Open-Source Components) and all associated intellectual property rights (including copyrights, trademarks, trade secrets) are the exclusive property of Richard Bogad Solutions and/or its licensors. The name INFINITRA and associated logos are trademarks of Richard Bogad Solutions. This EULA grants you no right, title, or interest in or to the Software's intellectual property, except for the limited usage license expressly stated herein.
+The Software (including, but not limited to, the `Infinitra.Core.dll`, `Infinitra.Shared.dll`, visual interfaces, graphics, design, compilation, code, features, and underlying technology, excluding Open-Source Components) and all associated intellectual property rights (including copyrights, trademarks, trade secrets) are the exclusive property of Richard Bogad Solutions and/or its licensors. The name INFINITRA and associated logos are trademarks of Richard Bogad Solutions. This EULA grants you no right, title, or interest in or to the Software's intellectual property, except for the limited usage license expressly stated herein.
 
 ## 7. Disclaimers and Limitation of Liability
 

@@ -129,7 +129,7 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 4. **Set Up the Project:**
     - Open the INFINITRA project in Unity.
     - Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
-    - Include `Infinitra.Core.dll` and `google-services.json` from the latest release.
+    - Include `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and `google-services.json` from the latest release.
 5. **Add packages**
     - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
     - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)
@@ -165,7 +165,7 @@ Your use of the INFINITRA software, website ([www.infinitra.xyz](https://www.inf
 * **[Terms of Service (`TERMS.md`)](TERMS.md):** The main agreement governing your use of the Service, including accounts, subscriptions, rules of conduct, and liability limitations.
 * **[EULA (`EULA.md`)](EULA.md):** The license terms specifically for downloading, installing, and using the INFINITRA software application.
 * **[Privacy Policy (`PRIVACY.md`)](PRIVACY.md):** Explains how we collect, use, and protect your personal data in compliance with GDPR and other applicable laws.
-* **[License (`LICENSE.md`)](LICENSE.md):** Details the dual-licensing model: MIT license for designated open-source files and proprietary restrictions (governed by EULA/Terms) for `Infinitra.Core.DLL` and the software overall.
+* **[License (`LICENSE.md`)](LICENSE.md):** Details the dual-licensing model: MIT license for designated open-source files and proprietary restrictions (governed by EULA/Terms) for `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and the software overall.
 * **[Copyright Notice (`COPYRIGHT.md`)](COPYRIGHT.md):** Information regarding copyright ownership.
 
 By accessing or using the Service, you agree to be bound by the Terms of Service, EULA, and Privacy Policy.

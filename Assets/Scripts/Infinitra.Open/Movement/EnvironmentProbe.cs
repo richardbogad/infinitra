@@ -4,7 +4,7 @@
 // This work is licensed under the terms of the MIT license.
 // For a copy, see <https://opensource.org/licenses/MIT>.
 //
-using Infinitra.Core.Shared;
+using Infinitra.Shared;
 using UnityEngine;
 
 namespace Infinitra.Open.Movement

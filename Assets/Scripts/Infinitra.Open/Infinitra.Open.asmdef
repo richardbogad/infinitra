@@ -1,12 +1,14 @@
 {
     "name": "Infinitra.Open",
+    "rootNamespace": "",
     "references": [
         "Unity.XR.CoreUtils",
         "Unity.InputSystem",
         "Unity.TextMeshPro",
         "Unity.XR.Interaction.Toolkit",
         "Infinitra.Core",
-        "Unity.XR.Interaction.Toolkit.Samples.StarterAssets"
+        "Unity.XR.Interaction.Toolkit.Samples.StarterAssets",
+        "Infinitra.Shared"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

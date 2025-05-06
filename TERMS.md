@@ -41,7 +41,7 @@ Our collection and use of your personal information in connection with the Servi
 * **Software License:** Your use of the Software component is governed by the [EULA (`EULA.md`)](EULA.md).
 * **Service Access License:** Subject to your compliance with these Terms and the EULA, we grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to access and use the non-Software parts of the Service (e.g., Website, account system) solely for your personal, non-commercial entertainment purposes.
 * **Prohibited Conduct:** You agree **not** to engage in, attempt, or permit others to engage in any of the following:
-    * Any activity that violates the restrictions in the EULA (including reverse engineering `Infinitra.Core.DLL`, resale, etc.).
+    * Any activity that violates the restrictions in the EULA (including reverse engineering `Infinitra.Core.dll` or `Infinitra.Shared.dll`, resale, etc.).
     * Using the Service for any unlawful purpose or in violation of any applicable law or regulation.
     * Harassing, abusing, stalking, threatening, defaming, or violating the rights of others.
     * Impersonating any person or entity or misrepresenting your affiliation.
@@ -66,7 +66,7 @@ Our collection and use of your personal information in connection with the Servi
 
 ## 7. Intellectual Property Ownership
 
-* **Our Ownership:** The Service, including the Software (especially `Infinitra.Core.DLL`), Website, visual design, underlying technology, text, graphics, logos, data, and all other materials provided as part of the Service ("Service Materials"), are the exclusive property of Richard Bogad Solutions and/or its licensors, protected by copyright, trademark, and other intellectual property laws. Except for the limited licenses granted in the EULA and these Terms, you acquire no ownership rights in the Service or Service Materials.
+* **Our Ownership:** The Service, including the Software (especially `Infinitra.Core.dll` and `Infinitra.Shared.dll`), Website, visual design, underlying technology, text, graphics, logos, data, and all other materials provided as part of the Service ("Service Materials"), are the exclusive property of Richard Bogad Solutions and/or its licensors, protected by copyright, trademark, and other intellectual property laws. Except for the limited licenses granted in the EULA and these Terms, you acquire no ownership rights in the Service or Service Materials.
 * **Feedback:** If you provide us with feedback, suggestions, or ideas about the Service ("Feedback"), you grant us a worldwide, perpetual, irrevocable, non-exclusive, royalty-free, fully paid-up license to use, modify, reproduce, distribute, create derivative works of, and otherwise exploit such Feedback for any purpose, without compensation or attribution to you.
 
 ## 8. Third-Party Services and Links

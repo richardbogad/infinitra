@@ -1,8 +1,9 @@
 {
-    "name": "EditorScript",
+    "name": "Infinitra.Open.Editor",
     "rootNamespace": "",
     "references": [
-        "Infinitra.Core"
+        "Infinitra.Core",
+        "Infinitra.Shared"
     ],
     "includePlatforms": [
         "Editor"

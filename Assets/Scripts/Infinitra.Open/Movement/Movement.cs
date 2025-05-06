@@ -8,12 +8,12 @@
 using Infinitra.Core.Components;
 using Infinitra.Core.Objects;
 using Infinitra.Core.Settings;
-using Infinitra.Core.Shared;
+using Infinitra.Shared;
 using Infinitra.Core.Utils;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Quaternion = Infinitra.Core.Shared.Quaternion;
+using Quaternion = Infinitra.Shared.Quaternion;
 
 namespace Infinitra.Open.Movement
 {

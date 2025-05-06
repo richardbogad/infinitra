@@ -85,6 +85,8 @@ crashlytics-build.properties
 
 # Custom ignores
 Assets/Scripts/Infinitra.Core*
+Assets/Scripts/Infinitra.Shared*
+Assets/Tests/Infinitra.Shared.Tests*
 Assets/Tests/Infinitra.Core.Tests*
 geometry4Sharp.csproj
 Assets/Scripts/G4Sharp
