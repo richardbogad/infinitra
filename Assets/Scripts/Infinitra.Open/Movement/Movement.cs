@@ -5,7 +5,10 @@
 // For a copy, see <https://opensource.org/licenses/MIT>.
 //
 
+using System;
+using System.Collections.Generic;
 using Infinitra.Core.Components;
+using Infinitra.Core.Data;
 using Infinitra.Core.Objects;
 using Infinitra.Core.Settings;
 using Infinitra.Shared;
@@ -17,17 +20,17 @@ using Quaternion = Infinitra.Shared.Quaternion;
 
 namespace Infinitra.Open.Movement
 {
-
     public class Movement : MonoBehaviour, IMovement
     {
         private IModelConfig modelConfig;
         private CharacterController charaController;
+        private readonly EventH<Transform> camTransformChangedHandler = new();
 
         internal GoUserXr goUserXr;
         private XROrigin xrOrigin;
         private Camera camera;
         
-        private bool lockMovement = true;
+        private HashSet<IMovement.LockContext> lockMovement = new();
         private bool lockRotation = true;
         private bool lockTurn = true;
         private bool originFollowHeadMovement = true;
@@ -37,13 +40,9 @@ namespace Infinitra.Open.Movement
         
         private bool jumpTrigger;
         private Vector2 movementInput;
-        private Vector2 rotationInputAccumulated;
         private Vector hmdOffsetLast;
 
-        private GameObject lastSelected;
-
         private bool isCrouching = false;
-
         private float crouchTimeElapsed;
         private float crouchHeightStart;
         
@@ -59,49 +58,47 @@ namespace Infinitra.Open.Movement
         
         public void OnEnable()
         {
-
             CompLoader.regMovementScript(this);
             CompLoader.getUserController().registerGoUserXr(goUserXr);
         }
 
+        // Invokes the PlayerMovedOrRotated event.
+        protected virtual void OnCamTransformChanged()
+        {
+            camTransformChangedHandler?.Invoke(this, camera.transform);
+        }
+
         private void processMove(float deltaTime)
         { 
-            
             var moveAccelFactor = 1.0f;
             if (!goUserXr.collDown)
-                // Don't accelerate fast while flying
                 moveAccelFactor = 0.2f;
 
-            // Calculate intended horizontal movement
             Vector accelInputVec = new(movementInput.x, 0, movementInput.y);
             Quaternion cameraYaw = Quaternion.Euler(0, xrOrigin.Camera.transform.eulerAngles.y, 0);
             Vector accelInputRotated = cameraYaw * accelInputVec;
 
             Vector velocity = goUserXr.velocity;
             
-            // Calculate intended vertical movement
             if (jumpTrigger)
             {
                 if (modelConfig.jetPack) accelInputRotated.y = 1.0f;
                 else if (goUserXr.collDown)
                 {
-                    velocity.y += modelConfig.jumpSpeed; // TODO jumping should be more sophisticated
+                    velocity.y += modelConfig.jumpSpeed; 
                     jumpTrigger = false;
                 }
             }
 
-            // Only accelerate if the speed is within the limits
             var maxMoveSpeedXZ = goUserXr.collDown ? modelConfig.moveSpeedWalking : modelConfig.moveSpeedFlying;
             var moveAcceleration = goUserXr.collDown ? modelConfig.moveAccelerationWalking : modelConfig.moveAccelerationFlying;
 
             bool allowXZ = false;
-
             Vector moveXZ = new(velocity.x, 0f, velocity.z);
             Vector inputXZ = new(accelInputRotated.x, 0f, accelInputRotated.z);
             if (moveXZ.magnitude < maxMoveSpeedXZ) allowXZ = true;
             else
             {
-                // Check if the input direction is roughly the opposite of the movement direction
                 float dotProduct = (float)Vector.Dot(Vector.Normalize(moveXZ), Vector.Normalize(inputXZ));
                 if (dotProduct < 0.0f) allowXZ = true;
             }
@@ -112,44 +109,31 @@ namespace Infinitra.Open.Movement
                 velocity.z += accelInputRotated.z * deltaTime * moveAcceleration * moveAccelFactor;
             }
 
-            // Jetpack
             if (modelConfig.jetPack && velocity.y < maxMoveSpeedXZ)
                 velocity.y += accelInputRotated.y * deltaTime * moveAcceleration;
 
-            // Movement restrictions
             if (goUserXr.collDown)
             {
-                // Bouncing off ground.
                 if (velocity.y < bounceThreshold) velocity.y = -(velocity.y-bounceThreshold) * 0.25f;
             }
             else
             {
-                // Collision while moving up.
                 if (goUserXr.collUp && velocity.y > 0.0) velocity.y = 0.0f;
             }
             
-            // Gravity acceleration
             if (velocity.y > modelConfig.fallSpeed) velocity.y += deltaTime * modelConfig.gravityAccel;
 
+            bool hasMoved = !velocity.Equals(Vector.zero);
 
-            if (!velocity.Equals(Vector.zero))
+            if (hasMoved)
             {
-                // Calculate movement friction/decay
                 float frictionFactor = goUserXr.collDown ? 1.0f : 0.05f;
-                
                 Vector frictionVector;
-                
                 if (!accelInputRotated.Equals(Vector3.zero))
                 {
-                    // Normalize the velocity and acceleration input vectors
                     Vector normalizedAccelInput = Vector.Normalize(accelInputRotated);
-
-                    // Calculate the projection of velocity onto the acceleration vector (parallel component)
                     Vector parallelComponent = Vector.Dot(velocity, normalizedAccelInput) * normalizedAccelInput;
-
-                    // The remaining part is the normal component (orthogonal to the acceleration direction)
                     Vector normalComponent = velocity - parallelComponent;
-                    
                     frictionVector = -normalComponent * deltaTime * modelConfig.friction * frictionFactor;
                 }
                 else
@@ -159,13 +143,18 @@ namespace Infinitra.Open.Movement
                 velocity += frictionVector;
             }
 
-            // Update final velocity / position
             goUserXr.Move(velocity, deltaTime);
+            goUserXr.goPositionFromUnity();
+
+            // If there was any input resulting in potential velocity change or actual movement
+            if (accelInputVec != Vector.zero || hasMoved || jumpTrigger)
+            {
+                OnCamTransformChanged();
+            }
         }
         
         private void processRotation(Vector2 rotationInput, Quaternion currentRotation)
         {
-
             Vector currentEuler = currentRotation.ToEulerAngles();
             Vector newRotation = currentEuler.Clone();
                         
@@ -182,15 +171,17 @@ namespace Infinitra.Open.Movement
             }
 
             goUserXr.goRotationUnity = Quaternion.Euler(newRotation);
+            goUserXr.goRotationFromUnity();
+
+            // Notify about rotation for UI content refresh
+            if (rotationInput != Vector2.zero)
+            {
+                OnCamTransformChanged();
+            }
         }
 
-        /*
-         * The position of the XrOrigin GameObject shall be on the bottom of the character controller.
-         * The camera shall be offsetted at a height of 'cameraHeightFactor'. 
-         */
         private Vector calculateOffsets()
         {
-            // The camera position (relative to the root of the character controller) shall be set via the cameraOffset GameObject
             goUserXr.camOffset = Vector.up * (charaController.height * modelConfig.cameraHeightFactor);
             charaController.center = UnityConversions.ToUnity(Vector.up * (charaController.height * 0.5f));
             
@@ -201,18 +192,15 @@ namespace Infinitra.Open.Movement
                 goUserXr.camOffset += -hmdOffset;
                 hmdOffsetLast = hmdOffset;
             }
-
             return movedSinceLastUpdate;
         }
         
-        /*
-         * The XrOrigin gameObject shall follow the head/camera movement.
-         */
         private void followHmdOffset(Vector movedSinceLastUpdate)
         {
             if (!movedSinceLastUpdate.Equals(Vector.zero))
             {
                 goUserXr.goPositionUnity += goUserXr.goRotationUnity.Value * movedSinceLastUpdate * 2;
+                OnCamTransformChanged(); // HMD movement also counts as player movement
             }
         }
         
@@ -221,52 +209,45 @@ namespace Infinitra.Open.Movement
             Vector rotEuler = goUserXr.goRotationUnity.Value.ToEulerAngles();
             rotEuler.x = 0;
             rotEuler.z = 0;
+            Quaternion oldRotation = goUserXr.goRotationUnity.Value;
             goUserXr.goRotationUnity = Quaternion.Euler(rotEuler);
+            if (oldRotation.Equals(goUserXr.goRotationUnity.Value))
+            {
+                OnCamTransformChanged();
+            }
         }
 
         public void Update()
         {
-            Quaternion currentRotation = goUserXr.goRotationUnity.Value;
-                        
-            // Check for external rotation changes
             if (goUserXr.newRotation.HasValue)
             {
-                currentRotation = goUserXr.newRotation.Value;
+                Quaternion currentRotation = goUserXr.newRotation.Value;
                 goUserXr.goRotationUnity = currentRotation;
                 goUserXr.newRotation = null;
+                lock(this) processRotation(Vector2.zero, currentRotation); // Process with zero input to apply the new rotation
+                OnCamTransformChanged(); // External rotation change
             }
-            
-            if (rotationInputAccumulated != Vector2.zero)
-            {
-                processRotation(rotationInputAccumulated, currentRotation);
-                rotationInputAccumulated = Vector2.zero;
-            }
-            
-            goUserXr.goRotationFromUnity();
         }
 
         public void FixedUpdate()
         {
             float delta = Time.fixedDeltaTime;
             
-            // Check for position and rotation changes
             if (goUserXr.newPosition.HasValue)
             {
                 goUserXr.goPositionUnity = goUserXr.newPosition.Value;
                 goUserXr.newPosition = null;
+                OnCamTransformChanged();
             }
             
-            // The movement should not depend on the game position, as this may change suddenly due to foldback.
-            if (!lockMovement) processMove(delta);
+            if (!isLockMovement()) processMove(delta); // processMove will call OnPlayerMovedOrRotated if applicable
             
             if (originFollowHeadMovement)
             {
                 Vector movedSinceLastUpdate = calculateOffsets();
-                followHmdOffset(movedSinceLastUpdate);
+                followHmdOffset(movedSinceLastUpdate); // followHmdOffset will call OnPlayerMovedOrRotated if applicable
             }
             processCrouch(delta);
-            
-            goUserXr.goPositionFromUnity();
         }
 
         private void processCrouch(float deltaTime)
@@ -276,19 +257,20 @@ namespace Infinitra.Open.Movement
                 var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.crouchHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
                 crouchTimeElapsed += deltaTime;
+                OnCamTransformChanged();
             }
             else if (!isCrouching && crouchTimeElapsed < modelConfig.transitionTime)
             {
                 var newHeight = Mathf.Lerp(crouchHeightStart, modelConfig.charHeight, crouchTimeElapsed / modelConfig.transitionTime);
                 charaController.height = newHeight;
                 crouchTimeElapsed += deltaTime;
+                OnCamTransformChanged();
             }
         }
 
         public void OnCrouchStarted(InputAction.CallbackContext context)
         {
             if (!modelConfig.canCrouch) return;
-            
             isCrouching = true;
             crouchTimeElapsed = 0.0f;
             crouchHeightStart = charaController.height;
@@ -303,11 +285,17 @@ namespace Infinitra.Open.Movement
         
         private void OnDisable()
         {
+            // Unregister listeners if necessary, though CompLoader handles component lifecycle
         }
 
         public void OnActionRotPerformed(InputAction.CallbackContext context)
         {
-            if (!lockRotation) rotationInputAccumulated += context.ReadValue<Vector2>();
+            Vector2 rotationInput = context.ReadValue<Vector2>();
+            if (!lockRotation && rotationInput != Vector2.zero)
+            {
+                Quaternion currentRotation = goUserXr.goRotationUnity.Value;
+                lock(this) processRotation(rotationInput, currentRotation);
+            }
         }
 
         public void OnActionMovePerformed(InputAction.CallbackContext context)
@@ -334,6 +322,16 @@ namespace Infinitra.Open.Movement
             jumpTrigger = false;
         }
 
+        public void RegisterOnTransformChange(Action action)
+        {
+            camTransformChangedHandler.Add(action);
+        }
+
+        public void UnregisterOnTransformChange(Action action)
+        {
+            camTransformChangedHandler.Remove(action);
+        }
+
         public void setMouseInvert(bool value)
         {
             mouseInvert = value;
@@ -343,72 +341,31 @@ namespace Infinitra.Open.Movement
         {
             switch (value)
             {
-                case ControlSettings.MouseSpeed.MIN:
-                    mouseRotateFactor = 0.33f;
-                    break;
-                case ControlSettings.MouseSpeed.SLOW:
-                    mouseRotateFactor = 0.66f;
-                    break;
-                case ControlSettings.MouseSpeed.MEDIUM:
-                    mouseRotateFactor = 1.0f;
-                    break;
-                case ControlSettings.MouseSpeed.HIGH:
-                    mouseRotateFactor = 1.33f;
-                    break;
-                case ControlSettings.MouseSpeed.MAX:
-                    mouseRotateFactor = 1.66f;
-                    break;
+                case ControlSettings.MouseSpeed.MIN:    mouseRotateFactor = 0.33f; break;
+                case ControlSettings.MouseSpeed.SLOW:   mouseRotateFactor = 0.66f; break;
+                case ControlSettings.MouseSpeed.MEDIUM: mouseRotateFactor = 1.0f;  break;
+                case ControlSettings.MouseSpeed.HIGH:   mouseRotateFactor = 1.33f; break;
+                case ControlSettings.MouseSpeed.MAX:    mouseRotateFactor = 1.66f; break;
             }
         }
 
-        public bool isLockMovement()
-        {
-            return lockMovement;
-        }
+        public bool isLockMovement() => lockMovement.Count > 0;
+        public bool isLockTurn() => lockTurn;
+        public void setLockTurn(bool value) => lockTurn = value;
+        public void setLockRotation(bool value) => lockRotation = value;
+        public void addLockMoveContext(IMovement.LockContext value) => lockMovement.Add(value);
+        public void removeLockMoveContext(IMovement.LockContext value) => lockMovement.Remove(value);
 
-        public bool isLockTurn()
-        {
-            return lockTurn;
-        }
-
-        public void setLockTurn(bool value)
-        {
-            lockTurn = value;
-        }
-
-        public void setLockRotation(bool value)
-        {
-            lockRotation = value;
-        }
-
-        public void setLockMovement(bool value)
-        {
-            lockMovement = value;
-        }
-
-        public void setHorizontalRotation(bool value)
-        {
-            horizontalRotation = value;
-        }
-
-        public void setOriginFollowHeadMovement(bool value)
-        {
-            originFollowHeadMovement = value;
-        }
-
-        public XROrigin getXrOrigin()
-        {
-            return xrOrigin;
-        }
+        public void setHorizontalRotation(bool value) => horizontalRotation = value;
+        public void setOriginFollowHeadMovement(bool value) => originFollowHeadMovement = value;
+        public XROrigin getXrOrigin() => xrOrigin;
 
         public void applyModelConfig(IModelConfig config)
         {
             modelConfig = config;
-            
             charaController = goUserXr.gameObject.GetComponent<CharacterController>();
             if (charaController == null) charaController = goUserXr.gameObject.AddComponent<CharacterController>();
             
-            // config.jetPack = false;
             charaController.height = config.charHeight;
             charaController.radius = config.charRadius;
             charaController.stepOffset = config.charStep;
