@@ -6,6 +6,7 @@
 //
 
 using Infinitra.Shared;
+using Infinitra.Shared.Fundamentals;
 using UnityEditor;
 using UnityEngine;
 

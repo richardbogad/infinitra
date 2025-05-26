@@ -82,6 +82,7 @@ crashlytics-build.properties
 /[Aa]ssets/Plugins/Banana Yellow Games/
 /[Aa]ssets/Nanolod/
 /[Aa]ssets/nappin/
+/[Aa]ssets/BTM_Assets/
 
 # Custom ignores
 Assets/Scripts/Infinitra.Core*

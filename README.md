@@ -96,7 +96,7 @@ To fully enjoy INFINITRA, we recommend the following system specifications:
 
 ## Controls
 
-### 2D Controls
+### 3D Controls
 
 - **Menu:** `Escape` key
 - **Movement:** `W` `A` `S` `D` keys
@@ -141,6 +141,7 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
     - Import Unity Asset 'Basic Motions FREE' [link](https://assetstore.unity.com/packages/p/basic-motions-free-154271)
     - Import Unity Asset 'Surface Gradient Bump Mapping Samples' (without Project Settings) [link](https://assetstore.unity.com/packages/templates/tutorials/surface-gradient-bump-mapping-samples-240786)
     - Import Unity Asset 'House Interior - Free' [link](https://assetstore.unity.com/packages/3d/props/interior/house-interior-free-258782)
+    - Import Unity Asset 'Simple Gems and Items Ultimate Animated Customizable Pack' [link](https://assetstore.unity.com/packages/3d/props/simple-gems-and-items-ultimate-animated-customizable-pack-73764)
 
 6. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
 7. **Testing:** Ensure your changes do not break existing functionality.
