@@ -12,13 +12,10 @@ using Infinitra.Core.Avatars;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
-using Infinitra.Shared;
-using Infinitra.Shared.Avatars;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
 using Infinitra.Shared.World;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
@@ -31,7 +28,7 @@ namespace Infinitra.Open.Avatars
         private EnvironmentProbe envProbe;
         private WindSound wind;
 
-        private static SoundClips windSound;
+        private static readonly SoundClips windSound;
         
         static AvatarDummyLocal()
         {
@@ -64,7 +61,12 @@ namespace Infinitra.Open.Avatars
             Object.Destroy(envProbe);
             Object.Destroy(wind);
         }
-        
+
+        public override void OnDamage()
+        {
+            Appearance.OnDamage();
+        }
+
         public override ObjectSnapshotUser ToSnapshot()
         {
             ObjectSnapshotDummy snap = new();
@@ -200,58 +202,66 @@ namespace Infinitra.Open.Avatars
         private float groundedTimer;
         private float stepTimer;
 
-        private SoundClips activeClips;
+        private SoundClips footStepSounds;
+        private static readonly SoundClips damageSounds;
         
         private static Dictionary<uint, SoundClips> clipDict = new();
 
         static AvatarDummyAppearance()
         {
             SoundClips sound = new();
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step1", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step2", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step3", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step4", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step5", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step6", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step7", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step8", 0.5f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step9", 0.5f, false, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step1", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step2", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step3", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step4", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step5", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step6", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step7", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step8", 0.5f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step9", 0.5f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValBuilding, sound);
             clipDict.Add(EncVal.encValUrbanFloor, sound);
             
             sound = new();
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step0", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step1", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step2", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step3", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step4", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step5", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step6", 0.35f, false, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step0", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step1", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step2", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step3", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step4", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step5", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step6", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValGrass, sound);
             
             sound = new();
-            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step0", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step1", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step2", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step3", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step4", 0.35f, false, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step0", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step1", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step2", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step3", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step4", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValGround, sound);
             
             sound = new();
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step0", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step1", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step2", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step3", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step4", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step5", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step6", 0.35f, false, priority: 50);
-            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step7", 0.35f, false, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step0", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step1", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step2", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step3", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step4", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step5", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step6", 0.35f, priority: 50);
+            sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step7", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValSnow, sound);
+            
+            damageSounds = new();
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat1", 0.5f, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat2", 0.5f, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat3", 0.5f, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat4", 0.5f, priority: 50);
+            damageSounds.load();
         }
 
         public override void Init(IGoUser go)
@@ -277,6 +287,11 @@ namespace Infinitra.Open.Avatars
             Init(goUser);
         }
 
+        public override void OnDamage()
+        {
+            damageSounds.PlaySound(audioSources[0]);
+        }
+
         public override void Update(float timeDelta)
         {
             ProcessFootStepSounds(new Vector(goUser.velocity.x, 0, goUser.velocity.z));
@@ -296,12 +311,12 @@ namespace Infinitra.Open.Avatars
             {
                 if (groundedTimer == 0.0f)
                 {
-                    if (activeClips != null) activeClips.PlaySound(audioSources[0]);
+                    if (footStepSounds != null) footStepSounds.PlaySound(audioSources[0]);
                 }
                 else if (speed > speedThreshold && stepTimer <= 0)
                 {
                     // Reset the timer based on speed, with a minimum threshold to prevent steps from being too rapid
-                    if (activeClips != null) activeClips.PlaySound(audioSources[0]);
+                    if (footStepSounds != null) footStepSounds.PlaySound(audioSources[0]);
                     stepTimer = stepIntervalBase / (2.0f * speed / speedIntervalDouble);
                 }
 
@@ -313,7 +328,7 @@ namespace Infinitra.Open.Avatars
         {
             try
             {
-                activeClips = clipDict[encVal];
+                footStepSounds = clipDict[encVal];
             }
             catch (Exception e)
             {

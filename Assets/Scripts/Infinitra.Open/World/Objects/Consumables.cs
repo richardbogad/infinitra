@@ -62,6 +62,11 @@ namespace Infinitra.Open.World.Objects
             // This should not occur because items are dropped when users die.
             Init(goUser);
         }
+
+        public override void OnDamage()
+        {
+            // No damage sounds.
+        }
     }
 
     internal class JetPackSoundFactory : GenericFactory<GoAppearance>

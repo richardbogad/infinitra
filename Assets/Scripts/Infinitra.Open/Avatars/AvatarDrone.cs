@@ -14,7 +14,6 @@ using Infinitra.Core.Objects;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
@@ -41,7 +40,12 @@ namespace Infinitra.Open.Avatars
                 Object.Destroy(goAppearanceUpdater);
             }
         }
-        
+
+        public override void OnDamage()
+        {
+            Appearance.OnDamage();
+        }
+
         public override ObjectSnapshotUser ToSnapshot()
         {
             ObjectSnapshotDrone snap = new();
@@ -158,7 +162,7 @@ namespace Infinitra.Open.Avatars
     {
         private static readonly SoundClips droneVertSounds;
         private static readonly SoundClips droneHoriSounds;
-        
+        private static readonly SoundClips damageSounds;
         static AvatarDroneAppearance()
         {
             droneHoriSounds = new();
@@ -172,17 +176,26 @@ namespace Infinitra.Open.Avatars
                 "Sounds/MagicSoundEffects/Spacecraft Engines/Drone/spacecraft_drone_b_engine_loop_1x", 0.0f, true,
                 priority: 50);
             droneVertSounds.load();
+            
+            damageSounds = new();
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat1", 0.5f, false, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat2", 0.5f, false, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat3", 0.5f, false, priority: 50);
+            damageSounds.addSound("Sounds/SpaceSFX/beat/beat4", 0.5f, false, priority: 50);
+            damageSounds.load();
         }
 
         public override void Init(IGoUser go)
         {
             this.goUser = go;
             
-            audioSources = new AudioSource[2];
+            audioSources = new AudioSource[3];
             audioSources[0] = go.GameObject.AddComponent<AudioSource>();
             audioSources[0].spatialBlend = 1f;
             audioSources[1] = go.GameObject.AddComponent<AudioSource>();
             audioSources[1].spatialBlend = 1f;
+            audioSources[2] = go.GameObject.AddComponent<AudioSource>();
+            audioSources[2].spatialBlend = 1f;
             
             droneHoriSounds.PlaySound(audioSources[0]);
             droneVertSounds.PlaySound(audioSources[1]);
@@ -202,6 +215,11 @@ namespace Infinitra.Open.Avatars
         public override void OnRespawn()
         {
             Init(goUser);
+        }
+
+        public override void OnDamage()
+        {
+            damageSounds.PlaySound(audioSources[2]);
         }
 
         public override void Update(float timeDelta)
