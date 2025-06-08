@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.10.1",
     "com.unity.feature.vr": "1.0.0",
     "com.unity.formats.fbx": "4.2.1",
