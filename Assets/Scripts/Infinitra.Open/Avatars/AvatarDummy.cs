@@ -18,6 +18,7 @@ using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
 using Infinitra.Shared.World;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
@@ -27,7 +28,6 @@ namespace Infinitra.Open.Avatars
     internal class AvatarDummyLocal : GoUserLocal
     {
         private GoAppearanceUpdater goAppearanceUpdater;
-        private GoAppearance appearance;
         private EnvironmentProbe envProbe;
         private WindSound wind;
 
@@ -43,14 +43,14 @@ namespace Infinitra.Open.Avatars
         
         public override void InitImpl()
         {
-            goAppearanceUpdater = gameObject.AddComponent<GoAppearanceUpdater>();
+            goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
             
-            appearance = new AvatarDummyAppearance();
-            appearance.Init(this);
-            goAppearanceUpdater.appearance = appearance;
+            Appearance = new AvatarDummyAppearance();
+            Appearance.Init(this);
+            goAppearanceUpdater.appearance = Appearance;
             
-            envProbe = gameObject.AddComponent<EnvironmentProbe>();
-            wind = gameObject.AddComponent<WindSound>();
+            envProbe = GameObject.AddComponent<EnvironmentProbe>();
+            wind = GameObject.AddComponent<WindSound>();
             envProbe.camera = camera;
             wind.movement = movement;
             wind.probe = envProbe;
@@ -59,19 +59,29 @@ namespace Infinitra.Open.Avatars
         
         public override void DeinitImpl()
         {
-            appearance.Deinit();
+            Appearance.Deinit();
             Object.Destroy(goAppearanceUpdater);
             Object.Destroy(envProbe);
             Object.Destroy(wind);
         }
         
-        public override ObjectSnapshotBase ToSnapshot()
+        public override ObjectSnapshotUser ToSnapshot()
         {
-            ObjectSnapshotDummy snapshot = new();
-            snapshot.position = goPosition;
-            snapshot.rotation = goRotation;
-            snapshot.timestamp = Timestamp.GetCurrentTimestamp();
-            return snapshot;
+            ObjectSnapshotDummy snap = new();
+            snap.position = Transform.goPosition;
+            snap.rotation = Transform.goRotation;
+            snap.timestamp = Timestamp.GetCurrentTimestamp();
+            return snap;
+        }
+
+        protected override void OnDeathImpl()
+        {
+            Appearance.OnDeath();
+        }
+
+        protected override void OnRespawnImpl()
+        {
+            Appearance.OnRespawn();
         }
     }
     
@@ -83,34 +93,34 @@ namespace Infinitra.Open.Avatars
         private Animator animator;
         private RuntimeAnimatorController animationController;
 
-        public override ObjectSnapshotBase snapshotInterpol { get; set; }
+        public override ObjectSnapshot snapshotInterpol { get; set; }
         
         public override string Name => "Dummy";
         public override string ModelPath => "Objects/UserDummy";
         
-        public override void CreateGo()
+        public override void Visualize()
         {
             Log.Info("Creating GameObject remote for object id: {0}", objectId);
             
-            gameObject = AssetCache.InstantiatePrefab(ModelPath);
-            charController = gameObject.GetComponent<CharacterController>();
-            if (charController == null) charController = gameObject.AddComponent<CharacterController>();
+            GameObject = AssetCache.InstantiatePrefab(ModelPath);
+            charController = GameObject.GetComponent<CharacterController>();
+            if (charController == null) charController = GameObject.AddComponent<CharacterController>();
 
             charController.height = modelConfig.charHeight;
             charController.radius = modelConfig.charRadius;
             charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
             
-            AvatarDummyAppearance goAppearance = new();
-            GoAppearanceUpdater goAppearanceUpdater = gameObject.AddComponent<GoAppearanceUpdater>();
-            goAppearanceUpdater.appearance = goAppearance;
+            Appearance = new AvatarDummyAppearance();
+            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
+            goAppearanceUpdater.appearance = Appearance;
             goAppearanceUpdater.appearance.Init(this);
 
             animationController = AssetCache.LoadResourceAsset<RuntimeAnimatorController>("Animations/BasicMotions");
-            animator = gameObject.GetComponentInChildren<Animator>();
+            animator = GameObject.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = animationController;
         }
 
-        public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshotBase last, ObjectSnapshotBase lastPrev)
+        public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshot last, ObjectSnapshot lastPrev)
         {
             float timeSinceLastUpdate = (float)(currentDateTimeCorrected - last.datetime).TotalSeconds;
 
@@ -143,12 +153,12 @@ namespace Infinitra.Open.Avatars
             UnityEngine.Quaternion lookRotation = UnityEngine.Quaternion.LookRotation(new Vector3((float)newVelocity.x, 0, (float)newVelocity.z));
 
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
-                UnityConversions.ToUnity(goRotation), 
+                UnityConversions.ToUnity(Transform.goRotation), 
                 lookRotation, 
                 timeDelta * rotateSpeed
             );
             
-            goRotation = UnityConversions.FromUnity(newRotation);
+            Transform.goRotation = UnityConversions.FromUnity(newRotation);
 
             double speed = new Vector(velocityReal.x, 0, velocityReal.z).magnitude;
             animator.SetFloat("Speed", (float)speed);
@@ -157,14 +167,27 @@ namespace Infinitra.Open.Avatars
         public override void GroundChange(object arg1, bool ground)
         {
             animator.SetBool("Ground", ground);
-            if (!ground) animator.SetTrigger("LeftGround");
+            if (!ground) animator.SetTrigger("GroundChange");
         }
 
-        public override void ApplySnapshot(string name, ObjectSnapshotBase snapshot)
+        public override void ApplySnapshot(string name, ObjectSnapshot snapshot)
         {
-            goPosition = snapshot.position;
-            goRotation = snapshot.rotation;
+            Transform.goPosition = snapshot.position;
+            Transform.goRotation = snapshot.rotation;
             hoverLabel = name;
+        }
+
+        protected override void OnDeathImpl()
+        {
+            animator.SetTrigger("DeadChange");
+            animator.SetBool("Dead", true);
+            Appearance.OnDeath();
+        }
+
+        protected override void OnRespawnImpl()
+        {
+            animator.SetBool("Dead", false);
+            Appearance.OnRespawn();
         }
     }
     
@@ -178,6 +201,7 @@ namespace Infinitra.Open.Avatars
         private float stepTimer;
 
         private SoundClips activeClips;
+        
         private static Dictionary<uint, SoundClips> clipDict = new();
 
         static AvatarDummyAppearance()
@@ -232,9 +256,9 @@ namespace Infinitra.Open.Avatars
 
         public override void Init(IGoUser go)
         {
-            this.go = go;
+            this.goUser = go;
             audioSources = new AudioSource[2];
-            audioSources[0] = go.gameObject.AddComponent<AudioSource>();
+            audioSources[0] = go.GameObject.AddComponent<AudioSource>();
             audioSources[0].spatialBlend = 1f;
         }
         
@@ -242,13 +266,23 @@ namespace Infinitra.Open.Avatars
         {
             Object.Destroy(audioSources[0]);
         }
-        
-        public override void Update(float timeDelta)
+
+        public override void OnDeath()
         {
-            processFootStepSounds(new Vector(go.velocity.x, 0, go.velocity.z));
+            Deinit();
         }
 
-        private void processFootStepSounds(Vector moveVector)
+        public override void OnRespawn()
+        {
+            Init(goUser);
+        }
+
+        public override void Update(float timeDelta)
+        {
+            ProcessFootStepSounds(new Vector(goUser.velocity.x, 0, goUser.velocity.z));
+        }
+
+        private void ProcessFootStepSounds(Vector moveVector)
         {
             float speed = (float)moveVector.magnitude;
 
@@ -258,7 +292,7 @@ namespace Infinitra.Open.Avatars
 
             groundedTimer = Mathf.Clamp01(groundedTimer);
 
-            if (go.collDown)
+            if (goUser.collDown)
             {
                 if (groundedTimer == 0.0f)
                 {

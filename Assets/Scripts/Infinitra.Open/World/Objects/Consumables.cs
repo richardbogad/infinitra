@@ -16,7 +16,7 @@ namespace Infinitra.Open.World.Objects
 
     internal class JetPackSound : GoAppearance
     {
-        private IGoUser gameObject;
+        private IGoUser goUser;
 
         private static SoundClips jetPackClip;
         
@@ -29,17 +29,17 @@ namespace Infinitra.Open.World.Objects
 
         public override void Init(IGoUser go)
         {
-            this.gameObject = go;
+            goUser = go;
             
             audioSources = new AudioSource[1];
-            audioSources[0] = go.gameObject.AddComponent<AudioSource>();
+            audioSources[0] = go.GameObject.AddComponent<AudioSource>();
             audioSources[0].spatialBlend = 1f;
             jetPackClip.PlaySound(audioSources[0]);
         }
 
         public override void Update(float timeDelta)
         {
-            float speed = gameObject.velocityMag;
+            float speed = goUser.velocityMag;
             float volume = Mathf.Lerp(0.25f, 0.66f, speed / 5.0f);
             float pitch = Mathf.Lerp(0.75f, 1.25f, speed / 5.0f);
 
@@ -50,6 +50,17 @@ namespace Infinitra.Open.World.Objects
         public override void Deinit()
         {
             Object.Destroy(audioSources[0]);
+        }
+
+        public override void OnDeath()
+        {
+            Deinit();
+        }
+
+        public override void OnRespawn()
+        {
+            // This should not occur because items are dropped when users die.
+            Init(goUser);
         }
     }
 

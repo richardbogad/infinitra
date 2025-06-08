@@ -14,6 +14,7 @@ using Infinitra.Core.Objects;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
@@ -24,30 +25,40 @@ namespace Infinitra.Open.Avatars
     {
         public override void InitImpl()
         {
-            GoAppearanceUpdater goAppearanceUpdater = gameObject.AddComponent<GoAppearanceUpdater>();
+            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
             
-            GoAppearance appearance = new AvatarDroneAppearance();
-            appearance.Init(this);
-            goAppearanceUpdater.appearance = appearance;
+            Appearance = new AvatarDroneAppearance();
+            Appearance.Init(this);
+            goAppearanceUpdater.appearance = Appearance;
         }
         
         public override void DeinitImpl()
         {
-            GoAppearanceUpdater goAppearanceUpdater = gameObject.GetComponent<GoAppearanceUpdater>();
+            Appearance.Deinit();
+            GoAppearanceUpdater goAppearanceUpdater = GameObject.GetComponent<GoAppearanceUpdater>();
             if (goAppearanceUpdater != null)
             {
-                goAppearanceUpdater.appearance.Deinit();
                 Object.Destroy(goAppearanceUpdater);
             }
         }
         
-        public override ObjectSnapshotBase ToSnapshot()
+        public override ObjectSnapshotUser ToSnapshot()
         {
-            ObjectSnapshotDrone snapshot = new();
-            snapshot.position = goPosition;
-            snapshot.rotation = goRotation;
-            snapshot.timestamp = Timestamp.GetCurrentTimestamp();
-            return snapshot;
+            ObjectSnapshotDrone snap = new();
+            snap.position = Transform.goPosition;
+            snap.rotation = Transform.goRotation;
+            snap.timestamp = Timestamp.GetCurrentTimestamp();
+            return snap;
+        }
+
+        protected override void OnDeathImpl()
+        {
+            Appearance.OnDeath();
+        }
+
+        protected override void OnRespawnImpl()
+        {
+            Appearance.OnRespawn();
         }
     }
     
@@ -55,35 +66,34 @@ namespace Infinitra.Open.Avatars
     {
         private float userCollisionTime;
         private float transcendanceTime;
-        private Vector positionIntended;
 
         private static readonly float rotateSpeed = 90;
         
-        public override ObjectSnapshotBase snapshotInterpol { get; set; }
+        public override ObjectSnapshot snapshotInterpol { get; set; }
         
         public override string Name => "Drone";
         public override string ModelPath => "Objects/UserDrone";
         
-        public override void CreateGo()
+        public override void Visualize()
         {
             Log.Info("Creating GameObject remote for object id: {0}", objectId);
             
-            gameObject = AssetCache.InstantiatePrefab(ModelPath);
-            charController = gameObject.GetComponent<CharacterController>();
-            if (charController == null) charController = gameObject.AddComponent<CharacterController>();
+            GameObject = AssetCache.InstantiatePrefab(ModelPath);
+            charController = GameObject.GetComponent<CharacterController>();
+            if (charController == null) charController = GameObject.AddComponent<CharacterController>();
  
             charController.height = modelConfig.charHeight;
             charController.radius = modelConfig.charRadius;
             charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
 
-            AvatarDroneAppearance goAppearance = new();
-            goAppearance.Init(this);
+            Appearance = new AvatarDroneAppearance();
+            Appearance.Init(this);
             
-            GoAppearanceUpdater goAppearanceUpdater = gameObject.AddComponent<GoAppearanceUpdater>();
-            goAppearanceUpdater.appearance = goAppearance;
+            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
+            goAppearanceUpdater.appearance = Appearance;
         }
 
-        public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshotBase last, ObjectSnapshotBase lastPrev)
+        public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshot last, ObjectSnapshot lastPrev)
         {
             float timeSinceLastUpdate = (float)(currentDateTimeCorrected - last.datetime).TotalSeconds;
 
@@ -115,22 +125,32 @@ namespace Infinitra.Open.Avatars
             
             // Interpolating Rotation
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
-                UnityConversions.ToUnity(goRotation), 
+                UnityConversions.ToUnity(Transform.goRotation), 
                 UnityConversions.ToUnity(destRotation), 
                 timeDelta * rotateSpeed
             );
-            goRotation = UnityConversions.FromUnity(newRotation);
+            Transform.goRotation = UnityConversions.FromUnity(newRotation);
         }
 
         public override void GroundChange(object arg1, bool ground)
         {
         }
 
-        public override void ApplySnapshot(string name, ObjectSnapshotBase snapshot)
+        public override void ApplySnapshot(string name, ObjectSnapshot snapshot)
         {
-            goPosition = snapshot.position;
-            goRotation = snapshot.rotation;
+            Transform.goPosition = snapshot.position;
+            Transform.goRotation = snapshot.rotation;
             hoverLabel = name;
+        }
+
+        protected override void OnDeathImpl()
+        {
+            Appearance.OnDeath();
+        }
+
+        protected override void OnRespawnImpl()
+        {
+            Appearance.OnRespawn();
         }
     }
     
@@ -156,12 +176,12 @@ namespace Infinitra.Open.Avatars
 
         public override void Init(IGoUser go)
         {
-            this.go = go;
+            this.goUser = go;
             
             audioSources = new AudioSource[2];
-            audioSources[0] = go.gameObject.AddComponent<AudioSource>();
+            audioSources[0] = go.GameObject.AddComponent<AudioSource>();
             audioSources[0].spatialBlend = 1f;
-            audioSources[1] = go.gameObject.AddComponent<AudioSource>();
+            audioSources[1] = go.GameObject.AddComponent<AudioSource>();
             audioSources[1].spatialBlend = 1f;
             
             droneHoriSounds.PlaySound(audioSources[0]);
@@ -173,15 +193,27 @@ namespace Infinitra.Open.Avatars
             Object.Destroy(audioSources[0]);
             Object.Destroy(audioSources[1]);
         }
-        
+
+        public override void OnDeath()
+        {
+            Deinit();
+        }
+
+        public override void OnRespawn()
+        {
+            Init(goUser);
+        }
+
         public override void Update(float timeDelta)
         {
-            UpdateDroneSound(audioSources[0], new Vector(go.velocity.x, 0, go.velocity.z));
-            UpdateDroneSound(audioSources[1], new Vector(0, go.velocity.y, 0), volFactor: 0.5f);
+            UpdateDroneSound(audioSources[0], new Vector(goUser.velocity.x, 0, goUser.velocity.z));
+            UpdateDroneSound(audioSources[1], new Vector(0, goUser.velocity.y, 0), volFactor: 0.5f);
         }
 
         private void UpdateDroneSound(AudioSource audioSourceLoop, Vector movementVector, float volFactor = 1f)
         {
+            if (audioSourceLoop == null) return;
+            
             float speed = (float)movementVector.magnitude;
             float volume = Mathf.Lerp(0.25f, 0.75f, speed / 5.0f);
             float pitch = Mathf.Lerp(0.25f, 1.0f, speed / 5.0f);
