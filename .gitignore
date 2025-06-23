@@ -72,6 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Packages
+/[Aa]ssets/Plugins/Banana Yellow Games/
 /[Aa]ssets/Free Sci-Fi Drone/
 /[Aa]ssets/Granite Rocks/
 /[Aa]ssets/Kevin Iglesias/
@@ -91,12 +92,15 @@ Assets/Tests/Infinitra.Shared.Tests*
 Assets/Tests/Infinitra.Core.Tests*
 geometry4Sharp.csproj
 Assets/Scripts/G4Sharp
-Assets/Firebase
 Temp/
 .idea
 archive/
 Assets/Plugins/Infinitra.Core.*
-Assets/StreamingAssets/google-services-desktop.*
-Assets/Scripts/Editor/BuildProcess.cs
-Assets/Scripts/Editor/BuildProcess.cs.meta
 /[Bb]uild-exe/
+
+Assets/ExternalDependencyManager
+Assets/Editor Default Resources/Firebase
+Assets/StreamingAssets/google-services-desktop.*
+Assets/Firebase
+Assets/Plugins/tvOS
+Assets/Plugins/iOS

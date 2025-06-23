@@ -125,13 +125,14 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
 
 1. **Fork the Repository:** Click on the 'Fork' button at the top right of the GitHub page.
 2. **Clone Your Fork:** Use `git clone` to clone your forked repository to your local machine.
-3. **Install Unity:** Download and install [Unity Hub](https://unity.com/download) and the required Unity version.
+3. **Install Unity:** Download and install the latest [Unity Hub](https://unity.com/download).
 4. **Set Up the Project:**
-    - Open the INFINITRA project in Unity.
-    - Install FirebaseAuth 12.1 and FirebaseFirestore 12.1 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
+    - Open the INFINITRA project in Unity Hub. This will allow to download the required Unity Editor version. 
+    - Install FirebaseAuth 12.10 and FirebaseFirestore 12.10 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
     - Include `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and `google-services.json` from the latest release.
 5. **Add packages**
     - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
+    - Import Unity Asset 'Banana Man' [link](https://assetstore.unity.com/packages/3d/characters/humanoids/banana-man-196830)
     - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)
     - Import Unity Asset 'Rock_Pack' [link](https://assetstore.unity.com/packages/3d/environments/landscapes/rock-pack-210536)
     - Import Unity Asset 'The Toby Foliage Engine / Light' [link](https://assetstore.unity.com/packages/vfx/shaders/the-toby-foliage-engine-light-282901)
@@ -139,6 +140,7 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
     - Import Unity Asset 'Banana Man' [link](https://assetstore.unity.com/packages/3d/characters/humanoids/banana-man-196830)
     - Import Unity Asset 'HDRP Dissolve' [link](https://assetstore.unity.com/packages/vfx/shaders/directx-11/hdrp-dissolve-192055)
     - Import Unity Asset 'Basic Motions FREE' [link](https://assetstore.unity.com/packages/p/basic-motions-free-154271)
+    - Import Unity Asset 'Human Melee Animations FREE' [link](https://assetstore.unity.com/packages/3d/animations/human-melee-animations-free-165785)
     - Import Unity Asset 'Surface Gradient Bump Mapping Samples' (without Project Settings) [link](https://assetstore.unity.com/packages/templates/tutorials/surface-gradient-bump-mapping-samples-240786)
     - Import Unity Asset 'House Interior - Free' [link](https://assetstore.unity.com/packages/3d/props/interior/house-interior-free-258782)
     - Import Unity Asset 'Simple Gems and Items Ultimate Animated Customizable Pack' [link](https://assetstore.unity.com/packages/3d/props/simple-gems-and-items-ultimate-animated-customizable-pack-73764)
