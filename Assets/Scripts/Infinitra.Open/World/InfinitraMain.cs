@@ -13,39 +13,42 @@ using Infinitra.Shared.ServerComm.Firestore;
 using Infinitra.Shared.ServerComm.ModelRest;
 using Infinitra.Shared.World.Objects;
 using UnityEngine;
+using CarverSphereSmall10m = Infinitra.Open.World.Objects.CarverSphereSmall10m;
 
 namespace Infinitra.Open.World
 {
     public class InfinitraMain : MonoBehaviour
     {
- 
         // Routine Initialization Step
         public void Awake()
         {
-            CompLoader.RegisterUserLocalFactory(Appearance.DRONE, new AvatarDroneLocalFactory());
-            CompLoader.RegisterUserLocalFactory(Appearance.DUMMY, new AvatarDummyLocalFactory());
+            CompLoader.RegisterUserRemoteFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneRemoteFactory());
+            CompLoader.RegisterUserRemoteFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyRemoteFactory());
             
-            CompLoader.RegisterUserRemoteFactory(typeof(ObjectSnapshotDrone), new AvatarDroneRemoteFactory());
-            CompLoader.RegisterUserRemoteFactory(typeof(ObjectSnapshotDummy), new AvatarDummyRemoteFactory());
+            CompLoader.RegisterUserRemoteAppearanceFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneAppearanceFactory());
+            CompLoader.RegisterUserRemoteAppearanceFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyRemoteAppearanceFactory());
             
-            CompLoader.RegisterUserAppearanceFactory(Appearance.DRONE, new AvatarDroneAppearanceFactory());
-            CompLoader.RegisterUserAppearanceFactory(Appearance.DUMMY, new AvatarDummyAppearanceFactory());
+            CompLoader.RegisterUserLocalAppearanceFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneAppearanceFactory());
+            CompLoader.RegisterUserLocalAppearanceFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyLocalAppearanceFactory());
             
-            CompLoader.RegisterConsumableAppearanceFactory(ConsumeableAction.JETPACK_1m, new JetPackSoundFactory());
+            CompLoader.RegisterConsumableItemAppearanceFactory(ConsumeableAction.JETPACK_1m, new JetPackSoundFactory());
+            CompLoader.RegisterConsumableItemAppearanceFactory(ConsumeableAction.CARVER_SPHERE_SMALL_10m, new CarverSphereSmall10mFactory());
+
+            CarverSphereSmall10m.Load();
             
-            CompLoader.awake();
+            CompLoader.Awake();
         }
 
         // Routine Startup Step
         public void Start()
         {
-            CompLoader.start();
+            CompLoader.Start();
         }
 
         // Recurrent Frame Step
         public void Update()
         {
-            CompLoader.update(Time.deltaTime);
+            CompLoader.Update(Time.deltaTime);
         }
     }
 }

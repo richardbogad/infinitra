@@ -8,10 +8,11 @@
 using System;
 using System.Collections.Generic;
 using Firebase.Firestore;
-using Infinitra.Core.Avatars;
+using Infinitra.Core.Appearance;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
+using Infinitra.Core.World.Users;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
@@ -22,71 +23,6 @@ using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
 namespace Infinitra.Open.Avatars
 {
-    internal class AvatarDummyLocal : GoUserLocal
-    {
-        private GoAppearanceUpdater goAppearanceUpdater;
-        private EnvironmentProbe envProbe;
-        private WindSound wind;
-
-        private static readonly SoundClips windSound;
-        
-        static AvatarDummyLocal()
-        {
-            windSound = new SoundClips();
-            windSound.addSound("Sounds/wind", 0, true, priority: 50);
-            windSound.load();
-        }
-
-        
-        public override void InitImpl()
-        {
-            goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
-            
-            Appearance = new AvatarDummyAppearance();
-            Appearance.Init(this);
-            goAppearanceUpdater.appearance = Appearance;
-            
-            envProbe = GameObject.AddComponent<EnvironmentProbe>();
-            wind = GameObject.AddComponent<WindSound>();
-            envProbe.camera = camera;
-            wind.movement = movement;
-            wind.probe = envProbe;
-            wind.windSound = windSound;
-        }
-        
-        public override void DeinitImpl()
-        {
-            Appearance.Deinit();
-            Object.Destroy(goAppearanceUpdater);
-            Object.Destroy(envProbe);
-            Object.Destroy(wind);
-        }
-
-        public override void OnDamage()
-        {
-            Appearance.OnDamage();
-        }
-
-        public override ObjectSnapshotUser ToSnapshot()
-        {
-            ObjectSnapshotDummy snap = new();
-            snap.position = Transform.goPosition;
-            snap.rotation = Transform.goRotation;
-            snap.timestamp = Timestamp.GetCurrentTimestamp();
-            return snap;
-        }
-
-        protected override void OnDeathImpl()
-        {
-            Appearance.OnDeath();
-        }
-
-        protected override void OnRespawnImpl()
-        {
-            Appearance.OnRespawn();
-        }
-    }
-    
     internal class AvatarDummyRemote : GoUserRemote
     {
 
@@ -96,14 +32,14 @@ namespace Infinitra.Open.Avatars
         private RuntimeAnimatorController animationController;
 
         public override ObjectSnapshot snapshotInterpol { get; set; }
-        
+
         public override string Name => "Dummy";
         public override string ModelPath => "Objects/UserDummy";
-        
+
         public override void Visualize()
         {
             Log.Info("Creating GameObject remote for object id: {0}", objectId);
-            
+
             GameObject = AssetCache.InstantiatePrefab(ModelPath);
             charController = GameObject.GetComponent<CharacterController>();
             if (charController == null) charController = GameObject.AddComponent<CharacterController>();
@@ -111,11 +47,6 @@ namespace Infinitra.Open.Avatars
             charController.height = modelConfig.charHeight;
             charController.radius = modelConfig.charRadius;
             charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
-            
-            Appearance = new AvatarDummyAppearance();
-            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
-            goAppearanceUpdater.appearance = Appearance;
-            goAppearanceUpdater.appearance.Init(this);
 
             animationController = AssetCache.LoadResourceAsset<RuntimeAnimatorController>("Animations/BasicMotions");
             animator = GameObject.GetComponentInChildren<Animator>();
@@ -151,21 +82,21 @@ namespace Infinitra.Open.Avatars
 
         public override void UpdateMovementRemoteImpl(float timeDelta, Vector newVelocity, Vector velocityReal)
         {
-            
+
             UnityEngine.Quaternion lookRotation = UnityEngine.Quaternion.LookRotation(new Vector3((float)newVelocity.x, 0, (float)newVelocity.z));
 
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
-                UnityConversions.ToUnity(Transform.goRotation), 
-                lookRotation, 
+                UnityConversions.ToUnity(Transform.goRotation),
+                lookRotation,
                 timeDelta * rotateSpeed
             );
-            
+
             Transform.goRotation = UnityConversions.FromUnity(newRotation);
 
             double speed = new Vector(velocityReal.x, 0, velocityReal.z).magnitude;
             animator.SetFloat("Speed", (float)speed);
         }
-        
+
         public override void GroundChange(object arg1, bool ground)
         {
             animator.SetBool("Ground", ground);
@@ -179,21 +110,24 @@ namespace Infinitra.Open.Avatars
             hoverLabel = name;
         }
 
-        protected override void OnDeathImpl()
+        public override void OnDeath()
         {
             animator.SetTrigger("DeadChange");
             animator.SetBool("Dead", true);
-            Appearance.OnDeath();
         }
 
-        protected override void OnRespawnImpl()
+        public override void OnRespawn()
         {
             animator.SetBool("Dead", false);
-            Appearance.OnRespawn();
+        }
+
+        public override void OnDamage()
+        {
+            // TODO add sounds
         }
     }
-    
-    internal class AvatarDummyAppearance : MovementAppearanceEncVal
+
+    internal class AvatarDummyRemoteAppearance : MovementAppearanceEncVal
     {
         private readonly float speedThreshold = 1.0f;
         private readonly float stepIntervalBase = 2.0f;
@@ -204,10 +138,13 @@ namespace Infinitra.Open.Avatars
 
         private SoundClips footStepSounds;
         private static readonly SoundClips damageSounds;
-        
+
         private static Dictionary<uint, SoundClips> clipDict = new();
 
-        static AvatarDummyAppearance()
+        private AudioSourceWrapper audioSource0;
+        private AudioSourceWrapper audioSource1;
+
+        static AvatarDummyRemoteAppearance()
         {
             SoundClips sound = new();
             sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.5f, priority: 50);
@@ -223,7 +160,7 @@ namespace Infinitra.Open.Avatars
             sound.load();
             clipDict.Add(EncVal.encValBuilding, sound);
             clipDict.Add(EncVal.encValUrbanFloor, sound);
-            
+
             sound = new();
             sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step0", 0.35f, priority: 50);
             sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step1", 0.35f, priority: 50);
@@ -234,7 +171,7 @@ namespace Infinitra.Open.Avatars
             sound.addSound("Sounds/Classic Footstep SFX/Forest/Forest_ground_step6", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValGrass, sound);
-            
+
             sound = new();
             sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step0", 0.35f, priority: 50);
             sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step1", 0.35f, priority: 50);
@@ -243,7 +180,7 @@ namespace Infinitra.Open.Avatars
             sound.addSound("Sounds/Classic Footstep SFX/Ground/Ground_Step4", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValGround, sound);
-            
+
             sound = new();
             sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step0", 0.35f, priority: 50);
             sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step1", 0.35f, priority: 50);
@@ -255,7 +192,7 @@ namespace Infinitra.Open.Avatars
             sound.addSound("Sounds/Classic Footstep SFX/Rock/Rocky_ground_step7", 0.35f, priority: 50);
             sound.load();
             clipDict.Add(EncVal.encValSnow, sound);
-            
+
             damageSounds = new();
             damageSounds.addSound("Sounds/SpaceSFX/beat/beat1", 0.5f, priority: 50);
             damageSounds.addSound("Sounds/SpaceSFX/beat/beat2", 0.5f, priority: 50);
@@ -264,37 +201,28 @@ namespace Infinitra.Open.Avatars
             damageSounds.load();
         }
 
-        public override void Init(IGoUser go)
+        public override void Init()
         {
-            this.goUser = go;
-            audioSources = new AudioSource[2];
-            audioSources[0] = go.GameObject.AddComponent<AudioSource>();
-            audioSources[0].spatialBlend = 1f;
-        }
-        
-        public override void Deinit()
-        {
-            Object.Destroy(audioSources[0]);
+            audioSource0 = GetOrAddAudioSource(0);
+            audioSource1 = GetOrAddAudioSource(1);
         }
 
         public override void OnDeath()
         {
-            Deinit();
         }
 
         public override void OnRespawn()
         {
-            Init(goUser);
         }
 
         public override void OnDamage()
         {
-            damageSounds.PlaySound(audioSources[0]);
+            audioSource1.Play(damageSounds);
         }
 
-        public override void Update(float timeDelta)
+        public override void UpdateImpl(float timeDelta)
         {
-            ProcessFootStepSounds(new Vector(goUser.velocity.x, 0, goUser.velocity.z));
+            ProcessFootStepSounds(new Vector(GoUser.velocity.x, 0, GoUser.velocity.z));
         }
 
         private void ProcessFootStepSounds(Vector moveVector)
@@ -307,16 +235,16 @@ namespace Infinitra.Open.Avatars
 
             groundedTimer = Mathf.Clamp01(groundedTimer);
 
-            if (goUser.collDown)
+            if (GoUser.collDown)
             {
                 if (groundedTimer == 0.0f)
                 {
-                    if (footStepSounds != null) footStepSounds.PlaySound(audioSources[0]);
+                    if (footStepSounds != null) audioSource0.Play(footStepSounds);
                 }
                 else if (speed > speedThreshold && stepTimer <= 0)
                 {
                     // Reset the timer based on speed, with a minimum threshold to prevent steps from being too rapid
-                    if (footStepSounds != null) footStepSounds.PlaySound(audioSources[0]);
+                    if (footStepSounds != null) audioSource0.Play(footStepSounds);
                     stepTimer = stepIntervalBase / (2.0f * speed / speedIntervalDouble);
                 }
 
@@ -336,15 +264,33 @@ namespace Infinitra.Open.Avatars
             }
         }
     }
-       
-    internal class AvatarDummyLocalFactory : GenericFactory<GoUserLocal>
+
+
+    internal class AvatarDummyLocalAppearance : AvatarDummyRemoteAppearance
     {
-        public override GoUserLocal NewInstance()
+
+        private EnvironmentProbe envProbe;
+        private WindSound wind;
+
+        private static readonly SoundClips windSound;
+
+        static AvatarDummyLocalAppearance()
         {
-            return new AvatarDummyLocal();
+            windSound = new SoundClips();
+            windSound.addSound("Sounds/wind", 0, true, priority: 50);
+            windSound.load();
+        }
+
+        public override void Init()
+        {
+            base.Init();
+
+            envProbe = GetOrAddComponent<EnvironmentProbe>();
+            wind = GetOrAddComponent<WindSound>();
+            wind.windSound = windSound;
         }
     }
-    
+
     internal class AvatarDummyRemoteFactory : GenericFactory<GoUserRemote>
     {
         public override GoUserRemote NewInstance()
@@ -352,12 +298,21 @@ namespace Infinitra.Open.Avatars
             return new AvatarDummyRemote();
         }
     }
-    
-    internal class AvatarDummyAppearanceFactory : GenericFactory<GoAppearance>
+
+    internal class AvatarDummyRemoteAppearanceFactory : GenericFactory<UserAppearance>
     {
-        public override GoAppearance NewInstance()
+        public override UserAppearance NewInstance()
         {
-            return new AvatarDummyAppearance();
+            return new AvatarDummyRemoteAppearance();
+        }
+    }
+
+    internal class AvatarDummyLocalAppearanceFactory : GenericFactory<UserAppearance>
+    {
+        public override UserAppearance NewInstance()
+        {
+            return new AvatarDummyLocalAppearance();
         }
     }
 }
+

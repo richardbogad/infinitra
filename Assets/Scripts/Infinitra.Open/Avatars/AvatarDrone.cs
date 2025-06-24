@@ -7,10 +7,11 @@
 
 using System;
 using Firebase.Firestore;
-using Infinitra.Core.Avatars;
+using Infinitra.Core.Appearance;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
+using Infinitra.Core.World.Users;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
@@ -20,52 +21,6 @@ using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
 namespace Infinitra.Open.Avatars
 {
-    internal class AvatarDroneLocal : GoUserLocal
-    {
-        public override void InitImpl()
-        {
-            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
-            
-            Appearance = new AvatarDroneAppearance();
-            Appearance.Init(this);
-            goAppearanceUpdater.appearance = Appearance;
-        }
-        
-        public override void DeinitImpl()
-        {
-            Appearance.Deinit();
-            GoAppearanceUpdater goAppearanceUpdater = GameObject.GetComponent<GoAppearanceUpdater>();
-            if (goAppearanceUpdater != null)
-            {
-                Object.Destroy(goAppearanceUpdater);
-            }
-        }
-
-        public override void OnDamage()
-        {
-            Appearance.OnDamage();
-        }
-
-        public override ObjectSnapshotUser ToSnapshot()
-        {
-            ObjectSnapshotDrone snap = new();
-            snap.position = Transform.goPosition;
-            snap.rotation = Transform.goRotation;
-            snap.timestamp = Timestamp.GetCurrentTimestamp();
-            return snap;
-        }
-
-        protected override void OnDeathImpl()
-        {
-            Appearance.OnDeath();
-        }
-
-        protected override void OnRespawnImpl()
-        {
-            Appearance.OnRespawn();
-        }
-    }
-    
     internal class AvatarDroneRemote : GoUserRemote
     {
         private float userCollisionTime;
@@ -89,12 +44,6 @@ namespace Infinitra.Open.Avatars
             charController.height = modelConfig.charHeight;
             charController.radius = modelConfig.charRadius;
             charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
-
-            Appearance = new AvatarDroneAppearance();
-            Appearance.Init(this);
-            
-            GoAppearanceUpdater goAppearanceUpdater = GameObject.AddComponent<GoAppearanceUpdater>();
-            goAppearanceUpdater.appearance = Appearance;
         }
 
         public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshot last, ObjectSnapshot lastPrev)
@@ -147,34 +96,41 @@ namespace Infinitra.Open.Avatars
             hoverLabel = name;
         }
 
-        protected override void OnDeathImpl()
+        public override void OnDeath()
         {
-            Appearance.OnDeath();
+
         }
 
-        protected override void OnRespawnImpl()
+        public override void OnRespawn()
         {
-            Appearance.OnRespawn();
+        }
+
+        public override void OnDamage()
+        {
+            // TODO add sounds
         }
     }
     
-    internal class AvatarDroneAppearance : GoAppearance
+    internal class AvatarDroneAppearance : UserAppearance
     {
         private static readonly SoundClips droneVertSounds;
         private static readonly SoundClips droneHoriSounds;
         private static readonly SoundClips damageSounds;
+        
+        private AudioSourceWrapper audioSource0;
+        private AudioSourceWrapper audioSource1;
+        private AudioSourceWrapper audioSource2;
+        
         static AvatarDroneAppearance()
         {
             droneHoriSounds = new();
             droneHoriSounds.addSound(
-                "Sounds/MagicSoundEffects/Spacecraft Engines/UFO/spacecraft_ufo_b_engine_loop_1x", 0.0f, true,
-                priority: 50);
+                "Sounds/MagicSoundEffects/Spacecraft Engines/UFO/spacecraft_ufo_b_engine_loop_1x", 0.1f, true, priority: 50);
             droneHoriSounds.load();   
             
             droneVertSounds = new();
             droneVertSounds.addSound(
-                "Sounds/MagicSoundEffects/Spacecraft Engines/Drone/spacecraft_drone_b_engine_loop_1x", 0.0f, true,
-                priority: 50);
+                "Sounds/MagicSoundEffects/Spacecraft Engines/Drone/spacecraft_drone_b_engine_loop_1x", 0.1f, true, priority: 50);
             droneVertSounds.load();
             
             damageSounds = new();
@@ -185,47 +141,33 @@ namespace Infinitra.Open.Avatars
             damageSounds.load();
         }
 
-        public override void Init(IGoUser go)
+        public override void Init()
         {
-            this.goUser = go;
+            audioSource0 = GetOrAddAudioSource(0);
+            audioSource1 = GetOrAddAudioSource(1);
+            audioSource2 = GetOrAddAudioSource(2);
             
-            audioSources = new AudioSource[3];
-            audioSources[0] = go.GameObject.AddComponent<AudioSource>();
-            audioSources[0].spatialBlend = 1f;
-            audioSources[1] = go.GameObject.AddComponent<AudioSource>();
-            audioSources[1].spatialBlend = 1f;
-            audioSources[2] = go.GameObject.AddComponent<AudioSource>();
-            audioSources[2].spatialBlend = 1f;
-            
-            droneHoriSounds.PlaySound(audioSources[0]);
-            droneVertSounds.PlaySound(audioSources[1]);
-        }
-
-        public override void Deinit()
-        {
-            Object.Destroy(audioSources[0]);
-            Object.Destroy(audioSources[1]);
+            audioSource0.Play(droneHoriSounds);
+            audioSource1.Play(droneVertSounds);
         }
 
         public override void OnDeath()
         {
-            Deinit();
         }
 
         public override void OnRespawn()
         {
-            Init(goUser);
         }
 
         public override void OnDamage()
         {
-            damageSounds.PlaySound(audioSources[2]);
+            audioSource2.Play(damageSounds);
         }
 
-        public override void Update(float timeDelta)
+        public override void UpdateImpl(float timeDelta)
         {
-            UpdateDroneSound(audioSources[0], new Vector(goUser.velocity.x, 0, goUser.velocity.z));
-            UpdateDroneSound(audioSources[1], new Vector(0, goUser.velocity.y, 0), volFactor: 0.5f);
+            UpdateDroneSound(audioSource0.audioSource, new Vector(GoUser.velocity.x, 0, GoUser.velocity.z));
+            UpdateDroneSound(audioSource1.audioSource, new Vector(0, GoUser.velocity.y, 0), volFactor: 0.5f);
         }
 
         private void UpdateDroneSound(AudioSource audioSourceLoop, Vector movementVector, float volFactor = 1f)
@@ -241,14 +183,6 @@ namespace Infinitra.Open.Avatars
         }
     }
     
-    internal class AvatarDroneLocalFactory : GenericFactory<GoUserLocal>
-    {
-        public override GoUserLocal NewInstance()
-        {
-            return new AvatarDroneLocal();
-        }
-    }
-    
     internal class AvatarDroneRemoteFactory : GenericFactory<GoUserRemote>
     {
         public override GoUserRemote NewInstance()
@@ -257,9 +191,9 @@ namespace Infinitra.Open.Avatars
         }
     }
     
-    internal class AvatarDroneAppearanceFactory : GenericFactory<GoAppearance>
+    internal class AvatarDroneAppearanceFactory : GenericFactory<UserAppearance>
     {
-        public override GoAppearance NewInstance()
+        public override UserAppearance NewInstance()
         {
             return new AvatarDroneAppearance();
         }
