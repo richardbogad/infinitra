@@ -393,7 +393,7 @@ MonoBehaviour:
         asm: Unity.RenderPipelines.HighDefinition.Runtime}
       data:
         m_Version: 0
-        m_VolumeProfile: {fileID: 11400000, guid: f4a93f8311137d24ca29e6d1ae21c899,
+        m_VolumeProfile: {fileID: 11400000, guid: 6a95e786047c4ad4792aedd28e40800d,
           type: 2}
     - rid: 8772440953051938826
       type: {class: DiffusionProfileDefaultSettings, ns: UnityEngine.Rendering.HighDefinition,
