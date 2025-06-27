@@ -9424,8 +9424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearColorMode: 0
-  backgroundColorHDR: {r: 1, g: 1, b: 1, a: 0}
+  clearColorMode: 1
+  backgroundColorHDR: {r: 0.04534, g: 0.1023724, b: 0.2326406, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
