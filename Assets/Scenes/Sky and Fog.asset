@@ -294,11 +294,11 @@ MonoBehaviour:
     m_Value:
     - {fileID: 11400000, guid: 404820c4cf36ad944862fa59c56064f0, type: 2}
     - {fileID: 11400000, guid: 2384dbf2c1c420f45a792fbc315fbfb1, type: 2}
-    - {fileID: 11400000, guid: fd758c9e27d8d784980e86ac31c1676f, type: 2}
-    - {fileID: 11400000, guid: 21b6e5b5286bf9244a1572f4e9bdec1a, type: 2}
     - {fileID: 11400000, guid: 10bcfeca40eec5a45baae8f0d56d27c4, type: 2}
     - {fileID: 11400000, guid: 28c24c8746be05b4ca8be3c7bdc50e5c, type: 2}
     - {fileID: 11400000, guid: b76cad681196f6d45b81cd02653d6b17, type: 2}
+    - {fileID: 11400000, guid: aef3e2a5611531f4b8469806404f3454, type: 2}
+    - {fileID: 11400000, guid: 0df7a09a7fea3ae4eb77543501d5ef91, type: 2}
 --- !u!114 &-5903264509035830326
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   active: 1
   enable:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   cloudTiling:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1}
@@ -1380,7 +1380,7 @@ MonoBehaviour:
     m_Value: 0.4
   shapeFactor:
     m_OverrideState: 1
-    m_Value: 0.886927
+    m_Value: 0.89256734
   shapeScale:
     m_OverrideState: 1
     m_Value: 5

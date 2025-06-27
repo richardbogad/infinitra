@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 7831076393578142060}
   - component: {fileID: 2875625309681321703}
   - component: {fileID: 760958538880767157}
+  - component: {fileID: 652784004760358762}
   m_Layer: 0
   m_Name: ShrubTree_C_Bark_LOD0
   m_TagString: Untagged
@@ -362,6 +363,19 @@ CapsuleCollider:
   m_Height: 4.87
   m_Direction: 1
   m_Center: {x: 0, y: 4.98, z: 0.23}
+--- !u!135 &652784004760358762
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889320640806466569}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.58
+  m_Center: {x: -0.01, y: -0.32, z: 0.04}
 --- !u!1 &4694787405455745457
 GameObject:
   m_ObjectHideFlags: 0
