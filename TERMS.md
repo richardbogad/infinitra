@@ -1,10 +1,10 @@
 # TERMS OF SERVICE FOR INFINITRA
 
-**Last Updated: 2025-04-11**
+**Last Updated: 2025-07-15**
 
-These Terms of Service ("Terms") constitute a legally binding agreement between you (an individual or the entity you represent) and **Richard Bogad Solutions**, an Austrian sole proprietorship ("Richard Bogad Solutions", "we", "us", "our"), governing your access to and use of the **INFINITRA** software (the "Software"), the website located at **[www.infinitra.xyz](https://www.infinitra.xyz)** (the "Website"), any related services including optional user accounts and paid subscriptions, and all associated content and features (collectively, the "Service").
+These Terms of Service ("Terms") constitute a legally binding agreement between you (an individual or the entity you represent) and **Richard Michael Bogad, MSc**, an Austrian sole proprietorship ("Richard Bogad Solutions", "we", "us", "our"), governing your access to and use of the **INFINITRA** software (the "Software"), the website located at **[www.infinitra.xyz](https://www.infinitra.xyz)** (the "Website"), any related services including optional user accounts and paid subscriptions, and all associated content and features (collectively, the "Service").
 
-**IMPORTANT: PLEASE READ THESE TERMS CAREFULLY. BY DOWNLOADING, INSTALLING, ACCESSING, OR USING ANY PART OF THE SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS, OUR [END-USER LICENSE AGREEMENT (EULA) (`EULA.md`)](EULA.md), AND CONSENT TO THE DATA PRACTICES DESCRIBED IN OUR [PRIVACY POLICY (`PRIVACY.md`)](PRIVACY.md). IF YOU DO NOT AGREE TO ALL OF THESE TERMS, YOU ARE NOT AUTHORIZED TO ACCESS OR USE THE SERVICE.**
+**IMPORTANT: PLEASE READ THESE TERMS CAREFULLY. BY DOWNLOADING, INSTALLING, ACCESSING, OR USING ANY PART OF THE SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS, OUR [END-USER LICENSE AGREEMENT (EULA)](EULA.md), AND CONSENT TO THE DATA PRACTICES DESCRIBED IN OUR [PRIVACY POLICY](PRIVACY.md). IF YOU DO NOT AGREE TO ALL OF THESE TERMS, YOU ARE NOT AUTHORIZED TO ACCESS OR USE THE SERVICE.**
 
 ## 1. Acceptance and Modification of Terms
 
@@ -13,33 +13,46 @@ These Terms of Service ("Terms") constitute a legally binding agreement between 
 
 ## 2. Privacy
 
-Our collection and use of your personal information in connection with the Service are described in our [Privacy Policy (`PRIVACY.md`)](PRIVACY.md). By using the Service, you agree to the data practices outlined therein.
+Our collection and use of your personal information in connection with the Service are described in our [Privacy Policy](PRIVACY.md). By using the Service, you agree to the data practices outlined therein.
 
 ## 3. Eligibility and User Accounts
 
-* **Age Requirement:** To create an account or purchase a Subscription, you must be at least 16 years old, or the age of legal majority in your jurisdiction if higher. If you are between 16 and the age of majority, you represent that your parent or legal guardian has reviewed and agreed to these Terms on your behalf. Individuals under 16 may not create an account or subscribe.
+* **Age Requirement:** To create an account or purchase a Subscription, you must be at least 18 years old, or the age of legal majority in your jurisdiction if higher. Individuals under 18 may not create an account or subscribe.
 * **Optional Account:** Basic use of the Software may be possible without an account. However, features like saving progress, accessing personalized content, or using Subscriptions require creating a user account within the Software using a valid email address. Account management relies on third-party services (**Firebase / Google Cloud**).
 * **Account Responsibility:** You are solely responsible for maintaining the confidentiality of your account login credentials (password) and for all activities occurring under your account. You must notify us immediately at **office@infinitra.xyz** of any suspected unauthorized access or security breach. We are not liable for losses caused by your failure to secure your account.
 * **Account Termination by You:** You may delete your account at any time through the options within the Software or by contacting us at **office@infinitra.xyz**. Termination details and data retention are covered in the Privacy Policy.
-* **Account Suspension/Termination by Us:** We reserve the right to suspend or terminate your account and/or access to the Service, with or without notice, at our sole discretion, for reasons including, but not limited to: (a) violation of these Terms, the EULA, or applicable law; (b) conduct harmful to the Service, other users, or third parties; (c) requests from law enforcement or government agencies; (d) extended inactivity; (e) technical or security issues. If your account is terminated or suspended, you will lose access to all associated data, progress, and any active Subscription period, without right to refund or compensation.
+* **Account Suspension/Termination by Us:** We reserve the right to suspend or terminate your account and access to the Service at our sole discretion, including in response to violations of these Terms, the EULA, or applicable law. The nature and severity of any breach, along with its impact on the Service, other users, or third parties, will inform the actions we take, which may range from a warning to immediate suspension or termination, with or without prior notice. Grounds for suspension or termination may include, but are not limited to: (a) legal or regulatory requirements; (b) prolonged account inactivity; or (c) technical, operational, or security concerns. In cases of termination due to a significant or harmful breach, you may lose access to your account, associated data, and any active subscription without refund or compensation.
 
-## 4. Subscriptions, Payments, and **NO REFUNDS**
+## 4. Subscriptions, Payments & Refund Policy
 
-* **Optional Paid Subscriptions:** We offer optional, recurring monthly subscriptions ("Subscription(s)") providing access to specific extended content and features within the Software ("Subscription Content"), available only while your Subscription is active.
-* **Payment Processor:** Subscriptions are purchased within the Software via our third-party payment processor, **Stripe**. By subscribing, you agree to provide current, complete, and accurate payment information and authorize Stripe to charge your chosen payment method. You also agree to Stripe's terms and privacy policy.
-* **Recurring Billing & Automatic Renewal:** Subscriptions are billed monthly in advance. **YOUR SUBSCRIPTION WILL AUTOMATICALLY RENEW EACH MONTH UNLESS YOU CANCEL IT *BEFORE* YOUR NEXT BILLING DATE.** You authorize us (via Stripe) to charge the applicable recurring Subscription fee to your payment method.
-* **Cancellation:** You can cancel the auto-renewal of your Subscription at any time through the account management options within the Software or potentially via Stripe's customer portal (if applicable). Cancellation takes effect at the end of the current billing period. You retain access to Subscription Content until the end of that period.
-* **NO REFUND POLICY - WAIVER OF STATUTORY RIGHT OF WITHDRAWAL:**
-    * **ACKNOWLEDGEMENT OF IMMEDIATE PERFORMANCE:** You expressly agree that the supply of the digital Subscription Content begins immediately upon completion of your purchase confirmation.
-    * **WAIVER OF RIGHT OF WITHDRAWAL:** By purchasing a Subscription and agreeing to these Terms, **YOU EXPRESSLY CONSENT TO THE IMMEDIATE PERFORMANCE OF THE CONTRACT AND ACKNOWLEDGE THAT YOU THEREBY LOSE YOUR STATUTORY RIGHT OF WITHDRAWAL** (e.g., *Rücktrittsrecht* according to § 18 FAGG in Austria and similar rights under the EU Consumer Rights Directive) applicable to digital content contracts where performance begins with the consumer's prior express consent and acknowledgment of losing the withdrawal right. **YOU MUST ACTIVELY CONFIRM THIS (e.g., by checking a mandatory box during the checkout process) before completing your purchase.**
-    * **ALL PAYMENTS ARE FINAL AND NON-REFUNDABLE:** Consequently, except where required by mandatory applicable law that cannot be waived, **all fees paid for Subscriptions are final and non-refundable.** We do not provide refunds or credits for partial subscription periods, unused content, or if your account access is terminated or suspended due to your breach of these Terms.
-* **Price Changes:** We may change the Subscription fees at our discretion. We will provide reasonable prior notice (e.g., 30 days) of any price changes via email or in-Software notification. If you do not agree to the new price, you must cancel your Subscription before the price change takes effect. Continuing your Subscription after the price change constitutes your agreement to the new fee.
-* **Content Changes:** The specific features and content available as part of a Subscription may change over time as we update, modify, add, or remove elements of the Service. We reserve the right to make such changes without prior notice and without entitling you to a refund, provided the core nature of the paid service is maintained during your active paid period, except as required by mandatory law.
+### 4.1. Subscriptions and Payments
+We offer optional, recurring monthly subscriptions (“Subscription(s)”) that provide a license to access additional digital content and features (“Subscription Content”). This license is strictly conditional upon your Subscription remaining active and paid.
+
+All payments are processed exclusively by our authorized reseller, **Polar (Polar Software Inc.)** ("Merchant of Record"), who acts as the Merchant of Record. This means the Merchant of Record is the contractual party responsible for the payment transaction, including handling VAT/GST collection. We do not directly receive or store your full payment card details.
+
+### 4.2. Automatic Renewal
+Your Subscription is billed in advance on a monthly basis and **will automatically renew each month**. You authorize the Merchant of Record to charge the applicable subscription fee to your chosen payment method unless you cancel your subscription prior to the renewal date. You can cancel the automatic renewal at any time through the customer portal provided by the Merchant of Record or via a link in the Software. Upon cancellation, your access to Subscription Content will continue until the end of the current paid billing period, but you will not be charged for the next period.
+
+### 4.3. Refund Policy and Waiver of the Consumer Right of Withdrawal
+For consumers residing in the European Union / European Economic Area (EU/EEA), the law provides a 14-day right of withdrawal from contracts for digital content.
+
+However, the provision of our Subscription service begins immediately upon completion of your purchase. **Therefore, when you purchase a Subscription, you must provide your prior express consent to the immediate performance of the contract and acknowledge that you thereby lose your statutory right of withdrawal.**
+
+This consent is actively given by you via a mandatory checkbox during the checkout process.
+
+**By agreeing to these terms and ticking the corresponding checkbox at checkout, you understand and agree that the 14-day withdrawal period does not apply to your purchase. All payments for Subscriptions are final and non-refundable.** No credits or refunds will be issued for partial subscription periods, subsequent renewals, or unused time, except where required by mandatory consumer protection law in your jurisdiction that cannot be waived.
+
+### 4.4. Price Changes
+We may change the price for Subscriptions from time to time. We will provide you with at least **30 days' prior notice** of any price changes, for example, via email or an in-Software notification. If you do not agree to the new price, you must cancel your Subscription before the change takes effect. Your continued use of the Subscription after the price change constitutes your acceptance of the new price.
+
+### 4.5. Service Evolution
+INFINITRA is a live, evolving service provided on an ongoing basis. You acknowledge that we may add, change, modify, or remove features and content (including Subscription Content) at our sole discretion to improve the Service, for creative reasons, or for technical reasons. Your Subscription is for access to the Service as it exists and evolves over time. Such changes do not constitute a breach of contract or create a right to a refund, except as explicitly required by mandatory law.
 
 ## 5. License and Use of the Service
 
-* **Software License:** Your use of the Software component is governed by the [EULA (`EULA.md`)](EULA.md).
+* **Software License:** Your use of the Software component is governed by the [EULA](EULA.md).
 * **Service Access License:** Subject to your compliance with these Terms and the EULA, we grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to access and use the non-Software parts of the Service (e.g., Website, account system) solely for your personal, non-commercial entertainment purposes.
+* **Service Availability:** You acknowledge that the Service is provided over the internet and that its availability may be affected by factors outside our reasonable control. We do not guarantee that the Service will be available at all times or in all locations. We may need to interrupt the Service for scheduled maintenance, emergency repairs, or upgrades, and we will use reasonable efforts to provide advance notice where practicable.
 * **Prohibited Conduct:** You agree **not** to engage in, attempt, or permit others to engage in any of the following:
     * Any activity that violates the restrictions in the EULA (including reverse engineering `Infinitra.Core.dll` or `Infinitra.Shared.dll`, resale, etc.).
     * Using the Service for any unlawful purpose or in violation of any applicable law or regulation.
@@ -71,7 +84,7 @@ Our collection and use of your personal information in connection with the Servi
 
 ## 8. Third-Party Services and Links
 
-The Service may integrate with or contain links to third-party websites, applications, or services (e.g., **GitHub** for downloads, **Stripe** for payments, **Google Cloud/Firebase** for backend) that are not owned or controlled by us. We are not responsible for the content, privacy policies, or practices of these third parties. Your use of third-party services is subject to their terms and policies. Accessing them is at your own risk, and we disclaim all liability related thereto.
+The Service may integrate with or contain links to third-party websites, applications, or services (e.g., **GitHub** for downloads, the Merchant of Record for payments, **Google Cloud/Firebase** for backend) that are not owned or controlled by us. We are not responsible for the content, privacy policies, or practices of these third parties. Your use of third-party services is subject to their terms and policies. Accessing them is at your own risk, and we disclaim all liability related thereto.
 
 ## 9. Disclaimer of Warranties
 
@@ -81,8 +94,9 @@ TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE AUSTRIAN LAW, THE SERVICE AND ALL 
 
 1.  **Exclusion of Indirect Damages:** TO THE FULLEST EXTENT PERMITTED BY APPLICABLE AUSTRIAN LAW, IN NO EVENT SHALL RICHARD BOGAD SOLUTIONS (INCLUDING ITS OWNER, EMPLOYEES, AFFILIATES, AGENTS, OR LICENSORS) BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, EXEMPLARY, OR PUNITIVE DAMAGES (INCLUDING LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES) ARISING OUT OF OR RELATING TO YOUR ACCESS TO OR USE OF, OR YOUR INABILITY TO ACCESS OR USE, THE SERVICE OR ANY SERVICE MATERIALS, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), STATUTE, OR ANY OTHER LEGAL THEORY, AND WHETHER OR NOT WE HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGE.
 2.  **Cap on Direct Damages:** TO THE FULLEST EXTENT PERMITTED BY APPLICABLE AUSTRIAN LAW, THE TOTAL AGGREGATE LIABILITY OF RICHARD BOGAD SOLUTIONS TO YOU FOR ALL CLAIMS ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE, REGARDLESS OF THE FORM OF ACTION, IS LIMITED TO THE GREATER OF (A) THE TOTAL AMOUNT PAID BY YOU TO RICHARD BOGAD SOLUTIONS FOR SUBSCRIPTIONS DURING THE SIX (6) MONTHS IMMEDIATELY PRECEDING THE EVENTS GIVING RISE TO THE CLAIM, OR (B) TEN EUROS (€10.00).
-3.  **Scope:** These limitations of liability apply even if a remedy set forth herein is found to have failed its essential purpose. They form an essential basis of the bargain between you and us.
-4.  **Mandatory Law Exclusions:** Nothing in these Terms shall limit or exclude liability for death or personal injury resulting from gross negligence (*grobe Fahrlässigkeit*) or willful misconduct (*Vorsatz*), fraudulent misrepresentation, or any other liability that cannot be excluded or limited under mandatory applicable Austrian law. Some jurisdictions' mandatory laws may not allow certain limitations, so they may not fully apply to you.
+3.  **Basis of Bargain:** These limitations of liability apply even if a remedy set forth herein is found to have failed its essential purpose. They form an essential basis of the bargain between you and us.
+4.  **Mandatory Law Exclusions:** Nothing in these Terms is intended to limit or exclude any liability that cannot be limited or excluded under mandatory applicable Austrian law. This includes, without limitation, liability for damages caused by willful misconduct (*Vorsatz*) or gross negligence (*grobe Fahrlässigkeit*), and liability for personal injury.
+5.  **Consumer Rights in Austria and the EU:** For consumers, the warranty rights are governed by the applicable statutory provisions, in particular the Austrian Consumer Warranty Act (VGG). This includes a legal warranty period and a provision stating that for defects that become apparent within one year of provision, it is presumed that the defect existed at the time of provision, unless proven otherwise by us. The limitations of liability mentioned herein do not apply to the extent prohibited by mandatory law.
 
 ## 11. Indemnification
 
@@ -90,7 +104,7 @@ You agree to defend, indemnify, and hold harmless Richard Bogad Solutions, its o
 
 ## 12. Seizure Warning
 
-Please review the Seizure Warning provided in Section 9 of the [EULA (`EULA.md`)](EULA.md). By using the Service, you acknowledge you have read and understood this warning.
+Please review the Seizure Warning provided in Section 9 of the [EULA](EULA.md). By using the Service, you acknowledge you have read and understood this warning.
 
 ## 13. Governing Law and Dispute Resolution
 
@@ -99,12 +113,19 @@ Please review the Seizure Warning provided in Section 9 of the [EULA (`EULA.md`)
 * **Jurisdiction and Dispute Resolution:**
     * **If you are a consumer residing in the European Union:**
         * You benefit from any mandatory provisions of the law of your country of residence. Nothing in these Terms affects your rights as a consumer to rely on such mandatory local laws.
-        * You may bring legal proceedings relating to these Terms or the Service either in the competent courts of **Vienna, Austria**, *or* in the competent courts of the EU member state where you reside.
+        * You may bring legal proceedings relating to these Terms or the Service either in the competent courts of **Wiener Neustadt, Austria**, *or* in the competent courts of the EU member state where you reside.
         * The European Commission provides an online dispute resolution (ODR) platform at [https://ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr). However, Richard Bogad Solutions is neither obligated nor willing to participate in dispute resolution proceedings before a consumer arbitration board.
     * **If you are not a consumer (e.g., a business entity):**
-        * You irrevocably agree that the competent courts of **Vienna, Austria** shall have exclusive jurisdiction to settle any dispute or claim arising out of or relating to these Terms or the Service.
+        * You irrevocably agree that the competent courts of **Wiener Neustadt, Austria** shall have exclusive jurisdiction to settle any dispute or claim arising out of or relating to these Terms or the Service.
 
-## 14. Miscellaneous
+## 14. Updates and Conformity with the Contract
+
+In accordance with EU Directive 2019/770, we are obligated to ensure that the digital content and services provided to you remain in conformity with the contract. We will provide, at no additional cost, all security, compatibility, and functionality updates necessary to keep the Service in conformity for the entire period during which the Service is supplied to you under your active Subscription. For non-subscribing users, this period is that which you can reasonably expect, considering the nature of the Service. **You are obliged to install these updates promptly; failure to do so may relieve us of liability for any resulting lack of conformity.**
+
+## 15. Force Majeure
+We shall not be liable for any failure to perform, or delay in performance of, any of our obligations under these Terms that is caused by any act or event beyond our reasonable control, including without limitation strikes, lock-outs or other industrial action by third parties, civil commotion, riot, invasion, terrorist attack or threat of terrorist attack, war (whether declared or not) or threat or preparation for war, fire, explosion, storm, flood, earthquake, subsidence, epidemic, pandemic, or other natural disaster, or failure of public or private telecommunications networks ("Force Majeure Event"). If a Force Majeure Event takes place that affects the performance of our obligations under these Terms, our obligations will be suspended and the time for performance of our obligations will be extended for the duration of the Force Majeure Event.
+
+## 16. Miscellaneous
 
 * **Entire Agreement:** These Terms, the EULA, and the Privacy Policy constitute the entire agreement between you and Richard Bogad Solutions regarding the Service, superseding any prior agreements.
 * **Severability:** If any provision is found unenforceable, it will be modified to the extent necessary to make it enforceable, and the remaining provisions remain in effect.
@@ -112,11 +133,11 @@ Please review the Seizure Warning provided in Section 9 of the [EULA (`EULA.md`)
 * **Assignment:** We may assign these Terms freely. You may not assign them without our prior written consent.
 * **Headings:** Section headings are for convenience only and have no legal effect.
 
-## 15. Contact Information
+## 17. Contact Information
 
 For questions about these Terms or the Service, please contact:
 
 **Richard Bogad Solutions**
 Email: **office@infinitra.xyz**
 
-The official registered address of Richard Bogad Solutions in Austria is available here: [Legal Disclosure (`LEGAL_DISCLOSURE.md`)](LEGAL_DISCLOSURE.md).
+The official registered address of Richard Bogad Solutions in Austria is available here: [Legal Disclosure](LEGAL_DISCLOSURE.md).

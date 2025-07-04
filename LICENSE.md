@@ -4,7 +4,7 @@
 
 This license **DOES NOT APPLY** to the core compiled libraries `Infinitra.Core.dll` and `Infinitra.Shared.dll` (located in `Assets/Plugins/`), other compiled binaries, assets (unless separately licensed), or the INFINITRA service as a whole.
 
-The use, redistribution, and restrictions related to the `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and the overall INFINITRA software are governed by the [End-User License Agreement (`EULA.md`)](EULA.md) and the Terms of Service (`TERMS.md`). Specifically, `Infinitra.Core.dll` is proprietary, may not be reverse-engineered, and may not be included in any commercially distributed product.
+The use, redistribution, and restrictions related to the `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and the overall INFINITRA software are governed by the [End-User License Agreement](EULA.md) and the [Terms of Service](TERMS.md). Specifically, `Infinitra.Core.dll` is proprietary, may not be reverse-engineered, and may not be included in any commercially distributed product.
 
 Please review the EULA and Terms of Service for the complete licensing conditions for the INFINITRA software.
 

@@ -1,15 +1,15 @@
 <center>
   <p>
 <h1>INFINITRA</h1>
-  <img src="images/infinitra-logo03-small.png" style="width: 25%; display: inline-block;"/>
+  <img src="images/infinitra-logo03-small.png" alt="INFINITRA Logo" style="width: 25%; display: inline-block;"/>
 
-**A Limitless Virtual Reality Universe**
+**Dare to Explore a Universe Born from Mathematics.**
   <p>
-  <img src="images/inworld3.jpg" style="width: 45%; display: inline-block;"/>
-  <img src="images/inworld8.jpg" style="width: 45%; display: inline-block;"/>
+  <img src="images/inworld3.jpg" alt="INFINITRA In-World Screenshot" style="width: 45%; display: inline-block;"/>
+  <img src="images/inworld8.jpg" alt="INFINITRA In-World Screenshot" style="width: 45%; display: inline-block;"/>
   <p>
 
-[more impressions](#impressions)
+[See More From the Frontier](#impressions)
 
   <p>
 
@@ -20,119 +20,145 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Upcoming Features](#upcoming-features)
-- [System Requirements](#system-requirements)
+- [Welcome to the Frontier](#welcome-to-the-frontier)
+- [An Early Expedition: Join and Support Us](#an-early-expedition-join-and-support-us)
+- [Core Features](#core-features)
+- [The Vision: What Lies Ahead](#the-vision-what-lies-ahead)
 - [Installation and Setup](#installation-and-setup)
+- [Account Tiers and Registration](#account-tiers-and-registration)
 - [Controls](#controls)
-- [Contributing](#contributing)
+- [System Requirements](#system-requirements)
+- [For Developers: Contributing](#for-developers-contributing)
 - [Impressions](#impressions)
-- [Legal and Licensing](#legal-and-Licensing)
+- [Legal and Licensing](#legal-and-licensing)
 
-## Introduction
+---
 
-**INFINITRA** is a groundbreaking shared universe that offers limitless exploration and immersive experiences with virtual reality support. Developed using advanced CPU and GPU technology with Unity, it presents intricate fractal landscapes and dynamic environments, pushing the boundaries of what's possible in virtual reality.
+## Welcome to the Frontier
 
-**Note:** INFINITRA is currently in an **early Alpha stage**. We are continuously expanding and improving the universe, and your participation and feedback are crucial to its development.
+**INFINITRA** is not just a game; it's a procedurally generated shared universe of incomprehensible scale, designed for limitless exploration in VR and on-screen.
 
-## Features
+Forget hand-crafted maps. Every mountain range, sprawling city, subterranean tunnel, and alien fractal structure you discover is born from a complex chain of mathematical formulas. This creates a seamless world stretching for **10 trillion kilometers**, where every vista can be a first discovery.
 
-- **Infinite Exploration:** Explore an unprecedented seamless world with 10 x 10 trillion km of terrain and a 5 trillion km vertical structure.
-- **Procedural Fractals:** Experience unique, ever-changing terrains and structures that provide a new experience every time.
-- **Multiplayer Adventures:** Connect with friends or other explorers in real-time shared world mode.
-- **Item Collection and Inventory:** Collect unique items throughout your journey and manage them in your inventory.
-- **Customizable Characters:** Personalize your avatar.
-- **VR and Non-VR Compatibility:** Play in full VR for immersive experiences or on a traditional screen.
-- **Enhanced Movement Mechanics:** Utilize VR movement features such as snap-turning and teleportation for seamless exploration.
-- **Optimized Performance:** Enjoy smooth gameplay with efficient background processing and optimized resource management.
-- **Enhanced Visuals:** Experience improved voxel graphics with additional objects, clouds and terrain models.
+Step into a world where exploration is real, the scale is mind-bending, and the horizon is always expanding.
 
-## Upcoming Features
+---
 
-We're actively working on expanding INFINITRA with the following planned enhancements:
+## An Early Expedition: Join and Support Us
 
-- **Object Trading System:** Trade items with other explorers in shared world mode to enhance your collection.
-- **World Modification Tools:** Modify and create new persisting structures within the environment.
-- **Region Ownership:** Claim and customize areas within the universe.
-- **Advanced Visuals:** Ongoing improvements to graphics and content for a richer experience.
-- **Enhanced Interactions:** Introducing puzzles, challenges, and new activities for deeper engagement.
-- **Cross-Platform Releases:** Expanding support to Linux and Mac systems.
-- **Even more Space:** Extension to 1 billion km of space in every direction.
+**INFINITRA is a passion project in its alpha stage.** We are at the very beginning of a long and exciting journey. The universe is vast, but many features are still being forged.
 
-## System Requirements
+This is your invitation to be a pioneer.
 
-To fully enjoy INFINITRA, we recommend the following system specifications:
+By joining now, you're not just playing a game; you are becoming part of its creation story. Your feedback and engagement are invaluable. To fund the server infrastructure and dedicate more time to development, we rely on the support of our community.
 
-- **Operating System:** Windows 10 or later
-- **Processor:** AMD Ryzen 9 7900 or equivalent
-- **Graphics:** NVIDIA GeForce RTX 4060 Ti OC or equivalent
-- **Memory:** 16 GB RAM or more
-- **Storage:** At least 2 GB of free space
-- **VR Headset:** Strongly recommended (i.e. OpenXR compatible)
+If you believe in the vision of INFINITRA, please consider **supporting the project with a subscription.** Subscribers gain expanded in-game abilities—like increased inventory and location storage—and the knowledge that they are directly enabling the future of this universe.
+
+---
+
+## Core Features
+
+-   **A Truly Infinite Universe:** Explore a seamless world that spans trillions of kilometers. Travel across vast procedural terrains, delve into deep tunnel systems, and ascend to towering fractal cities in the sky.
+-   **Worlds Born from Math:** Experience a universe that is constantly unique. The procedural generation engine ensures that no two locations are ever exactly the same.
+-   **Shared Exploration:** You are not alone. Connect with other explorers in real-time to share in the discovery of new and wondrous sights.
+-   **Shape Your Reality:** Find, collect, and use powerful items. Heal yourself with a first-aid kit, soar through the skies with a Jetpack, save your favorite discoveries with a Location Saver, or even modify the universe with Carver Items.
+-   **Full VR & Desktop Support:** Immerse yourself completely with a compatible OpenXR headset and motion controls, or explore from a traditional desktop PC.
+
+---
+
+## The Vision: What Lies Ahead
+
+Our roadmap is as ambitious as the universe itself. While the foundation of exploration is laid, we envision a future with:
+
+-   **Player-Driven Worlds:** Gain tools to permanently modify the environment, creating your own structures and outposts.
+-   **A Living Economy:** An item trading system will allow a player-driven marketplace to emerge.
+-   **Deeper Interaction:** Unravel mysteries with complex puzzles and challenges hidden within the procedural generation.
+-   **Claim Your Space:** The ability to claim and own persistent regions of the world.
+-   **Conflict and Cooperation:** Introduce mechanisms that allow for more direct player interaction, from defending territory to collaborative building.
+-   **Expanding the Cosmos:** Grow the universe to even more mind-boggling scales and introduce new, reality-bending procedural systems.
+
+---
 
 ## Installation and Setup
 
 ### Download
 
-- **Latest Release:** [Download INFINITRA](https://github.com/richardbogad/INFINITRA/releases)
+-   **Latest Release:** [**Download INFINITRA**](https://github.com/richardbogad/INFINITRA/releases)
 
 ### Installation Steps
 
-1. **Download the Software:**
-    - Choose the appropriate installer for your system from the releases page.
-2. **Run the Executable:**
-    - For EXE files, double-click to run the software.
-    - For ZIP files, extract the contents and run `infinitra.exe`.
+1.  **Download:** Grab the latest release from the link above.
+2.  **Run:**
+    -   If you downloaded an `.exe` file, simply double-click to run it.
+    -   If you downloaded a `.zip` file, extract its contents and run `infinitra.exe`.
 
-### Account Creation
+---
 
-- **Guest Access:**
-    - Launch the game and explore anonymously with limited features.
-- **Registered Access:**
-    - Create an account to save your progress and access additional features like more complex structures, item collection, and avatar customization.
-- **INFINITRA Subscription:**
-    - Support development and access exclusive features, helping us maintain servers and expand the universe.
+## Account Tiers and Registration
+
+Registration for a new account and creating a new subscription are primarily handled **within the INFINITRA software itself** after you download and run it. The website login exists mainly for managing your existing subscription.
+
+-   **Guest:** Launch the game and explore offline immediately. No account needed. Features are limited.
+-   **Registered User (Free):** Create a free account **inside the game** to save your location, see other avatars, and access the core item system.
+-   **Subscriber:** **Support development!** Subscribe **through the game or your account portal** to help us pay for servers and build the future of INFINITRA. Subscribers unlock exclusive features like expanded inventory capacity and more storable locations.
+
+---
 
 ## Controls
 
-### 3D Controls
+### Desktop Controls
 
-- **Menu:** `Escape` key
-- **Movement:** `W` `A` `S` `D` keys
-- **Jump:** `Spacebar`
-- **Crouch:** `Left Alt`
-- **Collect Items:** `C` key
-- **Inventory:** `I` key
+| Action        | Key             |
+|:--------------|:----------------|
+| **Menu**      | `Escape`        |
+| **Move**      | `W` `A` `S` `D` |
+| **Jump**      | `Spacebar`      |
+| **Crouch**    | `Left Alt`      |
+| **Collect**   | `C`             |
+| **Activate**  | `A`             |
+| **Inventory** | `I`             |
 
 ### VR Controls
 
-- **Moving, Teleportation, Turning:** Utilize the thumbstick or touchpad on your VR controllers.
-- **Menu, Inventory, Jump, Crouch:** Use the corresponding buttons on your VR controllers.
-- **Collect Items:** Point at objects and use the grab buttons on your VR controllers.
+-   **Movement:** Use the thumbstick/touchpad for smooth locomotion or teleportation.
+-   **Actions:** Use the primary buttons on your VR controllers for Menu, Inventory, Jump, and Crouch.
+-   **Interaction:** Point at items and use the trigger & grab buttons to activate & collect them.
 
-*Note: Customizable input bindings are coming soon.*
+*Note: Customizable input bindings are a planned feature.*
 
-## Contributing
+---
 
-We welcome contributions from the community to help shape INFINITRA.
+## System Requirements
 
-NOTE:
-At this early stage, the main logic of INFINITRA is implemented in a core DLL.
-We plan to introduce interfaces soon to allow users to add modular, custom content.
+This is an early build, and performance optimizations are ongoing. For the best experience, we recommend:
 
-### How to Contribute:
+-   **OS:** Windows 10 or later
+-   **Processor:** AMD Ryzen 9 7900 or equivalent
+-   **Graphics:** NVIDIA GeForce RTX 4060 Ti or equivalent
+-   **Memory:** 16 GB RAM
+-   **Storage:** 2 GB free space
+-   **VR (Recommended):** An OpenXR-compatible headset
 
-1. **Fork the Repository:** Click on the 'Fork' button at the top right of the GitHub page.
-2. **Clone Your Fork:** Use `git clone` to clone your forked repository to your local machine.
-3. **Install Unity:** Download and install the latest [Unity Hub](https://unity.com/download).
-4. **Set Up the Project:**
-    - Open the INFINITRA project in Unity Hub. This will allow to download the required Unity Editor version. 
-    - Install FirebaseAuth 12.10 and FirebaseFirestore 12.10 from [Firebase Unity SDK](https://github.com/firebase/firebase-unity-sdk/releases).
-    - Include `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and `google-services.json` from the latest release.
-5. **Add packages**
+---
+
+## For Developers: Contributing
+
+We welcome community contributions to help shape INFINITRA.
+
+**NOTE:** The core logic is currently in proprietary DLLs (`Infinitra.Core.dll` and `Infinitra.Shared.dll`). We plan to introduce a formal API/SDK to allow for modular, user-created content in the future.
+
+### How to Contribute
+
+1.  **Fork & Clone:** Fork the repository and clone it to your local machine.
+2.  **Unity Setup:**
+    -   Install [Unity Hub](https://unity.com/download).
+    -   Open the cloned project in Unity Hub; it will prompt you to install the correct Unity Editor version.
+    -   From the latest GitHub Release, place `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and `google-services.json` into the correct project directories.
+3.  **Firebase SDK:**
+    -   Download and import the Firebase Unity SDK `FirebaseAuth` and `FirebaseFirestore` version 12.10.
+4.  **Additional Assets:**
+    The project utilizes several external libraries and assets:
     - Add `geometry4Sharp` library from [GitHub](https://github.com/NewWheelTech/geometry4Sharp) for mesh computations.
-    - Import Unity Asset 'Banana Man' [link](https://assetstore.unity.com/packages/3d/characters/humanoids/banana-man-196830)
     - Import Unity Asset 'Street Props - Prototype Collection' [link](https://assetstore.unity.com/packages/3d/props/street-props-prototype-collection-291021)
     - Import Unity Asset 'Rock_Pack' [link](https://assetstore.unity.com/packages/3d/environments/landscapes/rock-pack-210536)
     - Import Unity Asset 'The Toby Foliage Engine / Light' [link](https://assetstore.unity.com/packages/vfx/shaders/the-toby-foliage-engine-light-282901)
@@ -144,39 +170,45 @@ We plan to introduce interfaces soon to allow users to add modular, custom conte
     - Import Unity Asset 'Surface Gradient Bump Mapping Samples' (without Project Settings) [link](https://assetstore.unity.com/packages/templates/tutorials/surface-gradient-bump-mapping-samples-240786)
     - Import Unity Asset 'House Interior - Free' [link](https://assetstore.unity.com/packages/3d/props/interior/house-interior-free-258782)
     - Import Unity Asset 'Simple Gems and Items Ultimate Animated Customizable Pack' [link](https://assetstore.unity.com/packages/3d/props/simple-gems-and-items-ultimate-animated-customizable-pack-73764)
+5.  **Build & Test:** Implement your features or fixes and ensure they don't break existing functionality.
+6.  **Pull Request:** Submit a pull request with a clear description of your changes.
 
-6. **Make Your Changes:** Implement new features, fix bugs, or improve documentation.
-7. **Testing:** Ensure your changes do not break existing functionality.
-8. **Submit a Pull Request:** Once your changes are ready, submit a pull request for review.
+---
 
 ## Impressions
-<img src="images/inworld1.jpg" />
-<img src="images/inworld2.jpg" />
-<img src="images/inworld4.jpg" />
-<img src="images/inworld5.jpg" />
-<img src="images/inworld6.jpg" />
-<img src="images/inworld7.jpg" />
-<img src="images/inworld3.jpg" />
-<img src="images/inworld8.jpg" />
 
-Join INFINITRA today and be part of a universe where the only limit is your imagination!
+<img src="images/inworld1.jpg" alt="INFINITRA In-World Screenshot" />
+<img src="images/inworld2.jpg" alt="INFINITRA In-World Screenshot" />
+<img src="images/inworld4.jpg" alt="INFINITRA In-World Screenshot" />
+<img src="images/inworld5.jpg" alt="INFINITRA In-World Screenshot" />
+<img src="images/inworld6.jpg" alt="INFINITRA In-World Screenshot" />
+<img src="images/inworld7.jpg" alt="INFINITRA In-World Screenshot" />
+
+---
 
 ## Legal and Licensing
 
 Your use of the INFINITRA software, website ([www.infinitra.xyz](https://www.infinitra.xyz)), accounts, and related services ("Service") signifies your agreement to the following legal documents. Please review them carefully:
 
-* **[Terms of Service (`TERMS.md`)](TERMS.md):** The main agreement governing your use of the Service, including accounts, subscriptions, rules of conduct, and liability limitations.
-* **[EULA (`EULA.md`)](EULA.md):** The license terms specifically for downloading, installing, and using the INFINITRA software application.
-* **[Privacy Policy (`PRIVACY.md`)](PRIVACY.md):** Explains how we collect, use, and protect your personal data in compliance with GDPR and other applicable laws.
-* **[License (`LICENSE.md`)](LICENSE.md):** Details the dual-licensing model: MIT license for designated open-source files and proprietary restrictions (governed by EULA/Terms) for `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and the software overall.
-* **[Copyright Notice (`COPYRIGHT.md`)](COPYRIGHT.md):** Information regarding copyright ownership.
+-   **[Terms of Service](TERMS.md):** The main agreement governing your use of the Service, including accounts, subscriptions, rules of conduct, and liability limitations.
+-   **[EULA](EULA.md):** The license terms specifically for downloading, installing, and using the INFINITRA software application.
+-   **[Privacy Policy](PRIVACY.md):** Explains how we collect, use, and protect your personal data in compliance with GDPR and other applicable laws.
+-   **[License](LICENSE.md):** Details the dual-licensing model: MIT license for designated open-source files and proprietary restrictions (governed by EULA/Terms) for `Infinitra.Core.dll`, `Infinitra.Shared.dll`, and the software overall.
+-   **[Copyright Notice](COPYRIGHT.md):** Information regarding copyright ownership.
+-   **[Legal Disclosure](LEGAL_DISCLOSURE.md)**
 
 By accessing or using the Service, you agree to be bound by the Terms of Service, EULA, and Privacy Policy.
 
 Copyright © 2025 Richard Bogad Solutions. All rights reserved.
 
-INFINITRA and the INFINITRA logo are trademarks of Richard Bogad Solutions. All other trademarks are the property of their respective owners.
+<center>
+<img src="images/rbs-small.jpg" alt="Richard Bogad Solutions Logo" style="width: 25%; display: inline-block;"/>
+</center>
 
 <center>
-<img src="images/rbs-small.jpg" style="width: 25%; display: inline-block;"/>
+
+**[Impressum](LEGAL_DISCLOSURE_DE.md)** |
+**[Datenschutzerklärung](PRIVACY_DE.md)** |
+**[Allgemeine Geschäftsbedingungen](TERMS_DE.md)**
+
 </center>
