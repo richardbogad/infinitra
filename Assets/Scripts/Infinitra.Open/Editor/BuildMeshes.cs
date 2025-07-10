@@ -5,7 +5,6 @@
 // For a copy, see <https://opensource.org/licenses/MIT>.
 //
 
-using Infinitra.Shared;
 using Infinitra.Shared.Fundamentals;
 using UnityEditor;
 using UnityEngine;
