@@ -11,41 +11,22 @@ using Infinitra.Core.Appearance;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
-using Infinitra.Core.World.Users;
+using Infinitra.Shared.Avatars;
 using Infinitra.Shared.Fundamentals;
-using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
 namespace Infinitra.Open.Avatars
 {
-    internal class AvatarDroneRemote : GoUserRemote
+    internal class AvatarDroneRemoteInterpolator : UserInterpolator
     {
         private float userCollisionTime;
         private float transcendanceTime;
 
         private static readonly float rotateSpeed = 90;
-        
-        public override ObjectSnapshot snapshotInterpol { get; set; }
-        
-        public override string Name => "Drone";
-        public override string ModelPath => "Objects/UserDrone";
-        
-        public override void Visualize()
-        {
-            Log.Info("Creating GameObject remote for object id: {0}", objectId);
-            
-            GameObject = AssetCache.InstantiatePrefab(ModelPath);
-            charController = GameObject.GetComponent<CharacterController>();
-            if (charController == null) charController = GameObject.AddComponent<CharacterController>();
- 
-            charController.height = modelConfig.charHeight;
-            charController.radius = modelConfig.charRadius;
-            charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
-        }
 
+        
         public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshot last, ObjectSnapshot lastPrev)
         {
             float timeSinceLastUpdate = (float)(currentDateTimeCorrected - last.datetime).TotalSeconds;
@@ -72,46 +53,27 @@ namespace Infinitra.Open.Avatars
             }
         }
 
-        public override void UpdateMovementRemoteImpl(float timeDelta, Vector newVelocity, Vector velocityReal)
+        public override void UpdateMovementRemoteImpl(FoldBackTransform transform, float timeDelta, Vector newVelocity, Vector velocityReal)
         {
             Quaternion destRotation = snapshotInterpol.rotation;
             
             // Interpolating Rotation
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
-                UnityConversions.ToUnity(Transform.goRotation), 
+                UnityConversions.ToUnity(transform.goRotation), 
                 UnityConversions.ToUnity(destRotation), 
                 timeDelta * rotateSpeed
             );
-            Transform.goRotation = UnityConversions.FromUnity(newRotation);
+            transform.goRotation = UnityConversions.FromUnity(newRotation);
         }
 
-        public override void GroundChange(object arg1, bool ground)
+        public override void ApplySnapshot(FoldBackTransform transform, ObjectSnapshot snapshot)
         {
-        }
-
-        public override void ApplySnapshot(string name, ObjectSnapshot snapshot)
-        {
-            Transform.goPosition = snapshot.position;
-            Transform.goRotation = snapshot.rotation;
-            hoverLabel = name;
-        }
-
-        public override void OnDeath()
-        {
-
-        }
-
-        public override void OnRespawn()
-        {
-        }
-
-        public override void OnDamage()
-        {
-            // TODO add sounds
+            transform.goPosition = snapshot.position;
+            transform.goRotation = snapshot.rotation;
         }
     }
     
-    internal class AvatarDroneAppearance : UserAppearance
+    internal abstract class AvatarDroneSoundAppearance : UserAppearance
     {
         private static readonly SoundClips droneVertSounds;
         private static readonly SoundClips droneHoriSounds;
@@ -121,7 +83,7 @@ namespace Infinitra.Open.Avatars
         private AudioSourceWrapper audioSource1;
         private AudioSourceWrapper audioSource2;
         
-        static AvatarDroneAppearance()
+        static AvatarDroneSoundAppearance()
         {
             droneHoriSounds = new();
             droneHoriSounds.addSound(
@@ -166,8 +128,8 @@ namespace Infinitra.Open.Avatars
 
         public override void UpdateImpl(float timeDelta)
         {
-            UpdateDroneSound(audioSource0.audioSource, new Vector(GoUser.velocity.x, 0, GoUser.velocity.z));
-            UpdateDroneSound(audioSource1.audioSource, new Vector(0, GoUser.velocity.y, 0), volFactor: 0.5f);
+            UpdateDroneSound(audioSource0.audioSource, new Vector(UserMoveable.velocity.x, 0, UserMoveable.velocity.z));
+            UpdateDroneSound(audioSource1.audioSource, new Vector(0, UserMoveable.velocity.y, 0), volFactor: 0.5f);
         }
 
         private void UpdateDroneSound(AudioSource audioSourceLoop, Vector movementVector, float volFactor = 1f)
@@ -182,20 +144,67 @@ namespace Infinitra.Open.Avatars
             audioSourceLoop.pitch = Mathf.Lerp(audioSourceLoop.pitch, pitch, Time.deltaTime * 2f);
         }
     }
-    
-    internal class AvatarDroneRemoteFactory : GenericFactory<GoUserRemote>
+
+    internal class AvatarDroneRemoteAppearance : AvatarDroneSoundAppearance
     {
-        public override GoUserRemote NewInstance()
+        public override string Name => "Drone";
+        public override string Modelpath => "Objects/UserDrone";
+        
+        public override void Init()
         {
-            return new AvatarDroneRemote();
+            base.Init();
+            
+            GameObject gameObject = AssetCache.InstantiatePrefab(Modelpath);
+            gameObject.transform.SetParent(GameObject.transform, false);
+            gameObject.transform.localPosition = Vector3.zero;
+            
+            Label = gameObject.GetComponentInChildren<TextMesh>();
+        }
+
+        public override void SetVelocity(Vector velocity)
+        {
+        }
+
+        public override void OnGroundChange(object arg1, bool ground)
+        {
+        }
+    }
+
+    internal class AvatarDroneLocalAppearance : AvatarDroneSoundAppearance
+    {
+        public override string Modelpath { get; }
+        public override string Name { get; }
+
+        public override void SetVelocity(Vector velocity)
+        {
+        }
+
+        public override void OnGroundChange(object arg1, bool ground)
+        {
         }
     }
     
-    internal class AvatarDroneAppearanceFactory : GenericFactory<UserAppearance>
+    internal class AvatarDroneInterpolatorFactory : GenericFactory<UserInterpolator>
+    {
+        public override UserInterpolator NewInstance()
+        {
+            return new AvatarDroneRemoteInterpolator();
+        }
+    }
+    
+    internal class AvatarDroneLocalAppearanceFactory : GenericFactory<UserAppearance>
     {
         public override UserAppearance NewInstance()
         {
-            return new AvatarDroneAppearance();
+            return new AvatarDroneLocalAppearance();
+        }
+    }
+    
+    internal class AvatarDroneRemoteAppearanceFactory : GenericFactory<UserAppearance>
+    {
+        public override UserAppearance NewInstance()
+        {
+            return new AvatarDroneRemoteAppearance();
         }
     }
 }

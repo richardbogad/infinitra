@@ -12,47 +12,20 @@ using Infinitra.Core.Appearance;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
-using Infinitra.Core.World.Users;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
 using Infinitra.Shared.World;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
 namespace Infinitra.Open.Avatars
 {
-    internal class AvatarDummyRemote : GoUserRemote
+    internal class AvatarDummyRemoteInterpolator : UserInterpolator
     {
 
         private static readonly float rotateSpeed = 180f;
-
-        private Animator animator;
-        private RuntimeAnimatorController animationController;
-
-        public override ObjectSnapshot snapshotInterpol { get; set; }
-
-        public override string Name => "Dummy";
-        public override string ModelPath => "Objects/UserDummy";
-
-        public override void Visualize()
-        {
-            Log.Info("Creating GameObject remote for object id: {0}", objectId);
-
-            GameObject = AssetCache.InstantiatePrefab(ModelPath);
-            charController = GameObject.GetComponent<CharacterController>();
-            if (charController == null) charController = GameObject.AddComponent<CharacterController>();
-
-            charController.height = modelConfig.charHeight;
-            charController.radius = modelConfig.charRadius;
-            charController.center = UnityConversions.ToUnity(modelConfig.charOffset);
-
-            animationController = AssetCache.LoadResourceAsset<RuntimeAnimatorController>("Animations/BasicMotions");
-            animator = GameObject.GetComponentInChildren<Animator>();
-            animator.runtimeAnimatorController = animationController;
-        }
-
+        
         public override void InterpolateSnapshots(DateTime currentDateTimeCorrected, ObjectSnapshot last, ObjectSnapshot lastPrev)
         {
             float timeSinceLastUpdate = (float)(currentDateTimeCorrected - last.datetime).TotalSeconds;
@@ -80,54 +53,28 @@ namespace Infinitra.Open.Avatars
             }
         }
 
-        public override void UpdateMovementRemoteImpl(float timeDelta, Vector newVelocity, Vector velocityReal)
+        public override void UpdateMovementRemoteImpl(FoldBackTransform transform, float timeDelta, Vector newVelocity, Vector velocityReal)
         {
 
             UnityEngine.Quaternion lookRotation = UnityEngine.Quaternion.LookRotation(new Vector3((float)newVelocity.x, 0, (float)newVelocity.z));
 
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
-                UnityConversions.ToUnity(Transform.goRotation),
+                UnityConversions.ToUnity(transform.goRotation),
                 lookRotation,
                 timeDelta * rotateSpeed
             );
 
-            Transform.goRotation = UnityConversions.FromUnity(newRotation);
-
-            double speed = new Vector(velocityReal.x, 0, velocityReal.z).magnitude;
-            animator.SetFloat("Speed", (float)speed);
+            transform.goRotation = UnityConversions.FromUnity(newRotation);
         }
 
-        public override void GroundChange(object arg1, bool ground)
+        public override void ApplySnapshot(FoldBackTransform transform, ObjectSnapshot snapshot)
         {
-            animator.SetBool("Ground", ground);
-            if (!ground) animator.SetTrigger("GroundChange");
-        }
-
-        public override void ApplySnapshot(string name, ObjectSnapshot snapshot)
-        {
-            Transform.goPosition = snapshot.position;
-            Transform.goRotation = snapshot.rotation;
-            hoverLabel = name;
-        }
-
-        public override void OnDeath()
-        {
-            animator.SetTrigger("DeadChange");
-            animator.SetBool("Dead", true);
-        }
-
-        public override void OnRespawn()
-        {
-            animator.SetBool("Dead", false);
-        }
-
-        public override void OnDamage()
-        {
-            // TODO add sounds
+            transform.goPosition = snapshot.position;
+            transform.goRotation = snapshot.rotation;
         }
     }
 
-    internal class AvatarDummyRemoteAppearance : MovementAppearanceEncVal
+    internal abstract class AvatarDummyFootstepAppearance : MovementAppearanceEncVal
     {
         private readonly float speedThreshold = 1.0f;
         private readonly float stepIntervalBase = 2.0f;
@@ -144,7 +91,7 @@ namespace Infinitra.Open.Avatars
         private AudioSourceWrapper audioSource0;
         private AudioSourceWrapper audioSource1;
 
-        static AvatarDummyRemoteAppearance()
+        static AvatarDummyFootstepAppearance()
         {
             SoundClips sound = new();
             sound.addSound("Sounds/Classic Footstep SFX/Floor/Floor_step0", 0.5f, priority: 50);
@@ -203,6 +150,7 @@ namespace Infinitra.Open.Avatars
 
         public override void Init()
         {
+            base.Init();
             audioSource0 = GetOrAddAudioSource(0);
             audioSource1 = GetOrAddAudioSource(1);
         }
@@ -222,7 +170,7 @@ namespace Infinitra.Open.Avatars
 
         public override void UpdateImpl(float timeDelta)
         {
-            ProcessFootStepSounds(new Vector(GoUser.velocity.x, 0, GoUser.velocity.z));
+            ProcessFootStepSounds(new Vector(UserMoveable.velocity.x, 0, UserMoveable.velocity.z));
         }
 
         private void ProcessFootStepSounds(Vector moveVector)
@@ -235,7 +183,7 @@ namespace Infinitra.Open.Avatars
 
             groundedTimer = Mathf.Clamp01(groundedTimer);
 
-            if (GoUser.collDown)
+            if (UserMoveable.collDown)
             {
                 if (groundedTimer == 0.0f)
                 {
@@ -265,10 +213,62 @@ namespace Infinitra.Open.Avatars
         }
     }
 
+    internal class AvatarDummyRemoteAppearance : AvatarDummyFootstepAppearance
+    {
+        public override string Name => "Dummy";
+        public override string Modelpath => "Objects/UserDummy";
+        
+        private Animator animator;
+        private RuntimeAnimatorController animationController;
 
-    internal class AvatarDummyLocalAppearance : AvatarDummyRemoteAppearance
+        
+        public override void Init()
+        {
+            base.Init();
+
+            GameObject gameObject = AssetCache.InstantiatePrefab(Modelpath);
+            gameObject.transform.SetParent(GameObject.transform, false);
+            gameObject.transform.localPosition = Vector3.zero;
+            
+            animationController = AssetCache.LoadResourceAsset<RuntimeAnimatorController>("Animations/BasicMotions");
+            animator = gameObject.GetComponentInChildren<Animator>();
+            animator.runtimeAnimatorController = animationController;
+            
+            Label = gameObject.GetComponentInChildren<TextMesh>();
+        }
+
+        public override void OnDeath()
+        {
+            base.OnDeath();
+            animator.SetTrigger("DeadChange");
+            animator.SetBool("Dead", true);
+        }
+
+        public override void OnRespawn()
+        {
+            base.OnRespawn();
+            animator.SetBool("Dead", false);
+        }
+
+        public override void SetVelocity(Vector velocity)
+        {
+            double speed = new Vector(velocity.x, 0, velocity.z).magnitude;
+            animator.SetFloat("Speed", (float)speed);
+        }
+
+        public override void OnGroundChange(object arg1, bool ground)
+        {
+            animator.SetBool("Ground", ground);
+            if (!ground) animator.SetTrigger("GroundChange");
+        }
+    }
+        
+    internal class AvatarDummyLocalAppearance : AvatarDummyFootstepAppearance
     {
 
+        public override string Modelpath { get; }
+        public override string Name { get; }
+        
         private EnvironmentProbe envProbe;
         private WindSound wind;
 
@@ -289,13 +289,21 @@ namespace Infinitra.Open.Avatars
             wind = GetOrAddComponent<WindSound>();
             wind.windSound = windSound;
         }
+
+        public override void SetVelocity(Vector velocity)
+        {
+        }
+
+        public override void OnGroundChange(object arg1, bool ground)
+        {
+        }
     }
 
-    internal class AvatarDummyRemoteFactory : GenericFactory<GoUserRemote>
+    internal class AvatarDummyInterpolatorFactory : GenericFactory<UserInterpolator>
     {
-        public override GoUserRemote NewInstance()
+        public override UserInterpolator NewInstance()
         {
-            return new AvatarDummyRemote();
+            return new AvatarDummyRemoteInterpolator();
         }
     }
 

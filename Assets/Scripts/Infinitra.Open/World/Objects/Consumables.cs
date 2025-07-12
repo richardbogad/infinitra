@@ -8,8 +8,6 @@
 using Infinitra.Core.Appearance;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
-using Infinitra.Core.Rendering;
-using Infinitra.Core.World.Objects;
 using Infinitra.Shared.Fundamentals;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -59,9 +57,7 @@ namespace Infinitra.Open.World.Objects
 
         public override void UpdateImpl(float timeDelta)
         {
-            if (GoUser == null) return;
-            
-            float speed = GoUser.velocityMag;
+            float speed = UserMoveable.velocityMag;
             float volume = Mathf.Lerp(0.25f, 0.66f, speed / 5.0f);
             float pitch = Mathf.Lerp(0.75f, 1.25f, speed / 5.0f);
 
@@ -71,7 +67,7 @@ namespace Infinitra.Open.World.Objects
 
     }
 
-    internal class JetPackSoundFactory : GenericFactory<ItemAppearance>
+    internal class JetPackAppearanceFactory : GenericFactory<ItemAppearance>
     {
         public override ItemAppearance NewInstance()
         {
