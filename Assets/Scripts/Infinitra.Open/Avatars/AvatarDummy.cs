@@ -16,6 +16,7 @@ using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.Logging;
 using Infinitra.Shared.ServerComm.Firestore;
 using Infinitra.Shared.World;
+using TMPro;
 using UnityEngine;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
@@ -234,7 +235,7 @@ namespace Infinitra.Open.Avatars
             animator = gameObject.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = animationController;
             
-            Label = gameObject.GetComponentInChildren<TextMesh>();
+            Label = gameObject.GetComponentInChildren<TextMeshPro>();
         }
 
         public override void OnDeath()

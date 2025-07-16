@@ -14,6 +14,7 @@ using Infinitra.Core.Objects;
 using Infinitra.Shared.Avatars;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.ServerComm.Firestore;
+using TMPro;
 using UnityEngine;
 using Quaternion = Infinitra.Shared.Fundamentals.Quaternion;
 
@@ -158,7 +159,7 @@ namespace Infinitra.Open.Avatars
             gameObject.transform.SetParent(GameObject.transform, false);
             gameObject.transform.localPosition = Vector3.zero;
             
-            Label = gameObject.GetComponentInChildren<TextMesh>();
+            Label = gameObject.GetComponentInChildren<TextMeshPro>();
         }
 
         public override void SetVelocity(Vector velocity)
