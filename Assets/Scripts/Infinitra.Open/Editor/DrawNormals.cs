@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Infinitra.Open.Editor
         [SerializeField]
         private NormalsDrawData _vertexNormals = new NormalsDrawData(new Color32(200, 255, 195, 127), false);
 
-        [System.Serializable]
+        [Serializable]
         private class NormalsDrawData
         {
             [SerializeField]

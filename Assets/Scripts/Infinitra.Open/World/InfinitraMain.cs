@@ -10,6 +10,7 @@ using Infinitra.Open.Avatars;
 using Infinitra.Open.World.Objects;
 using Infinitra.Shared.World.Objects;
 using UnityEngine;
+using Avatar = Infinitra.Shared.Avatars.Avatar;
 using CarverSphereSmall10m = Infinitra.Open.World.Objects.CarverSphereSmall10m;
 
 namespace Infinitra.Open.World
@@ -19,21 +20,21 @@ namespace Infinitra.Open.World
         // Routine Initialization Step
         public void Awake()
         {
-            CompLoader.RegisterUserRemoteAppearanceFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneRemoteAppearanceFactory());
-            CompLoader.RegisterUserRemoteAppearanceFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyRemoteAppearanceFactory());
+            CompLoader.RegisterUserRemoteAppearanceFactory(Avatar.DRONE, new AvatarDroneRemoteAppearanceFactory());
+            CompLoader.RegisterUserRemoteAppearanceFactory(Avatar.DUMMY, new AvatarDummyRemoteAppearanceFactory());
             
-            CompLoader.RegisterUserLocalAppearanceFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneLocalAppearanceFactory());
-            CompLoader.RegisterUserLocalAppearanceFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyLocalAppearanceFactory());
+            CompLoader.RegisterUserLocalAppearanceFactory(Avatar.DRONE, new AvatarDroneLocalAppearanceFactory());
+            CompLoader.RegisterUserLocalAppearanceFactory(Avatar.DUMMY, new AvatarDummyLocalAppearanceFactory());
             
-            CompLoader.RegisterUserInterpolatorFactory(Shared.Avatars.Avatar.DRONE, new AvatarDroneInterpolatorFactory());
-            CompLoader.RegisterUserInterpolatorFactory(Shared.Avatars.Avatar.DUMMY, new AvatarDummyInterpolatorFactory());
+            CompLoader.RegisterUserInterpolatorFactory(Avatar.DRONE, new AvatarDroneInterpolatorFactory());
+            CompLoader.RegisterUserInterpolatorFactory(Avatar.DUMMY, new AvatarDummyInterpolatorFactory());
             
             CompLoader.RegisterConsumableItemAppearanceUserFactory(ConsumeableAction.JETPACK_1m, new JetPackAppearanceFactory());
             CompLoader.RegisterConsumableItemAppearanceWorldFactory(ConsumeableAction.CARVER_SPHERE_SMALL_10m, new CarverSphereSmall10mFactory());
 
             CarverSphereSmall10m.Load();
             
-            CompLoader.Awake();
+            CompLoader.Init();
         }
 
         // Routine Startup Step

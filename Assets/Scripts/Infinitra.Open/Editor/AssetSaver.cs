@@ -19,7 +19,7 @@ namespace Infinitra.Open.Editor
             mesh.name = name;
         
             // Get the folder path of this script
-            string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(ScriptableObject.CreateInstance<AssetSaver>()));
+            string scriptPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(CreateInstance<AssetSaver>()));
             string directoryPath = Path.GetDirectoryName(scriptPath);
         
             // Create the asset in the same directory as the script

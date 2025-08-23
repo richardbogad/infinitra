@@ -207,9 +207,9 @@ namespace Infinitra.Open.Avatars
             {
                 footStepSounds = clipDict[encVal];
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.Warning("Sound for encVal {0} not found.", encVal);
+                // No warning necessary.
             }
         }
     }

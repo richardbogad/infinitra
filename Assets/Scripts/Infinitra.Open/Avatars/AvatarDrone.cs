@@ -11,7 +11,6 @@ using Infinitra.Core.Appearance;
 using Infinitra.Core.Fundamentals;
 using Infinitra.Core.FX;
 using Infinitra.Core.Objects;
-using Infinitra.Shared.Avatars;
 using Infinitra.Shared.Fundamentals;
 using Infinitra.Shared.ServerComm.Firestore;
 using TMPro;
