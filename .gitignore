@@ -105,5 +105,7 @@ Assets/Firebase
 Assets/Plugins/tvOS
 Assets/Plugins/iOS
 
+Assets/Resources/Docs*
+
 InfinitraLog*
 clientVersion*
