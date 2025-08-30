@@ -40,6 +40,7 @@ namespace Infinitra.Open.Avatars
                 Vector posInterpol = Vector.Extrapol(last.position, lastPrev.position, timeDiff,
                     timeSinceLastUpdate);
                 
+                // Interpolating Rotation
                 Quaternion rotInterpol = Quaternion.Extrapol(last.rotation, lastPrev.rotation, timeDiff,
                     timeSinceLastUpdate);
 

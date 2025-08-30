@@ -56,12 +56,12 @@ namespace Infinitra.Open.Avatars
 
         public override void UpdateMovementRemoteImpl(FoldBackTransform transform, float timeDelta, Vector newVelocity, Vector velocityReal)
         {
-
-            UnityEngine.Quaternion lookRotation = UnityEngine.Quaternion.LookRotation(new Vector3((float)newVelocity.x, 0, (float)newVelocity.z));
-
+            Vector snapRot = snapshotInterpol.rotation.ToEulerAngles();
+            Quaternion destRotation = Quaternion.Euler(0, (float)snapRot.y, 0);
+            
             UnityEngine.Quaternion newRotation = UnityEngine.Quaternion.RotateTowards(
                 UnityConversions.ToUnity(transform.goRotation),
-                lookRotation,
+                UnityConversions.ToUnity(destRotation),
                 timeDelta * rotateSpeed
             );
 
