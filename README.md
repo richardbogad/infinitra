@@ -5,7 +5,7 @@
 **Dare to Explore a Universe Born from Mathematics.**
 
   <a href="https://www.youtube.com/@InfinitraWorld">
-    <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="200"/>
+    <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="33%"/>
   </a>
   <p>
   <img src="images/inworld1.jpg" alt="INFINITRA In-World Screenshot" style="width: 45%; display: inline-block;"/>
@@ -185,7 +185,7 @@ We welcome community contributions to help shape INFINITRA.
 
 <center>
 <a href="https://www.youtube.com/@InfinitraWorld">
-  <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="200"/>
+  <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="50%"/>
 </a>
 
 <img src="images/inworld1.jpg" alt="INFINITRA In-World Screenshot" />
