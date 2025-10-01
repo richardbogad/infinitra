@@ -1,9 +1,12 @@
 <center>
   <p>
 <h1>INFINITRA</h1>
-  <img src="images/infinitra-logo03-small.png" alt="INFINITRA Logo" style="width: 25%; display: inline-block;"/>
 
 **Dare to Explore a Universe Born from Mathematics.**
+
+  <a href="https://www.youtube.com/@InfinitraWorld">
+    <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="200"/>
+  </a>
   <p>
   <img src="images/inworld1.jpg" alt="INFINITRA In-World Screenshot" style="width: 45%; display: inline-block;"/>
   <img src="images/inworld2.jpg" alt="INFINITRA In-World Screenshot" style="width: 45%; display: inline-block;"/>
@@ -180,6 +183,11 @@ We welcome community contributions to help shape INFINITRA.
 
 ## Impressions
 
+<center>
+<a href="https://www.youtube.com/@InfinitraWorld">
+  <img src="./images/infinitra-yt.jpg" alt="INFINITRA YouTube Channel" width="200"/>
+</a>
+
 <img src="images/inworld1.jpg" alt="INFINITRA In-World Screenshot" />
 <img src="images/inworld2.jpg" alt="INFINITRA In-World Screenshot" />
 <img src="images/inworld3.jpg" alt="INFINITRA In-World Screenshot" />
@@ -188,6 +196,7 @@ We welcome community contributions to help shape INFINITRA.
 <img src="images/inworld6.jpg" alt="INFINITRA In-World Screenshot" />
 <img src="images/inworld7.jpg" alt="INFINITRA In-World Screenshot" />
 <img src="images/inworld8.jpg" alt="INFINITRA In-World Screenshot" />
+</center>
 
 ---
 
