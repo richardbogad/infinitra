@@ -1,0 +1,6 @@
+# The release branch holds the public documents and their pictures only (docs-public/github.py).
+/*
+!/.gitignore
+!/*.md
+!/images/
+!/screenshots/
